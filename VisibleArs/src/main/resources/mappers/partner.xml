@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcally.ars.repository.PartnerMapper">
+    <select id="findPartner" parameterType="partner" resultType="partner">
+        SELECT partner_seq,
+        	   partner_id,
+        	   partner_pw,
+        	   partner,
+        	   seq_no,
+        	   sabang_no,
+        	   shop_no,
+        	   use_dt,
+        	   reg_dt
+        FROM   partner
+        WHERE  partner_id = #{partnerId}
+        AND    partner_pw = #{partnerPw}
+    </select>
+
+    <select id="findPartnerUseDt" parameterType="String" resultType="String">
+        SELECT use_dt
+        FROM   partner
+        WHERE  partner_id = #{value}
+    </select>
+    
+</mapper>

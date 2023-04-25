@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcally.ars.repository.OrderMapper">
+	<sql id="orderColumns">
+				seq_no, 				
+				partner,
+				mall_order_dt, 		
+				mall,
+				order_dt,		
+				sabang_no, 				
+				shop_no, 			
+				pay_amt, 			
+				quantity, 				
+				product_name, 		
+				orderer_name, 					
+				orderer_phone1, 				
+				orderer_phone2, 				
+				receiver_name, 
+				receiver_phone1, 		
+				receiver_phone2, 	
+				receiver_address, 				
+				orderer_email, 				
+				reg_dt
+	</sql>
+
+    
+    <select id="findOrder" parameterType="order" resultType="order">
+		CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{receiverAddress});
+	</select>
+    
+	<select id="findOrderBySabangNo" parameterType="int" resultType="order">
+        SELECT 	<include refid="orderColumns" />
+        FROM  orders
+        WHERE mall_order_dt IN (SELECT  mall_order_dt 
+          						  FROM  orders 
+        						  WHERE sabang_no = #{sabangNo})
+	</select>
+
+    <insert  id="InsOrder" useGeneratedKeys="true" keyProperty="seqNo" parameterType="order" >
+        INSERT INTO orders(partner, sabang_no, shop_no, pay_amt, quantity, 
+        				   product_name, orderer_name, orderer_phone1, orderer_phone2, receiver_name,  
+        				   receiver_phone1, receiver_phone2, receiver_address, orderer_email, reg_dt,
+        				   mall_order_dt, mall, order_dt)
+         VALUES(#{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
+         		#{productName}, #{ordererName}, #{ordererPhone1}, #{ordererPhone2}, #{receiverName},
+        		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
+        		#{mallOrderDt}, #{mall}, #{orderDt});
+    </insert >    
+</mapper>

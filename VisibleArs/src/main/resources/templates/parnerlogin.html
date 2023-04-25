@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My test page</title>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            background-color: #f6f6f6;
+        }
+        .login-wrap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-wrap h1 {
+            margin: 0;
+            text-align: center;
+            font-size: 28px;
+            color: #2db400;
+        }
+        .login-form {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .login-form input {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 1px solid #cccccc;
+            outline: none;
+        }
+        .login-form input:last-of-type {
+            margin-bottom: 0;
+        }
+        .login-form input:focus {
+            border-bottom: 2px solid #2db400;
+        }
+        .login-form button {
+            background-color: #2db400;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #3ed600;
+        }
+        .login-form a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #2db400;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <h1>로그인</h1>
+        <form class="login-form" >
+            <input type="text" id="partner_id" name="id" placeholder="아이디" required>
+            <input type="password" id="partner_pw" name="pw" placeholder="비밀번호" required>
+			<br>
+            <button type="button" onclick="dataSend()">로그인</button>
+        </form>
+    </div>
+</body>
+  <script>
+	function dataSend(){
+	    const partner = {partnerId: $("#partner_id").val(), 
+	    				 partnerPw: $("#partner_pw").val(),
+	    				 partnerSeq:0,
+	    				 seqNo:0}
+	    $.ajax({
+	        url: "/partner/chk",
+	        data: partner,
+	        type: 'POST'
+
+	    }).done(function (data){
+			if(data){
+				location.href="/partner/excel";
+			}else{
+				alert("파트너가 아닙니다.");
+			}
+	    });
+	}
+  </script>
+</html>

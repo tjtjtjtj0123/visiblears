@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>엑셀 업로드</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+	<form>
+		<input type="file" id="excelfile" th:name="file" />
+		<input th:type="button" value="제출" onclick="upload()"/>
+	</form>
+</body>
+<script>
+
+
+	function upload() {
+		const excelfile = $("#excelfile")[0];
+		// 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
+		console.log("excelfile: ", excelfile.files)
+
+		if (excelfile.files.length === 0) {
+			alert("파일은 선택해주세요");
+			return;
+		}
+
+		const formData = new FormData();
+		formData.append("file", excelfile.files[0]);
+
+		$.ajax({
+			type: 'POST',
+			url: "/partner/excel/read",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+			if(data.ErrCode==0){
+				alert('성공');
+			}else{
+				alert(data.ErrMsg);	
+			}
+			
+		})
+	}
+
+
+</script>
+
+</html>

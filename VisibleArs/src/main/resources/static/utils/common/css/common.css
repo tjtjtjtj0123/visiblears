@@ -1,0 +1,116 @@
+/*
+  page header styles.
+*/
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 30px;
+  background: #393939;
+}
+.page-header .left-area, 
+.page-header .right-area {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.page-header .left-area .icon,
+.page-header .right-area .icon {
+  width: 20px;
+  height: auto;
+  margin-right: 10px;
+}
+.page-header .left-area .title,
+.page-header .right-area .title {
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+.page-header .right-area {
+  justify-content: flex-end;
+}
+
+/*
+  page navigation styles.
+*/
+.page-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 65px;
+  padding: 0 30px;
+}
+.page-navigation .icon {
+  width: 30px;
+  height: auto;
+}
+
+/*
+  page container styles.
+*/
+.page-container {
+  padding-bottom: 100px;
+}
+.page-container .menu-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  height: 110px;
+  background: #e3c52a;
+}
+.page-container .menu-header .title {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #393939;
+  margin-bottom: 10px;
+}
+.page-container .menu-header .description {
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: #6b6b6b;
+}
+.page-container .notice p {
+  font-size: 1.3rem;
+  color: #6b6b6b;
+  text-align: center;
+}
+
+/*
+  page footer navigation
+*/
+.page-footer-navigation {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid #ccc;
+}
+.page-footer-navigation .icon {
+  width: 20px;
+  height: auto;
+  margin-right: 10px;
+}
+.page-footer-navigation .title {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.page-footer-navigation .left-area,
+.page-footer-navigation .right-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  cursor: pointer;
+}
+.page-footer-navigation .left-area {
+  background-color: #fff;
+}
+.page-footer-navigation .right-area {
+  background: #c41e20;
+  color: #fff;
+}
