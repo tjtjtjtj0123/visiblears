@@ -462,9 +462,6 @@
 		initLayerPosition();
 	}
 
-	// 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
-	// resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
-	// 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
 	function initLayerPosition() {
 		var width = 300; //우편번호서비스가 들어갈 element의 width
 		var height = 400; //우편번호서비스가 들어갈 element의 height
@@ -491,6 +488,20 @@
 		if (phone.length == 0) {
 			alert('전화번호를 입력해 주세요.');
 			return false;
+		}
+
+		//문자열에 공백이 있는 경우
+		var blank_pattern = /[\s]/g;
+		if( blank_pattern.test(name) == true){
+		    alert('공백은 입력 할 수 업습니다.');
+		    return false;
+		}
+		
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if(special_pattern.test(name) == true){
+		    alert('특수 문자는 입력 할 수 없습니다.');
+		    return false;
 		}
 
 		if (!($("input:checkbox[id='checkbox1']").is(":checked") &&

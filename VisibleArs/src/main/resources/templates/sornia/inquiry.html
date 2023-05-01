@@ -35,7 +35,7 @@
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
 			<div class="ui-data-table">
-				<input type="hidden" id="order_no_shop" th:value="${order_no_shop}"/>
+				<input type="hidden" id="mall_order_dt" th:value="${mall_order_dt}"/>
 				<input type="hidden" id="orderno" />
 				<input type="hidden" id="userid" />
 				<table>
@@ -56,33 +56,36 @@
 							<th>전 화 번 호</th>
 							<td>
 								<div class="ui-text-field">
-									<input type="text" id="orderer_phone1"  th:value="${orderer_phone1}" placeholder="예 : 010-0000-0000" />
+									<input id="orderer_phone1" type="text"  th:value="${orderer_phone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>문의 구분</th>
 							<td>
-								<select>
-									<option>1</option>
-									<option>1</option>
-									<option>1</option>
-								</select>
+								<div class="ui-select-field">
+									<select id="inquiry_type">
+										<option value="delivery">배송</option>
+										<option value="exchange">교환</option>
+										<option value="return">반품</option>
+										<option value="etc">기타문의</option>
+									</select>
+								</div>
 							</td>
 						</tr>						
 						<tr>
 							<th>제 목</th>
 							<td>
 								<div class="ui-text-field">
-									<input type="text" id="title" placeholder="제목을 입력해주세요." />
+									<input type="text" maxlength="30" id="title" placeholder="제목을 입력해주세요." />
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2" class="non-padding">
 								<div class="ui-textarea">
-									<textarea name="content" id="content"
-										placeholder="교환 및 반품 사유를 간략하게 기재해주세요."></textarea>
+									<textarea name="content" id="content" maxlength="200"
+										placeholder="교환 및 반품 사유를 간략하게 기재해주세요. (200자)"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -110,7 +113,7 @@
 			</div>
 			<div class="inquiry">
 				<a href="#">
-					<div onclick="uploadimg()" class="ui-button blue">
+					<div id="uploadBtn" onclick="uploadimg()" class="ui-button blue">
 						<span class="title">등록하기</span>
 					</div>
 				</a>
@@ -124,24 +127,42 @@
 			<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
 			<img src="/sornia/assets/ico_smart_cti.svg" alt="smart_cti" />
 		</div>
+		<!-- modal -->
+		<div class="ui-modal" id="modal">
+			<div class="content">
+				<div class="icon">
+					<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
+				</div>
+				<div class="message">
+					<p><b>1:1 문의가 접수되었습니다.</b></p>
+					<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>
 </body>
 
 <script>
-	
+	function modalOpen() {
+		const modal = document.getElementById("modal");
+		modal.classList.add("visible");
+	}
+
+	function modalClose(element) {
+		while(true) {
+			if (!element) return;
+			if (element.classList.contains("ui-modal")) break;
+			element = element.parentNode;
+		}
+		element.classList.remove("visible");
+	}
 	// 이미지 정보들을 담을 배열
 	var sel_files = [];
 	
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
-		/*
-		if($("#orderer_phone1").val()!=""){
-			$("#orderer_phone1").attr("readonly",true);
-		}
-		
-		if($("#orderer_name").val()!=""){
-			$("#orderer_name").attr("readonly",true);
-		}
-		*/
 	});
 
 
@@ -162,23 +183,60 @@
 
 	//업로드 여러개 하기
 	function uploadimg() {
+	
+		
+		if($("#title").val().length === 0 ){
+			alert('제목을 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#content").val().length === 0 ){
+			alert('내용을 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#orderer_phone1").val().length === 0 ){
+			alert('전화번호를 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#orderer_name").val().length === 0 ){
+			alert('이름을 입력해 주세요.');
+			return false;
+		}
 
-		if (sel_files.length === 0) {
-			alert("파일은 선택해주세요");
+		//파일개수 체크
+		if (sel_files.length > 5) {
+			alert("이미지는 5개까지 업로드가 가능합니다.");
+			sel_files = [];
+			$("#imglistul").empty();
 			return;
 		}
+		//확장자 검사
+		for (var i = 0; i < sel_files.length; i++) {
+			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
+			if(!(fileDot =="jpg" || fileDot =="png" )){
+				alert("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				sel_files = [];
+				$("#imglistul").empty();
+				return false;
+			}
+		}
+		
+		
 
 		const formData = new FormData();
 
 		for (var i = 0; i < sel_files.length; i++) {
 			formData.append("file", sel_files[i]);
 		}
-		formData.append("order_no_shop",$("#order_no_shop").val());
-		formData.append("title",$("#title").val());
+		formData.append("mall_order_dt",$("#mall_order_dt").val());
+		formData.append("title", $("#title").val());
 		formData.append("content",$("#content").val());
 		
 		formData.append("orderer_phone1",$("#orderer_phone1").val());
-		formData.append("orderer_name",$("#orderer_name").val());
+		formData.append("orderer_name", $("#orderer_name").val());
+		formData.append("inquiry_type", $("#inquiry_type").val());
 		
 		$.ajax({
 			type: 'POST',
@@ -190,6 +248,8 @@
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
 			$('#result-image').attr("src", data);
+			modalOpen();
+			$("#uploadBtn").attr("onclick","modalOpen()");
 		}).fail(function (error) {
 			console.log(error);
 		})
@@ -209,8 +269,7 @@
 			sel_files.push(f);
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				//var html = '<li img src="'+e.target.result+'" class="image"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" /></li>';
-				var html = '<img src="' + e.target.result + '" style="width: 45px; height: 45px; margin-right: 20px;" /><img src="/sornia/assets/ico_cancel.svg" alt="cancel" style="  position: absolute;  top: 0;  right: -8px;  width: 5px;  height: auto;" />';
+				var html = '<li class="image" id="img_id_' + index + '"><img src="' + e.target.result + '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' + index + ')"></li>';
 				$("#imglistul").append(html);
 				index++;
 			}
@@ -229,38 +288,6 @@
 		console.log(sel_files);
 	}   
 	
-		
-	//업로드 한개
-	/*
-	function upload() {
-	  const imageInput = $("#imageInput")[0];
-	  // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
-	  console.log("imageInput: ", imageInput.files)
-	
-	  if(imageInput.files.length === 0){
-		alert("파일은 선택해주세요");
-		return;
-	  }
-	
-	  const formData = new FormData();
-	  formData.append("file", imageInput.files[0]);
-	
-		$.ajax({
-			type: 'POST',
-			url: "/sornia/uploadimg",
-			data: formData,
-			cache: false,
-			contentType: false,
-			processData: false,
-			enctype: 'multipart/form-data'
-		}).done(function (data) {
-			$('#result-image').attr("src", data);
-		}).fail(function (error) {
-			console.log(error);
-		})
-	}
-	*/
-
 </script>
 
 </script>

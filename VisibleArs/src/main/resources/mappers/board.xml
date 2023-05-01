@@ -6,8 +6,8 @@
 
     
     <insert  id="InsBoard" useGeneratedKeys="true" parameterType="board" keyProperty="boardSeq">
-        INSERT INTO board(partner, title, content, inquriy_name, inquriy_phone, shop_no, reg_dt)
-         VALUES(#{partner},#{title},#{content}, #{inquiryName},#{inquiryPhone},#{shopNo}, NOW());
+        INSERT INTO board(partner, title, content, inquriy_name, inquriy_phone,inquriy_type, mall_order_dt, reg_dt)
+         VALUES(#{partner},#{title},#{content}, #{inquiryName},#{inquiryPhone},#{inquiryType}, #{mallOrderDt}, NOW());
     </insert >    
 
 </mapper>

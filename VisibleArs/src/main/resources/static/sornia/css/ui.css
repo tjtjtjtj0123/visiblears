@@ -32,6 +32,35 @@
 }
 
 /*
+  SelectField
+*/
+.ui-select-field select {
+  display: grid;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.71,8.21a1,1,0,0,0-1.42,0l-4.58,4.58a1,1,0,0,1-1.42,0L6.71,8.21a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.59,4.59a3,3,0,0,0,4.24,0l4.59-4.59A1,1,0,0,0,18.71,8.21Z'/></svg>") right no-repeat;
+  background-position: right 10px top 10px;
+  background-size: 20px 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+}
+.ui-select-field select:focus {
+  border: 1px solid var(--brand-color);
+  outline: 1px solid var(--brand-color);
+}
+.ui-select-field select::placeholder {
+  color: #e2e2e2;
+  font-weight: normal;
+}
+
+/*
   Textarea
 */
 .ui-textarea {
@@ -352,4 +381,48 @@
 .ui-data-table .price td {
   color: #c41e20;
   font-weight: bold;
+}
+
+/*
+  Modal
+*/
+.ui-modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+.ui-modal.visible {
+  display: block;
+}
+.ui-modal .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  padding: 35px;
+}
+.ui-modal .content .icon {
+  width: 58px;
+  height: auto;
+  margin: 0 auto 20px auto;
+}
+.ui-modal .message p, 
+.ui-modal .message b {
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.4;
+}
+.ui-modal .message b {
+  color: #f06621;
+  font-weight: 600;
 }

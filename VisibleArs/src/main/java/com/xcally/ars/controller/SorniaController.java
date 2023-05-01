@@ -88,7 +88,6 @@ public class SorniaController {
 	public String detail(Model model, int sabangNo) {
 
 		List<Order> orderlist = null;
-		Order order = null;
 		List<Order> destOrderlist = new ArrayList<Order>();
 		HashMap<String, Integer> quantityMap =new HashMap<>();		
 		
@@ -136,8 +135,6 @@ public class SorniaController {
 			@RequestParam(name= "ordererName",required = false,defaultValue = "0") String  ordererName,
 			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "0") String  ordererPhone1,
 			@RequestParam(name= "receiverAddress",required = false,defaultValue = "0") String  receiverAddress) {
-		System.out.println(ordererPhone1);
-
 		
 		if(sabangNo.equals("0")) {		
 			if(!ordererName.equals("0")) {
@@ -152,9 +149,9 @@ public class SorniaController {
 
 			List<Order> orderlist = null;
 			orderlist = orderservice.findOrderBySabangNo(Integer.parseInt(sabangNo));
-			model.addAttribute("order_no_shop", orderlist.get(0).getShopNo());
+			model.addAttribute("mall_order_dt", orderlist.get(0).getMallOrderDt());
 			model.addAttribute("orderer_name", orderlist.get(0).getOrdererName());
-			model.addAttribute("orderer_phone1", orderlist.get(0).getOrdererPhone1());
+			model.addAttribute("orderer_phone1", orderlist.get(0).getOrdererPhone1().replace(("-"), ""));
 		}	
 		return partner+"/inquiry";		
 	}
@@ -186,8 +183,8 @@ public class SorniaController {
 
 	@PostMapping("uploadimglist")
 	@ResponseBody
-	public int uploadlist(@RequestParam("file") List<MultipartFile> multipartFileList,String title,String content, String orderer_name,String orderer_phone1,
-			@RequestParam(name= "order_no_shop",required = false,defaultValue = "0")String order_no_shop)throws IOException 
+	public int uploadlist(@RequestParam("file") List<MultipartFile> multipartFileList,String title,String content, String orderer_name,String orderer_phone1, String inquiry_type,
+			@RequestParam(name= "mall_order_dt",required = false,defaultValue = "0")String mall_order_dt)throws IOException 
 	{
 		int rstl = 0;
 		int board_seq = 0;
@@ -202,9 +199,11 @@ public class SorniaController {
 					.content(content)
 					.inquiryName(orderer_name)
 					.inquiryPhone(orderer_phone1)
-					.shopNo(order_no_shop)
+					.mallOrderDt(mall_order_dt)
+					.inquiryType(inquiry_type)
 					.build();
-			rstl = boardService.WriteBoard(board);
+			rstl = boardService.WriteBoard(board);			
+			
 			board_seq = board.getBoardSeq();
 			for (int i = 0; i < multipartFileList.size(); i++) {
 				String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
