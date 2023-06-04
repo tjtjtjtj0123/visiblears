@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
     <link rel="stylesheet" th:href="@{/sornia/_custom/custom.css}" />
     <link rel="stylesheet" th:href="@{/sornia/css/menu.css}" />
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
   <body>
     <header class="page-header">
@@ -137,6 +138,23 @@
 		
 	}
     
+	function fnArsSend() {
+
+		const param = {
+			token:"VUYKYNW2U3J",
+			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+			paging :"service00"
+
+		}
+		$.ajax({
+			url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",
+			data: param,
+			dataType : 'jsonp',
+			type: 'POST',
+		}).done(function (data) {
+			console.log(data)
+		});
+	}
     
   </script>
 </html>

@@ -8,11 +8,49 @@
 
 <body>
 	<form>
+		엑셀 업로드:
 		<input type="file" id="excelfile" th:name="file" />
-		<input th:type="button" value="제출" onclick="upload()"/>
+		<input th:type="button" id="submit_btn" value="제출" onclick="upload()"/>
 	</form>
+	<br><br><br><br>
+	<form>
+		사방넷 주문번호 업데이트:
+		<input type="number" id="sabangNo" th:name="sabangNo" />
+		<input th:type="button" id="submit_btn" value="제출" onclick="update()"/>
+	</form>
+	<input type="hidden" id="partnerid" th:value="${partnerId}">
 </body>
 <script>
+
+	function update() {
+		const sabangNo = $("#sabangNo").val();
+		// 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
+		
+
+		if ($("#sabangNo").val() == null || $("#sabangNo").val() == '') {
+			alert("사방넷 주문번호를 입력해 주세요.");
+			return;
+		}
+		const jsonData = {
+			"partnerId" :  $("#partnerid").val(),
+			"sabangNo":	$("#sabangNo").val()
+ 		};
+
+		$.ajax({
+			type: 'POST',
+			url: "/updatesabangno",
+			data:  JSON.stringify(jsonData),
+			contentType: 'application/json'
+		}).done(function (data) {
+			
+			if(data.ErrCode==0){
+				alert('성공');
+			}else{
+				alert(data.ErrMsg);	
+			}
+			
+		})
+	}
 
 
 	function upload() {

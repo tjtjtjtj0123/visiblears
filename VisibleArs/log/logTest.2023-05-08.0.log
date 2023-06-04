@@ -1,0 +1,595 @@
+[2023-05-08 21:36:01.398][INFO ] Starting VisibleArsApplication using Java 17.0.6 with PID 24348 (C:\Users\eke67\git\visiblears\VisibleArs\bin\main started by eke67 in C:\Users\eke67\git\visiblears\VisibleArs)
+[2023-05-08 21:36:01.401][DEBUG] Running with Spring Boot v3.0.4, Spring v6.0.6
+[2023-05-08 21:36:01.402][INFO ] No active profile set, falling back to 1 default profile: "default"
+[2023-05-08 21:36:15.306][INFO ] Started VisibleArsApplication in 15.744 seconds (process running for 17.999)
+[2023-05-08 21:49:04.017][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:04.018][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:04.020][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:04.054][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:04.086][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:04.155][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:04.157][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:04.163][DEBUG] <==      Total: 1
+[2023-05-08 21:49:04.170][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:04.171][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:04.171][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:04.171][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:04.173][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:04.173][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:04.174][DEBUG] <==      Total: 1
+[2023-05-08 21:49:05.228][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:05.230][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:05.231][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:05.233][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:05.237][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:05.239][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:05.240][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:05.242][DEBUG] <==      Total: 1
+[2023-05-08 21:49:05.243][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:05.243][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:05.244][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:05.244][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:05.245][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:05.246][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:05.247][DEBUG] <==      Total: 1
+[2023-05-08 21:49:06.257][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:06.259][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:06.260][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:06.263][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:06.264][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:06.267][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:06.270][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:06.272][DEBUG] <==      Total: 1
+[2023-05-08 21:49:06.273][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:06.274][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:06.275][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:06.277][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:06.279][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:06.280][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:06.281][DEBUG] <==      Total: 1
+[2023-05-08 21:49:07.288][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:07.289][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:07.289][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:07.290][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:07.291][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:07.293][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:07.293][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:07.295][DEBUG] <==      Total: 1
+[2023-05-08 21:49:07.295][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:07.295][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:07.295][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:07.295][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:07.297][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:07.297][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:07.298][DEBUG] <==      Total: 1
+[2023-05-08 21:49:08.305][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:08.305][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:08.305][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:08.306][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:08.306][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:08.307][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:08.308][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:08.310][DEBUG] <==      Total: 1
+[2023-05-08 21:49:08.310][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:08.311][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:08.311][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:08.311][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:08.312][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:08.313][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:08.313][DEBUG] <==      Total: 1
+[2023-05-08 21:49:09.319][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:09.319][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:09.319][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:09.320][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:09.321][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:09.322][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:09.323][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:09.324][DEBUG] <==      Total: 1
+[2023-05-08 21:49:09.325][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:09.325][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:09.326][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:09.326][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:09.327][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:09.327][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:09.328][DEBUG] <==      Total: 1
+[2023-05-08 21:49:10.334][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:10.335][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:10.335][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:10.336][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:10.336][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:10.338][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:10.338][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:10.339][DEBUG] <==      Total: 1
+[2023-05-08 21:49:10.339][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:10.339][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:10.340][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:10.340][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:10.342][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:10.342][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:10.342][DEBUG] <==      Total: 1
+[2023-05-08 21:49:11.350][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:11.351][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:11.351][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:11.352][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:11.354][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:11.355][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:11.356][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:11.359][DEBUG] <==      Total: 1
+[2023-05-08 21:49:11.360][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:11.360][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:11.360][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:11.362][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:11.364][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:11.365][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:11.365][DEBUG] <==      Total: 1
+[2023-05-08 21:49:12.381][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:12.382][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:12.383][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:12.385][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:12.394][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:12.397][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:12.399][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:12.400][DEBUG] <==      Total: 1
+[2023-05-08 21:49:12.401][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:12.401][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:12.401][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:12.402][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:12.403][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:12.403][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:12.404][DEBUG] <==      Total: 1
+[2023-05-08 21:49:13.420][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:13.421][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:13.421][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:13.422][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:13.423][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:13.427][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:13.428][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:13.429][DEBUG] <==      Total: 1
+[2023-05-08 21:49:13.429][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:13.429][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:13.430][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:13.430][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:13.432][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:13.433][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:13.434][DEBUG] <==      Total: 1
+[2023-05-08 21:49:14.442][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:14.443][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:14.443][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:14.444][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:14.444][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:14.445][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:14.447][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:14.447][DEBUG] <==      Total: 1
+[2023-05-08 21:49:14.447][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:14.448][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:14.448][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:14.448][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:14.449][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:14.449][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:14.450][DEBUG] <==      Total: 1
+[2023-05-08 21:49:15.459][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:15.460][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:15.460][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:15.461][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:15.462][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:15.463][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:15.464][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:15.465][DEBUG] <==      Total: 1
+[2023-05-08 21:49:15.465][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:15.465][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:15.466][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:15.466][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:15.467][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:15.467][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:15.467][DEBUG] <==      Total: 1
+[2023-05-08 21:49:16.475][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:49:16.475][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:49:16.475][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:49:16.476][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:49:16.477][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:49:16.478][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:49:16.478][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:49:16.478][DEBUG] <==      Total: 1
+[2023-05-08 21:49:16.479][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:49:16.479][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:49:16.479][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:49:16.480][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:49:16.481][TRACE] <==    Columns: use_dt
+[2023-05-08 21:49:16.481][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:49:16.481][DEBUG] <==      Total: 1
+[2023-05-08 21:50:20.840][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:50:20.840][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:50:20.841][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:50:20.841][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:50:20.841][DEBUG] ==> Parameters: sornia(String), 2(String)
+[2023-05-08 21:50:20.842][DEBUG] <==      Total: 0
+[2023-05-08 21:53:03.219][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:03.219][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:03.219][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:03.220][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:03.221][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:03.222][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:03.222][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:03.223][DEBUG] <==      Total: 1
+[2023-05-08 21:53:03.223][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:03.223][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:03.223][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:03.224][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:03.224][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:03.225][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:03.225][DEBUG] <==      Total: 1
+[2023-05-08 21:53:04.242][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:04.243][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:04.244][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:04.246][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:04.247][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:04.249][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:04.250][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:04.251][DEBUG] <==      Total: 1
+[2023-05-08 21:53:04.252][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:04.252][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:04.252][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:04.252][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:04.254][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:04.255][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:04.255][DEBUG] <==      Total: 1
+[2023-05-08 21:53:05.267][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:05.267][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:05.267][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:05.268][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:05.269][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:05.271][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:05.271][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:05.275][DEBUG] <==      Total: 1
+[2023-05-08 21:53:05.275][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:05.276][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:05.276][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:05.277][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:05.278][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:05.279][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:05.279][DEBUG] <==      Total: 1
+[2023-05-08 21:53:06.288][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:06.289][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:06.290][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:06.291][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:06.291][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:06.297][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:06.298][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:06.299][DEBUG] <==      Total: 1
+[2023-05-08 21:53:06.300][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:06.300][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:06.300][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:06.300][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:06.301][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:06.302][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:06.302][DEBUG] <==      Total: 1
+[2023-05-08 21:53:07.308][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:07.309][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:07.309][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:07.310][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:07.310][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:07.311][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:07.312][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:07.313][DEBUG] <==      Total: 1
+[2023-05-08 21:53:07.313][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:07.313][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:07.313][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:07.313][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:07.314][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:07.315][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:07.315][DEBUG] <==      Total: 1
+[2023-05-08 21:53:08.321][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:08.321][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:08.321][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:08.322][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:08.323][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:08.324][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:08.324][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:08.324][DEBUG] <==      Total: 1
+[2023-05-08 21:53:08.325][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:08.325][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:08.325][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:08.325][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:08.326][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:08.327][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:08.327][DEBUG] <==      Total: 1
+[2023-05-08 21:53:09.332][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:09.332][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:09.332][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:09.333][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:09.333][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:09.335][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:09.335][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:09.335][DEBUG] <==      Total: 1
+[2023-05-08 21:53:09.335][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:09.336][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:09.336][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:09.336][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:09.337][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:09.337][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:09.337][DEBUG] <==      Total: 1
+[2023-05-08 21:53:10.352][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:10.353][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:10.355][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:10.357][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:10.358][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:10.360][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:10.360][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:10.361][DEBUG] <==      Total: 1
+[2023-05-08 21:53:10.361][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:10.362][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:10.362][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:10.363][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:10.366][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:10.366][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:10.366][DEBUG] <==      Total: 1
+[2023-05-08 21:53:11.378][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:11.379][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:11.379][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:11.382][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:11.382][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:11.383][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:11.384][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:11.384][DEBUG] <==      Total: 1
+[2023-05-08 21:53:11.384][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:11.384][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:11.385][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:11.385][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:11.386][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:11.387][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:11.387][DEBUG] <==      Total: 1
+[2023-05-08 21:53:12.399][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:12.400][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:12.400][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:12.402][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:12.403][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:12.405][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:12.405][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:12.406][DEBUG] <==      Total: 1
+[2023-05-08 21:53:12.407][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:12.407][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:12.407][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:12.408][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:12.410][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:12.410][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:12.411][DEBUG] <==      Total: 1
+[2023-05-08 21:53:13.422][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:13.422][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:13.422][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:13.423][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:13.423][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:13.424][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:13.425][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:13.425][DEBUG] <==      Total: 1
+[2023-05-08 21:53:13.425][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:13.425][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:13.426][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:13.426][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:13.427][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:13.428][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:13.428][DEBUG] <==      Total: 1
+[2023-05-08 21:53:14.444][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:14.446][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:14.447][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:14.451][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:14.452][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:14.454][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:14.456][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:14.457][DEBUG] <==      Total: 1
+[2023-05-08 21:53:14.458][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:14.458][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:14.458][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:14.459][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:14.461][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:14.462][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:14.463][DEBUG] <==      Total: 1
+[2023-05-08 21:53:15.477][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:15.478][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:15.478][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:15.478][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:15.479][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:15.480][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:15.480][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:15.481][DEBUG] <==      Total: 1
+[2023-05-08 21:53:15.481][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:15.482][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:15.482][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:15.482][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:15.483][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:15.483][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:15.483][DEBUG] <==      Total: 1
+[2023-05-08 21:53:16.493][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:16.494][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:16.494][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:16.495][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:16.496][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:16.499][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:16.499][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:16.500][DEBUG] <==      Total: 1
+[2023-05-08 21:53:16.501][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:16.501][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:16.501][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:16.502][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:16.503][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:16.504][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:16.504][DEBUG] <==      Total: 1
+[2023-05-08 21:53:17.513][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:17.514][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:17.514][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:17.515][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:17.516][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:17.517][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:17.517][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:17.518][DEBUG] <==      Total: 1
+[2023-05-08 21:53:17.518][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:17.518][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:17.518][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:17.518][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:17.520][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:17.520][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:17.520][DEBUG] <==      Total: 1
+[2023-05-08 21:53:18.527][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:18.527][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:18.528][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:18.528][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:18.529][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:18.530][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:18.530][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:18.531][DEBUG] <==      Total: 1
+[2023-05-08 21:53:18.532][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:18.532][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:18.532][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:18.533][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:18.534][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:18.534][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:18.534][DEBUG] <==      Total: 1
+[2023-05-08 21:53:19.550][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:19.552][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:19.552][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:19.554][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:19.555][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:19.557][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:19.558][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:19.559][DEBUG] <==      Total: 1
+[2023-05-08 21:53:19.560][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:19.560][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:19.561][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:19.562][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:19.568][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:19.568][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:19.569][DEBUG] <==      Total: 1
+[2023-05-08 21:53:20.585][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:20.587][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:20.587][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:20.589][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:20.591][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:20.592][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:20.593][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:20.594][DEBUG] <==      Total: 1
+[2023-05-08 21:53:20.594][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:20.594][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:20.594][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:20.595][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:20.596][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:20.597][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:20.597][DEBUG] <==      Total: 1
+[2023-05-08 21:53:21.620][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:21.621][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:21.621][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:21.623][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:21.623][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:21.627][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:21.628][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:21.633][DEBUG] <==      Total: 1
+[2023-05-08 21:53:21.634][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:21.635][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:21.635][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:21.636][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:21.639][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:21.640][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:21.641][DEBUG] <==      Total: 1
+[2023-05-08 21:53:22.653][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:22.654][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:22.654][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:22.656][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:22.657][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:22.659][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:22.660][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:22.660][DEBUG] <==      Total: 1
+[2023-05-08 21:53:22.661][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:22.661][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:22.661][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:22.661][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:22.663][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:22.663][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:22.665][DEBUG] <==      Total: 1
+[2023-05-08 21:53:23.683][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:23.684][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:23.684][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:23.686][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:23.687][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:23.689][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:23.690][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:23.692][DEBUG] <==      Total: 1
+[2023-05-08 21:53:23.693][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:23.693][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:23.694][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:23.694][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:23.696][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:23.698][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:23.699][DEBUG] <==      Total: 1
+[2023-05-08 21:53:24.720][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:24.722][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:24.722][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:24.723][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:24.725][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:24.727][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:24.728][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:24.729][DEBUG] <==      Total: 1
+[2023-05-08 21:53:24.733][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:24.733][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:24.733][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:24.734][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:24.735][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:24.735][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:24.735][DEBUG] <==      Total: 1
+[2023-05-08 21:53:25.744][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:25.744][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:25.744][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:25.745][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:25.745][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:25.747][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:25.747][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:25.748][DEBUG] <==      Total: 1
+[2023-05-08 21:53:25.748][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:25.749][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:25.749][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:25.749][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:25.750][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:25.750][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:25.750][DEBUG] <==      Total: 1
+[2023-05-08 21:53:26.755][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:26.756][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:26.756][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:26.756][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:26.757][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:26.758][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:26.758][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:26.758][DEBUG] <==      Total: 1
+[2023-05-08 21:53:26.758][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:26.758][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:26.759][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:26.759][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:26.760][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:26.760][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:26.760][DEBUG] <==      Total: 1
+[2023-05-08 21:53:27.765][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:27.766][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:27.766][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:27.767][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:27.767][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:27.767][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:27.767][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:27.769][DEBUG] <==      Total: 1
+[2023-05-08 21:53:27.770][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:27.770][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:27.770][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:27.771][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:27.772][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:27.772][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:27.773][DEBUG] <==      Total: 1
+[2023-05-08 21:53:28.784][DEBUG] Controller ===> com.xcally.ars.controller.ApiController.chkPartner()
+[2023-05-08 21:53:28.786][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartner()
+[2023-05-08 21:53:28.786][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartner()
+[2023-05-08 21:53:28.787][DEBUG] ==>  Preparing: SELECT partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt FROM partner WHERE partner_id = ? AND partner_pw = ?
+[2023-05-08 21:53:28.788][DEBUG] ==> Parameters: sornia(String), 1(String)
+[2023-05-08 21:53:28.789][TRACE] <==    Columns: partner_seq, partner_id, partner_pw, partner, seq_no, sabang_no, shop_no, use_dt, reg_dt
+[2023-05-08 21:53:28.790][TRACE] <==        Row: 1, sornia, 1, 소르니아, 0, 2, 0, 2024-05-06 00:00:00, 2023-05-05 18:09:22
+[2023-05-08 21:53:28.791][DEBUG] <==      Total: 1
+[2023-05-08 21:53:28.791][DEBUG] Service ===> com.xcally.ars.service.PartnerServiceImpl.findPartnerUseDt()
+[2023-05-08 21:53:28.791][DEBUG] Mapper ===> com.xcally.ars.repository.PartnerMapper.findPartnerUseDt()
+[2023-05-08 21:53:28.791][DEBUG] ==>  Preparing: SELECT use_dt FROM partner WHERE partner_id = ?
+[2023-05-08 21:53:28.792][DEBUG] ==> Parameters: sornia(String)
+[2023-05-08 21:53:28.793][TRACE] <==    Columns: use_dt
+[2023-05-08 21:53:28.794][TRACE] <==        Row: 2024-05-06 00:00:00
+[2023-05-08 21:53:28.794][DEBUG] <==      Total: 1

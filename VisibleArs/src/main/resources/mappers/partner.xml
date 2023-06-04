@@ -23,5 +23,10 @@
         FROM   partner
         WHERE  partner_id = #{value}
     </select>
+    <update id="updateSabangNo" parameterType="partner">
+		UPDATE partner
+		SET sabang_no = #{sabangNo}
+		WHERE partner_id = #{partnerId}
+	</update>
     
 </mapper>

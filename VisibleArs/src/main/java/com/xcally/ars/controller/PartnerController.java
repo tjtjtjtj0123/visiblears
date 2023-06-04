@@ -81,7 +81,7 @@ public class PartnerController {
 	
 	//엑셀 업로드 페이지
 	@GetMapping("/excel")
-    public String main(@CookieValue(name ="xcallyadmsession",required = false)String xcallyadmsession, HttpSession session,HttpServletResponse response) {	
+    public String main(@CookieValue(name ="xcallyadmsession",required = false)String xcallyadmsession, HttpSession session,HttpServletResponse response,Model model) {	
 		String partner_id = null;
 		boolean useDtFlag = false;
 		try {
@@ -99,7 +99,6 @@ public class PartnerController {
     		} 
 			
 			//사용기한 제크
-
 			useDtFlag = partnerservice.findPartnerUseDt(partner_id);
 			
 			if(!useDtFlag) {
@@ -109,6 +108,7 @@ public class PartnerController {
 				out.println("<script>alert('사용 기한이 지났습니다.');location.href='/partner/login';</script>");
 				return "partnerexcel";
 			}
+			
 			if(partner_id == null) {
 				return "redirect:/partner/login";
 			}
@@ -116,10 +116,10 @@ public class PartnerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+		model.addAttribute("partnerId", partner_id);
         return "partnerexcel";
     }
-	
+
 	@ResponseBody
     @PostMapping("/excel/read")
     public SimpleResult readExcel(@RequestParam("file") MultipartFile file, Model model, @CookieValue(name ="xcallyadmsession",required = false)String xcallyadmsession, HttpSession session)
@@ -129,6 +129,7 @@ public class PartnerController {
     	Partner objPartner = null;
     	boolean useDtFlag = false;
     	SimpleResult simpleResult = new SimpleResult();
+    	int tmpSabangNo = 0;
     	try {
     		if(xcallyadmsession == null) {
     			simpleResult.setErrCode(999);
@@ -180,14 +181,6 @@ public class PartnerController {
     	    	int [] indexArr= {-1,-1,-1,-1,-1,
     	    			          -1,-1,-1,-1,-1,
     	    			          -1,-1,-1,-1,-1};
-    	    	
-
-        		//String asd = "GS shop 20230413201500";
-    		
-        		//String shop = asd.substring(0,asd.length()-15);
-        		//String time = asd.substring(asd.length()-14, asd.length()-1);
-        		//System.out.println(":"+shop+":");
-        		//System.out.println(":"+time+":");	
 
     	        for(int i=0; i<worksheet.getRow(0).getLastCellNum(); i++) {
     	        	for(int j=0;j<columnArr.length;j++) {
@@ -225,9 +218,18 @@ public class PartnerController {
     	            				.orderDt(row.getCell(indexArr[14]).getStringCellValue().substring(row.getCell(indexArr[14]).getStringCellValue().length()-14, row.getCell(indexArr[14]).getStringCellValue().length()))
     	            				.build();
     	            orderservice.InsOrder(order);
+    	            
+    	            tmpSabangNo = Math.max(tmpSabangNo, Integer.parseInt(order.getSabangNo()));
     	        }
-
-
+    	        
+    	        objPartner = Partner.builder()
+    	        			.sabangNo(String.valueOf(tmpSabangNo))
+    	        			.partnerId(partner_id)
+    	        			.build();
+    	        
+    	        boolean rstl = partnerservice.updateSabangNo(objPartner);
+    	        System.out.println(rstl);
+    	        
     	        simpleResult.setErrCode(0);
     	        simpleResult.setErrMsg("OK");    		
     	        }    		

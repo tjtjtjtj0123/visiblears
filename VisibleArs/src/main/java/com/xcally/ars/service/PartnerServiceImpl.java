@@ -51,6 +51,19 @@ public class PartnerServiceImpl implements PartnerService{
 		
 		return rstl;
 	}
+	
+	public boolean updateSabangNo(Partner partner) {
+		int rstl = 0;
+		
+		try {
+			rstl = partnerMmapper.updateSabangNo(partner);
+		}catch (Exception e) {
+			logger.debug("PartnerServiceImpl -> updateSabangNo -> "+getPrintStackTrace(e));
+		}
+		return rstl == 1 ? true : false;
+	}
+	
+	
 	public static String getPrintStackTrace(Exception e) {
 		  StringWriter errors = new StringWriter();
 		  e.printStackTrace(new PrintWriter(errors));

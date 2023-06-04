@@ -7,29 +7,29 @@ import lombok.Data;
 @Data
 public class Result<T> {
 
-	public T Data;
-	public int ErrCode;
-	public String ErrMsg;
+	public T data;
+	public int errCode;
+	public String errMsg;
 	
     public Result()
     {
-        ErrCode = 0;
+    	errCode = 0;
     }
     public Result(int intRetVal, String strErrMsg)
     {
-        ErrCode = intRetVal;
-        ErrMsg  = strErrMsg;
+    	errCode = intRetVal;
+    	errMsg  = strErrMsg;
     }
 
     public Result(T TData, int intRetVal, String strErrMsg)
     {
-        Data    = TData;
-        ErrCode = intRetVal;
-        ErrMsg  = strErrMsg;
+    	data    = TData;
+    	errCode = intRetVal;
+    	errMsg  = strErrMsg;
     }
     public boolean IsSuccess()
     {
-        return ErrCode==0;
+        return errCode==0;
     }
 }
 

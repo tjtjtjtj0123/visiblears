@@ -12,7 +12,8 @@ import org.thymeleaf.util.StringUtils;
 @Component
 public class LoggerAspect {
 
-    @Around("execution(* com.xcally.ars..*Controller.*(..)) || execution(* com.xcally.ars..*Service.*(..)) || execution(* com.xcally.ars..*Mapper.*(..))")
+    //@Around("execution(* com.xcally.ars..*Controller.*(..)) || execution(* com.xcally.ars..*Service.*(..)) || execution(* com.xcally.ars..*Mapper.*(..))")
+	@Around("execution(* com.xcally.ars..*Controller.*(..))")
     public Object printLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
         String name = joinPoint.getSignature().getDeclaringTypeName();
