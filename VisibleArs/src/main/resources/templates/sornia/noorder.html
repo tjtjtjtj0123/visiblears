@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/sornia/css/ui.css}" />
     <link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
     <link rel="stylesheet" th:href="@{/sornia/css/order_list.css}" />
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
   <body>
     <header class="page-header">
@@ -114,12 +115,32 @@
   </body>
   <script>
    /*<![CDATA[*/
+	const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+	   
     window.onload = function () {
       const scrollHeight = document.scrollingElement.scrollHeight;
       const noticeElement = document.querySelector('#notice');
       noticeElement.style.top = `${scrollHeight - 100}px`;
+      fnArsSend();
     };
 
+	function fnArsSend() {
+		const param = {
+			token: token,
+			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+			paging :"service02"
+		}
+		$.ajax({
+			url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",
+			data: param,
+			dataType : 'jsonp',
+			type: 'POST',
+		}).done(function (data) {
+			console.log(data)
+		});
+	}
+	
     function handleClickClose() {
       // when clicked close icon.
     }

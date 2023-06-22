@@ -45,8 +45,10 @@ public class SorniaController {
 	static String partner = "sornia";
 
 	@GetMapping("menu") // 메인메뉴
-	public String menu() {
-
+	public String menu(Model model)
+			// , @RequestParam(required = false)String token) 
+	{
+		//model.addAttribute("token",token);
 		return partner+"/menu";
 	}
 
@@ -183,7 +185,7 @@ public class SorniaController {
 
 	@PostMapping("uploadimglist")
 	@ResponseBody
-	public int uploadlist(@RequestParam("file") List<MultipartFile> multipartFileList,String title,String content, String orderer_name,String orderer_phone1, String inquiry_type,
+	public int uploadlist(@RequestParam(name = "file",required=false) List<MultipartFile> multipartFileList,String title,String content, String orderer_name,String orderer_phone1, String inquiry_type,
 			@RequestParam(name= "mall_order_dt",required = false,defaultValue = "0")String mall_order_dt)throws IOException 
 	{
 		int rstl = 0;
@@ -205,18 +207,20 @@ public class SorniaController {
 			rstl = boardService.WriteBoard(board);			
 			
 			board_seq = board.getBoardSeq();
-			for (int i = 0; i < multipartFileList.size(); i++) {
-				String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
+			if(multipartFileList != null ) {
+				for (int i = 0; i < multipartFileList.size(); i++) {
+					String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
 
-				
-				attach = Attach.builder()
-						.boardSeq(board_seq)
-						.s3Addr(fileName)
-						.build();
-				
-				int aa = attachmentService.WriteAttach(attach);
+					
+					attach = Attach.builder()
+							.boardSeq(board_seq)
+							.s3Addr(fileName)
+							.build();
+					
+					int aa = attachmentService.WriteAttach(attach);
+				}
 			}
-			rstl = 1;
+						rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

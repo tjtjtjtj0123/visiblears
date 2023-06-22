@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,7 +35,7 @@
       </div>
       <div class="content">
         <div class="menu">
-          <a th:href="@{/sornia/auth}">
+          <a th:onclick="|javascript:fnMoveMenu()|">
             <div class="ui-box-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -114,12 +114,21 @@
       </div>
     </div>
   </body>
-  <script>
-    window.onload = function () {
-      const scrollHeight = document.scrollingElement.scrollHeight;
-      const noticeElement = document.querySelector('#notice');
-      noticeElement.style.top = `${scrollHeight - 100}px`;
+  <script th:inline="javascript">
+
+    const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+	
+	window.onload = function () {
+		const scrollHeight = document.scrollingElement.scrollHeight;
+		const noticeElement = document.querySelector('#notice');
+    	noticeElement.style.top = `${scrollHeight - 100}px`;     
+    	fnArsSend();
     };
+
+	function fnMoveMenu(){
+		location.href = "/sornia/auth?token="+token;
+	}
 
     function handleClickClose() {
       // when clicked close icon.
@@ -134,17 +143,11 @@
         checkboxItems[i].checked = event.checked;
     }
     
-    function fnViewArs(){
-		
-	}
-    
 	function fnArsSend() {
-
 		const param = {
-			token:"VUYKYNW2U3J",
+			token: token,
 			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-			paging :"service00"
-
+			paging :"index"
 		}
 		$.ajax({
 			url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",

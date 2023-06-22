@@ -311,12 +311,32 @@
     </div>
   </body>
   <script>
+	const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+		  
     window.onload = function () {
       const scrollHeight = document.scrollingElement.scrollHeight;
       const noticeElement = document.querySelector('#notice');
       noticeElement.style.top = `${scrollHeight - 100}px`;
+      fnArsSend();
     };
 
+	function fnArsSend() {
+		const param = {
+			token: token,
+			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+			paging :"service03"
+		}
+		$.ajax({
+			url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",
+			data: param,
+			dataType : 'jsonp',
+			type: 'POST',
+		}).done(function (data) {
+			console.log(data)
+		});
+	}
+	
     function handleClickClose() {
       // when clicked close icon.
     }
