@@ -117,7 +117,7 @@
    /*<![CDATA[*/
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-	   
+	    
     window.onload = function () {
       const scrollHeight = document.scrollingElement.scrollHeight;
       const noticeElement = document.querySelector('#notice');
@@ -159,7 +159,7 @@
 		var pa2= "[[${order.ordererPhone1}]]";
 		var pa3= "[[${order.receiverAddress}]]";
 		//console.log("/sornia/inquiry?ordererName="+pa1+		"&ordererPhone1="+pa2+"&receiverAddress="+pa3);		
-		location.href = "/sornia/inquiry?ordererName="+pa1+		"&ordererPhone1="+pa2+"&receiverAddress="+pa3;
+		location.href = "/sornia/inquiry?ordererName="+pa1+		"&ordererPhone1="+pa2+"&receiverAddress="+pa3 + "&token="+token;
 
 	}
 	/*]]>*/

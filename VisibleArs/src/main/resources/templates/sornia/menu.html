@@ -144,7 +144,8 @@
     }
     
 	function fnArsSend() {
-		const param = {
+		try{
+			const param = {
 			token: token,
 			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
 			paging :"index"
@@ -157,6 +158,10 @@
 		}).done(function (data) {
 			console.log(data)
 		});
+		}catch{
+			
+		}
+		
 	}
     
   </script>

@@ -69,7 +69,7 @@
         </div>
         <div class="inquiry">
           <p class="message">다른 문의사항이 있으신가요?</p>
-          <a th:href="@{/sornia/inquiry(sabangNo=${sabangNo})}">
+          <a th:onclick="|javascript:fnMoveMenu()|">
             <div class="ui-button primary">
               <span class="title">1:1 문의하기</span>
             </div>
@@ -138,5 +138,10 @@
       // when clicked backward icon.
       window.history.go(-1);
     }
+    
+	function fnMoveMenu(){
+		location.href = "/sornia/inquiry?sabangNo=" + "[[${sabangNo}]]&token="+token;
+	}
+
   </script>
 </html>

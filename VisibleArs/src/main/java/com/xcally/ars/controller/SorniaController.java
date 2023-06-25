@@ -174,7 +174,9 @@ public class SorniaController {
 				if(i != addr_tmp.length-1)
 					addr +=  " ";
 			}
+			
 			order.setReceiverAddress(addr);
+			order.setPartner(partner);
 			
 			rstl = orderservice.getOrder(order);
 		} catch (Exception e) {

@@ -27,7 +27,7 @@
 
     
     <select id="findOrder" parameterType="order" resultType="order">
-		CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{receiverAddress});
+		CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{receiverAddress}, #{partner});
 	</select>
     
 	<select id="findOrderBySabangNo" parameterType="int" resultType="order">
