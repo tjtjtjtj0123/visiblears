@@ -18,8 +18,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Component
 public class LoggerAspect {
 
-    //@Around("execution(* com.xcally.ars..*Controller.*(..)) || execution(* com.xcally.ars..*Service.*(..)) || execution(* com.xcally.ars..*Mapper.*(..))")
-	@Around("execution(* com.xcally.ars..*Controller.*(..))")
+    @Around("execution(* com.xcally.ars..*Controller.*(..)) || execution(* com.xcally.ars..*Service.*(..)) || execution(* com.xcally.ars..*Mapper.*(..))")
+	//@Around("execution(* com.xcally.ars..*Controller.*(..))")
     public Object printLog(ProceedingJoinPoint joinPoint) throws Throwable {
 		StringBuilder parameterLog = new StringBuilder();
 	    String name = joinPoint.getSignature().getDeclaringTypeName();

@@ -48,13 +48,14 @@
 			<div class="ui-text-field">
 				<label for="name">
 					<p class="title">이름</p>
-					<input id="name" type="text" placeholder="이름을 입력해주세요" />
+					<input id="name" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
 				</label>
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
 					<p class="title">전화번호</p>
-					<input id="phone" type="text" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+					<input id="phone" type="text" placeholder="-제외하고 번호만 입력하세요"
+						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
 			</div>
 			<!--<br /><br /><br /><br /><br /><br /><br />	-->
@@ -63,6 +64,7 @@
 				<label for="address">
 					<p class="title">주소</p>
 					<input id="address" readonly type="text" placeholder="주소를 검색하여 입력해 주세요" />
+					<P style="font-size: 15px;">※도로명 주소까지만 입력해 주세요.</P>
 				</label>
 			</div>
 			<div onclick="sample2_execDaumPostcode()" class="ui-button default">
@@ -305,7 +307,7 @@
 				</div>
 			</div>
 			<div class="right-area">
-				<div class="button">
+				<div class="button" onclick="fnCallCRS()">
 					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
@@ -321,14 +323,15 @@
 <script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-	
+
 	window.onload = function () {
 		const scrollHeight = document.scrollingElement.scrollHeight;
 		const noticeElement = document.querySelector('#notice');
 		noticeElement.style.top = `${scrollHeight - 100}px`;
 		fnArsSend();
 	};
-	
+
+	/*
 	function fnArsSend() {
 		const param = {
 			token: token,
@@ -344,7 +347,63 @@
 			console.log(data)
 		});
 	}
+	*/
 
+	function fnArsSend() {
+		try {
+			const param = {
+				keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+				proc: "service01",
+				token: token
+			}
+
+			// jQuery AJAX 요청
+			$.ajax({
+				url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
+				data: param,
+				type: 'POST',
+				timeout: 30000,
+			}).done(function (data) {
+				console.log(data)
+			});
+		} catch {
+
+		}
+	}
+
+	function fnCallCRS() {
+		try {
+			const param = {
+				keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+				proc: "service00",
+				token: token
+			}
+
+			// jQuery AJAX 요청
+			$.ajax({
+				url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
+				data: param,
+				type: 'POST',
+				timeout: 30000,
+			}).done(function (data) {
+				console.log(data)
+			});
+		} catch {
+
+		}
+	}
+
+ 	function noSpaceForm(obj) 
+    {             
+        var str_space = /\s/;               // 공백 체크
+        if(str_space.exec(obj.value)) 
+        {     // 공백 체크
+            //obj.focus();
+            obj.value = obj.value.replace(' ',''); // 공백제거
+            return false;
+        }
+    }
+    
 	function showModal() {
 		$("#alertModal").addClass('visible');
 	}
@@ -514,16 +573,16 @@
 
 		//문자열에 공백이 있는 경우
 		var blank_pattern = /[\s]/g;
-		if( blank_pattern.test(name) == true){
-		    alert('공백은 입력 할 수 업습니다.');
-		    return false;
+		if (blank_pattern.test(name) == true) {
+			alert('공백은 입력 할 수 업습니다.');
+			return false;
 		}
-		
+
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-		if(special_pattern.test(name) == true){
-		    alert('특수 문자는 입력 할 수 없습니다.');
-		    return false;
+		if (special_pattern.test(name) == true) {
+			alert('특수 문자는 입력 할 수 없습니다.');
+			return false;
 		}
 
 		if (!($("input:checkbox[id='checkbox1']").is(":checked") &&
@@ -536,12 +595,12 @@
 		}
 
 		const order = {
-			seqNo:0,
+			seqNo: 0,
 			ordererName: $("#name").val(),
 			ordererPhone1: $("#phone").val(),
-			receiverAddress:$("#address").val(),
-			quantity:0,
-			payAmt:0
+			receiverAddress: $("#address").val(),
+			quantity: 0,
+			payAmt: 0
 		}
 		$.ajax({
 			url: "/sornia/get",
@@ -550,32 +609,32 @@
 		}).done(function (data) {
 
 			if (!!data.sabangNo) {
-				location.href = "/sornia/detail?sabangNo="+data.sabangNo+"&token="+token;
+				location.href = "/sornia/detail?sabangNo=" + data.sabangNo + "&token=" + token;
 			} else {
 				//location.href = "/sornia/noorder";
-				
+
 				var form = document.createElement('form');
 				form.setAttribute('method', 'post');
-				form.setAttribute('action', "/sornia/noorder?token="+token);
-				
+				form.setAttribute('action', "/sornia/noorder?token=" + token);
+
 				var hiddenField = document.createElement('input');
 				hiddenField.setAttribute('type', 'hidden');
 				hiddenField.setAttribute('name', 'ordererName');
-				hiddenField.setAttribute('value',$("#name").val());
+				hiddenField.setAttribute('value', $("#name").val());
 				form.appendChild(hiddenField);
-				
+
 				var hiddenField = document.createElement('input');
 				hiddenField.setAttribute('type', 'hidden');
 				hiddenField.setAttribute('name', 'ordererPhone1');
 				hiddenField.setAttribute('value', $("#phone").val());
 				form.appendChild(hiddenField);
-				
+
 				var hiddenField = document.createElement('input');
 				hiddenField.setAttribute('type', 'hidden');
 				hiddenField.setAttribute('name', 'receiverAddress');
 				hiddenField.setAttribute('value', $("#address").val());
-				
-				form.appendChild(hiddenField);				
+
+				form.appendChild(hiddenField);
 				document.body.appendChild(form);
 				form.submit();
 			}

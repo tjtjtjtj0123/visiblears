@@ -158,6 +158,7 @@
 		fnArsSend();
 	});
 
+/*
 	function fnArsSend() {
 		const param = {
 			token: token,
@@ -173,7 +174,28 @@
 			console.log(data)
 		});
 	}
-	
+*/
+	function fnArsSend() {
+	    try {
+	        const param = {
+	            keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
+	            proc: "service04",
+	            token: token
+	        }
+	 
+	        // jQuery AJAX 요청
+	        $.ajax({
+	            url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
+	            data: param,
+	            type: 'POST',
+	            timeout: 30000,
+	        }).done(function (data) {
+	           console.log(data)
+	        });
+	    } catch {
+	        
+	    }
+	}
 	function modalClose(element) {
 		while(true) {
 			if (!element) return;
