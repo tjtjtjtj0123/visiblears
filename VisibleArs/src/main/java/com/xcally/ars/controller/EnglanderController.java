@@ -42,26 +42,22 @@ public class EnglanderController {
 	
 	private final S3Uploader s3Uploader;
 
-	static String partner = "sornia";
+	static String partner = "englander";
 
 	@GetMapping("menu") // 메인메뉴
 	public String menu(Model model)
-			// , @RequestParam(required = false)String token) 
 	{
-		//model.addAttribute("token",token);
 		return partner+"/menu";
 	}
 
 	@GetMapping("sub") // 서브메뉴
 	public String sub(Model model, String sabangNo) {
-
 		model.addAttribute("sabangNo", sabangNo);
 		return partner+"/sub";
 	}
 
 	@GetMapping("auth") // 인증페이지
 	public String auth(Model model) {
-
 		return partner+"/auth";
 	}
 
@@ -73,23 +69,19 @@ public class EnglanderController {
 				.receiverAddress(receiverAddress)
 				.build();
 	
-	model.addAttribute("order",order);
-	
-	
-	return partner+"/noorder";
+		model.addAttribute("order",order);
+		return partner+"/noorder";
 	}
 	
 	@GetMapping("call") // 기타 문의
-	public String call() {
-		
+	public String call() {		
 		return partner+"/call";
 	}
-
 
 	@GetMapping("detail") // 주문상세
 	public String detail(Model model, int sabangNo) {
 
-		List<Order> orderlist = null;
+		List<Order> orderlist     = null;
 		List<Order> destOrderlist = new ArrayList<Order>();
 		HashMap<String, Integer> quantityMap =new HashMap<>();		
 		
@@ -106,9 +98,7 @@ public class EnglanderController {
 
 				}else {
 					int tmpQuantity = quantityMap.get(tmp);
-
 					quantityMap.replace(tmp, orderlist.get(i).getQuantity()+tmpQuantity);
-
 				}				
 			}
 
@@ -161,8 +151,8 @@ public class EnglanderController {
 	@PostMapping(value = "get") // 인증페이지 ajax
 	@ResponseBody
 	public Order getOrder(Order order) {
-		Order rstl = null;
-		String addr = "";
+		Order rstl 		  = null;
+		String addr 	  = "";
 		String addr_tmp[] = null;
 		try {
 
@@ -188,12 +178,11 @@ public class EnglanderController {
 	@PostMapping("uploadimglist")
 	@ResponseBody
 	public int uploadlist(@RequestParam(name = "file",required=false) List<MultipartFile> multipartFileList,String title,String content, String orderer_name,String orderer_phone1, String inquiry_type,
-			@RequestParam(name= "mall_order_dt",required = false,defaultValue = "0")String mall_order_dt)throws IOException 
-	{
-		int rstl = 0;
+			@RequestParam(name= "mall_order_dt",required = false,defaultValue = "0")String mall_order_dt)throws IOException	{
+		int rstl 	  = 0;
 		int board_seq = 0;
 		Attach attach = null;
-		Board board = null;
+		Board board   = null;
 		
 		try {
 
@@ -209,10 +198,10 @@ public class EnglanderController {
 			rstl = boardService.WriteBoard(board);			
 			
 			board_seq = board.getBoardSeq();
-			if(multipartFileList != null ) {
+			if(multipartFileList != null ) 
+			{
 				for (int i = 0; i < multipartFileList.size(); i++) {
 					String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
-
 					
 					attach = Attach.builder()
 							.boardSeq(board_seq)
@@ -222,7 +211,7 @@ public class EnglanderController {
 					int aa = attachmentService.WriteAttach(attach);
 				}
 			}
-						rstl = 1;
+			rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

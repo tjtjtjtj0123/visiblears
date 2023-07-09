@@ -12,6 +12,7 @@
 	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/order_list.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 
 <body>
@@ -98,13 +99,13 @@
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
-			<div class="left-area">
-				<div class="button" onclick="fnCallCRS()">
+			<div class="left-area" onclick="fnArsCall('service00')">
+				<div class="button">
 					<img src="/sornia/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
-			<div class="right-area">
+			<div class="right-area" onclick="fnArsCall('service00')">
 				<div class="button">
 					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
@@ -119,89 +120,14 @@
 	const token = urlParams.get('token');
 
 	window.onload = function () {
-		const scrollHeight = document.scrollingElement.scrollHeight;
-		const noticeElement = document.querySelector('#notice');
-		noticeElement.style.top = `${scrollHeight - 100}px`;
-		fnArsSend();
+		fnOnLoad();
+		fnArsCall("service02");
 	};
-
-	/*
-		function fnArsSend() {
-			const param = {
-				token: token,
-				keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-				paging :"service02"
-			}
-			$.ajax({
-				url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",
-				data: param,
-				dataType : 'jsonp',
-				type: 'POST',
-			}).done(function (data) {
-				console.log(data)
-			});
-		}
-	*/
-	function fnCallCRS() {
-		try {
-			const param = {
-				keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-				proc: "service00",
-				token: token
-			}
-
-			// jQuery AJAX 요청
-			$.ajax({
-				url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
-				data: param,
-				type: 'POST',
-				timeout: 30000,
-			}).done(function (data) {
-				console.log(data)
-			});
-		} catch {
-
-		}
-	}
-	function fnArsSend() {
-		try {
-			const param = {
-				keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-				proc: "service02",
-				token: token
-			}
-
-			// jQuery AJAX 요청
-			$.ajax({
-				url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
-				data: param,
-				type: 'POST',
-				timeout: 30000,
-			}).done(function (data) {
-				console.log(data)
-			});
-		} catch {
-
-		}
-	}
-	function handleClickClose() {
-		// when clicked close icon.
-	}
-
-	function handleClickHome() {
-		// when clicked home icon.
-	}
-
-	function handleClickBackward() {
-		// when clicked backward icon.
-		window.history.go(-1);
-	}
 
 	function goInquiry() {
 		var pa1 = "[[${order.ordererName}]]";
 		var pa2 = "[[${order.ordererPhone1}]]";
 		var pa3 = "[[${order.receiverAddress}]]";
-		//console.log("/sornia/inquiry?ordererName="+pa1+		"&ordererPhone1="+pa2+"&receiverAddress="+pa3);		
 		location.href = "/sornia/inquiry?ordererName=" + pa1 + "&ordererPhone1=" + pa2 + "&receiverAddress=" + pa3 + "&token=" + token;
 
 	}

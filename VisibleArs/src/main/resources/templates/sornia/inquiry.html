@@ -12,6 +12,7 @@
 	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/inquiry.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 
 <body>
@@ -155,47 +156,9 @@
 
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
-		fnArsSend();
+		fnArsCall("service04");
 	});
 
-/*
-	function fnArsSend() {
-		const param = {
-			token: token,
-			keycode:"kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-			paging :"service04"
-		}
-		$.ajax({
-			url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARSHangup/index.html",
-			data: param,
-			dataType : 'jsonp',
-			type: 'POST',
-		}).done(function (data) {
-			console.log(data)
-		});
-	}
-*/
-	function fnArsSend() {
-	    try {
-	        const param = {
-	            keycode: "kjkOcDy5cH2p5i+gQHXop1M+c8uSH64+7Q0Xy6b87KQ=",
-	            proc: "service04",
-	            token: token
-	        }
-	 
-	        // jQuery AJAX 요청
-	        $.ajax({
-	            url: "https://pbx116138.smartcti.co.kr:9042/ServiceAPI/ViewARS/",
-	            data: param,
-	            type: 'POST',
-	            timeout: 30000,
-	        }).done(function (data) {
-	           console.log(data)
-	        });
-	    } catch {
-	        
-	    }
-	}
 	function modalClose(element) {
 		while(true) {
 			if (!element) return;
@@ -208,21 +171,15 @@
 	var sel_files = [];
 	
 
-
 	const fileElement = document.querySelector('#files');
 	fileElement.onchange = function () {
 		// file upload logic.
 	};
 
 	window.onload = function () {
-		const scrollHeight = document.scrollingElement.scrollHeight;
-		const noticeElement = document.querySelector('#notice');
-		noticeElement.style.top = `${scrollHeight - 100}px`;
+		fnOnLoad();
 	};
 
-	function handleClickClose() {
-		// when clicked close icon.
-	}
 
 	//업로드 여러개 하기
 	function uploadimg() {
@@ -264,9 +221,7 @@
 				$("#imglistul").empty();
 				return false;
 			}
-		}
-		
-		
+		}		
 
 		const formData = new FormData();
 
@@ -332,7 +287,4 @@
 	}   
 	
 </script>
-
-</script>
-
 </html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/inquiry.css}" />
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+
+<body>
+	<header class="page-header">
+		<div class="left-area">
+			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
+			<span class="title">보이는 ARS</span>
+		</div>
+		<div class="right-area">
+			<div class="button" onclick="handleClickClose()">
+				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</header>
+	<div class="page-container">
+		<div class="content">
+			<div class="header">
+				<img src="/englander/assets/ico_inquiry_2.svg" alt="inquiry" />
+				<p class="title">1:1 문의하기</p>
+				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
+			</div>
+			<div class="ui-data-table">
+				<input type="hidden" id="mall_order_dt" th:value="${mall_order_dt}"/>
+				<input type="hidden" id="orderno" />
+				<input type="hidden" id="userid" />
+				<table>
+					<colgroup>
+						<col width="65px" />
+						<col width="*" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>이 름</th>
+							<td>
+								<div class="ui-text-field">														
+									<input type="text" id="orderer_name" th:value="${orderer_name}" placeholder="예 : 홍길동" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>전 화 번 호</th>
+							<td>
+								<div class="ui-text-field">
+									<input id="orderer_phone1" type="text"  th:value="${orderer_phone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>문의 구분</th>
+							<td>
+								<div class="ui-select-field">
+									<select id="inquiry_type">
+										<option value="delivery">배송</option>
+										<option value="exchange">교환</option>
+										<option value="return">반품</option>
+										<option value="etc">기타문의</option>
+									</select>
+								</div>
+							</td>
+						</tr>						
+						<tr>
+							<th>제 목</th>
+							<td>
+								<div class="ui-text-field">
+									<input type="text" maxlength="30" id="title" placeholder="제목을 입력해주세요." />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="non-padding">
+								<div class="ui-textarea">
+									<textarea name="content" id="content" maxlength="200"
+										placeholder="교환 및 반품 사유를 간략하게 기재해주세요. (200자)"></textarea>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="files">
+				<div class="header">
+					<span class="title">파일첨부</span>
+					<span class="description">* 5개까지 업로드가 가능합니다.</span>
+				</div>
+				<div class="preview">
+					<ul id="imglistul">
+					</ul>
+				</div>
+				<div class="controller">
+					<label for="files">
+						<div class="ui-button default">
+							<span class="title">파일등록하기</span>
+							<input type="file" multiple id="files" name="files" />
+							<img src="/englander/assets/ico_upload.svg" alt="upload" />
+						</div>
+					</label>
+				</div>
+			</div>
+			<div class="inquiry">
+				<a href="#">
+					<div id="uploadBtn" onclick="uploadimg()" class="ui-button blue">
+						<span class="title">등록하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div>
+
+		<!-- notice -->
+		<div class="notice" id="notice">
+			<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
+			<img src="/englander/assets/ico_smart_cti.svg" alt="smart_cti" />
+		</div>
+		<!-- modal -->
+		<div class="ui-modal" id="modal">
+			<div class="content">
+				<div class="icon">
+					<img src="/englander/assets/ico_inquiry_2.svg" alt="info">
+				</div>
+				<div class="message">
+					<p><b>1:1 문의가 접수되었습니다.</b></p>
+					<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>
+</body>
+
+<script>
+	const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+		
+	function modalOpen() {
+		const modal = document.getElementById("modal");
+		modal.classList.add("visible");
+	}
+
+	$(document).ready(function () {
+		$("#files").on("change", SelectImg);
+		fnArsCall("service04");
+	});
+
+	function modalClose(element) {
+		while(true) {
+			if (!element) return;
+			if (element.classList.contains("ui-modal")) break;
+			element = element.parentNode;
+		}
+		element.classList.remove("visible");
+	}
+	// 이미지 정보들을 담을 배열
+	var sel_files = [];
+	
+
+	const fileElement = document.querySelector('#files');
+	fileElement.onchange = function () {
+		// file upload logic.
+	};
+
+	window.onload = function () {
+		fnOnLoad();
+	};
+
+
+	//업로드 여러개 하기
+	function uploadimg() {
+	
+		
+		if($("#title").val().length === 0 ){
+			alert('제목을 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#content").val().length === 0 ){
+			alert('내용을 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#orderer_phone1").val().length === 0 ){
+			alert('전화번호를 입력해 주세요.');
+			return false;
+		}
+		
+		if($("#orderer_name").val().length === 0 ){
+			alert('이름을 입력해 주세요.');
+			return false;
+		}
+
+		//파일개수 체크
+		if (sel_files.length > 5) {
+			alert("이미지는 5개까지 업로드가 가능합니다.");
+			sel_files = [];
+			$("#imglistul").empty();
+			return;
+		}
+		//확장자 검사
+		for (var i = 0; i < sel_files.length; i++) {
+			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
+			if(!(fileDot =="jpg" || fileDot =="png" )){
+				alert("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				sel_files = [];
+				$("#imglistul").empty();
+				return false;
+			}
+		}		
+
+		const formData = new FormData();
+
+		for (var i = 0; i < sel_files.length; i++) {
+			formData.append("file", sel_files[i]);
+		}
+		formData.append("mall_order_dt",$("#mall_order_dt").val());
+		formData.append("title", $("#title").val());
+		formData.append("content",$("#content").val());
+		
+		formData.append("orderer_phone1",$("#orderer_phone1").val());
+		formData.append("orderer_name", $("#orderer_name").val());
+		formData.append("inquiry_type", $("#inquiry_type").val());
+		
+		$.ajax({
+			type: 'POST',
+			url: "/englander/uploadimglist",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			$('#result-image').attr("src", data);
+			modalOpen();
+			$("#uploadBtn").attr("onclick","modalOpen()");
+		}).fail(function (error) {
+			console.log(error);
+		})
+	}
+
+	function SelectImg(e) {
+
+		// 이미지 정보들을 초기화
+		sel_files = [];
+		$("#imglistul").empty();
+
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		var index = 0;
+		filesArr.forEach(function (f) {
+			sel_files.push(f);
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var html = '<li class="image" id="img_id_' + index + '"><img src="' + e.target.result + '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/englander/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' + index + ')"></li>';
+				$("#imglistul").append(html);
+				index++;
+			}
+			reader.readAsDataURL(f);
+
+		});
+	}
+
+	function deleteImageAction(index) {
+		console.log("index : " + index);
+		sel_files.splice(index, 1);
+
+		var img_id = "#img_id_" + index;
+		$(img_id).remove();
+
+		console.log(sel_files);
+	}   
+	
+</script>
+</html>

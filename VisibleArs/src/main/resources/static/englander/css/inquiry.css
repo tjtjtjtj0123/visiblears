@@ -1,0 +1,108 @@
+/*
+  custom
+*/
+.ui-data-table {
+  margin-top: 30px;
+}
+.ui-data-table table tbody tr {
+  border-bottom: 0;
+}
+.ui-data-table table tbody td {
+  padding: 3px 0 3px 20px;
+}
+.ui-data-table table tbody td.non-padding {
+  padding-left: 0;
+}
+
+/*
+  page container styles.
+*/
+.page-container .content {
+  padding: 70px 30px 30px 30px;
+  text-align: center;
+}
+.page-container .content > .header img {
+  width: 58px;
+  height: auto;
+  margin: 0 auto;
+}
+.page-container .content > .header .title {
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: #1881e3;
+  margin: 20px 0 10px 0;
+}
+.page-container .content > .header .description {
+  font-size: 1.3rem;
+  color: #6b6b6b;
+}
+.page-container .content > .files {
+  border-top: 1px solid #313131;
+  margin-top: 15px;
+}
+.page-container .content > .files .header {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+.page-container .content > .files .header .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #313131;
+  margin-right: 10px;
+}
+.page-container .content > .files .header .description {
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: #313131;
+  margin-top: 2px;
+}
+.page-container .content > .files .preview {
+  margin: 20px 0 12px 0;
+}
+.page-container .content > .files .preview ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.page-container .content > .files .preview ul li.image {
+  position: relative;
+  background: #393939;
+  border-radius: 5px;
+  width: 45px;
+  height: 45px;
+  margin-right: 20px;
+}
+.page-container .content > .files .preview ul li.image .cancel {
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 5px;
+  height: auto;
+}
+.page-container .content > .files .controller .ui-button input {
+  display: none;
+}
+.page-container .inquiry {
+  margin: 20px auto 0 auto;
+  width: 100%;
+  min-width: 200px;
+}
+.page-container .inquiry .message {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #313131;
+}
+
+.notice {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+.notice img {
+  width: auto;
+  height: 20px;
+  margin-top: 30px;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/order_detail.css}" />
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+
+<body>
+	<header class="page-header">
+		<div class="left-area">
+			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
+			<span class="title">보이는 ARS</span>
+		</div>
+		<div class="right-area">
+			<div class="button" onclick="handleClickClose()">
+				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</header>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome()">
+			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<p class="title">주문조회</p>
+				<p class="description">주문하신 제품 상세내역입니다.</p>
+			</div>
+		</div>
+		<div class="content">
+			<div class="ui-data-table">
+				<table>
+					<colgroup>
+						<col width="65px" />
+						<col width="*" />
+					</colgroup>
+					<tbody th:each="order: ${orderlist}">
+						<tr>
+							<th>상 품 명</th>
+							<td th:text="${order.productName}"></td>
+						</tr>
+						<tr>
+							<th>수 량</th>
+							<td th:text="${order.quantity}"></td>
+						</tr>
+						<tr>
+						<tr>
+							<th>배 송 지</th>
+							<td th:text="${order.receiverAddress}"></td>
+						</tr>
+						<tr>
+							<td style="text-align: center;" colspan="2"><br></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="inquiry">
+				<p class="message">다른 문의사항이 있으신가요?</p>
+				<a th:onclick="|javascript:fnMoveMenu()|">
+					<div class="ui-button primary">
+						<span class="title">1:1 문의하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- notice -->
+	<div class="notice" id="notice">
+		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
+	</div>
+	<!-- footer -->
+	<div class="page-footer-navigation">
+		<div class="controller">
+			<div class="left-area" onclick="fnArsCall('service00')">
+				<div class="button">
+					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>
+			<div class="right-area" onclick="fnArsCall('service00')">
+				<div class="button">
+					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+
+	window.onload = function () {
+		fnOnLoad();
+		fnArsCall("service03");
+	};
+
+	function fnMoveMenu() {
+		location.href = "/englander/inquiry?sabangNo=" + "[[${sabangNo}]]&token=" + token;
+	}
+
+</script>
+
+</html>
