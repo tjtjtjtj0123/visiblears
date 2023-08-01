@@ -15,15 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
 import com.xcally.ars.domain.Order;
+import com.xcally.ars.domain.Partner;
 import com.xcally.ars.service.AttachService;
 import com.xcally.ars.service.BoardService;
+import com.xcally.ars.service.ContactService;
 import com.xcally.ars.service.OrderService;
+import com.xcally.ars.service.PartnerService;
 import com.xcally.ars.service.S3Uploader;
-
 import lombok.RequiredArgsConstructor;
 
 
@@ -36,10 +40,19 @@ public class SorniaController {
 
 	@Autowired
 	private AttachService attachmentService;
+	
+	@Autowired
+	private ContactService contactService;
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private PartnerService partnerService;
+	
 	private final S3Uploader s3Uploader;
+	
+	
 
 	static String partner = "sornia";
 
@@ -182,9 +195,9 @@ public class SorniaController {
 		int board_seq = 0;
 		Attach attach = null;
 		Board board   = null;
-		
 		try {
 
+			//게시글 등록
 			board = Board.builder()
 					.partner(partner)
 					.title(title)
@@ -197,6 +210,8 @@ public class SorniaController {
 			rstl = boardService.WriteBoard(board);			
 			
 			board_seq = board.getBoardSeq();
+			
+			//파일 등록
 			if(multipartFileList != null ) 
 			{
 				for (int i = 0; i < multipartFileList.size(); i++) {
@@ -210,6 +225,22 @@ public class SorniaController {
 					int aa = attachmentService.WriteAttach(attach);
 				}
 			}
+			
+			//DB에서 조회
+			
+			//고객 정보 조회
+			Partner Partner = partnerService.getPartnerInfo(partner);
+			
+			//Partner parnter, String hp, String msg, String proctime, String seq
+			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1,content,"2023080111","123451234512345" );
+			String responseBody = userInfo.getBody();
+			
+			System.out.println(responseBody);
+			//JsonNode jsonNode = objectMapper.readTree(responseBody);
+	        //int codeValue = jsonNode.get("code").asInt();
+			//고객 정보 등록
+
+			//문자 등록
 			rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();

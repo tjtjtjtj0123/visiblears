@@ -42,7 +42,7 @@ public class LoggerAspect {
 	            for (int i = 0; i < parameterNames.length; i++) {
 	                parameterLog.append(parameterNames[i]).append("=").append(args[i]).append(", ");
 	            }
-	            //log.debug(parameterLog.toString());
+
 	        }
 	    }
 	    log.debug(type + name + "." + joinPoint.getSignature().getName() + "()" +"&& Parameters ===> "+ parameterLog.toString());

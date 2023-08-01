@@ -9,4 +9,5 @@ public interface PartnerMapper {
 	public Partner findPartner(Partner partner);
 	public String findPartnerUseDt(String partnerId);
 	public int updateSabangNo(Partner parnter);
+	public Partner getPartnerInfo(String partnerId);
 }

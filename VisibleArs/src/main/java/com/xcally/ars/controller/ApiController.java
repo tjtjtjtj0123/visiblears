@@ -2,6 +2,7 @@ package com.xcally.ars.controller;
 
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.PartnerLogin;
@@ -25,13 +27,53 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 @RestController
 public class ApiController {
 	
+    @Value("${api.baseurl}")
+    private String apiUrl;
+    
 	@Autowired
 	private PartnerService partnerservice;
 	
+    @GetMapping("/callApi")
+    public ResponseEntity<String> callApi() {
+        // API URL 및 데이터 준비
+        String url = apiUrl  + "/ServiceAPI/CustomerEdit/";
+        String comid = "xcally";
+        String keycode = "pYeJ2kT6raDZZwINn7BFwfccwvPkh1h9JzbV6tPRjJo=";
+
+        // HttpHeaders 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        // form 데이터 설정
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("comid", comid);
+        formData.add("keycode", keycode);
+
+        // HttpEntity 생성
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+
+        // RestTemplate을 사용하여 API 호출
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        // API 호출 결과 반환
+        return responseEntity;
+    }
+    
 	//test
     @GetMapping("/members")
     public List<Map<String, Object>> findAllMember() {

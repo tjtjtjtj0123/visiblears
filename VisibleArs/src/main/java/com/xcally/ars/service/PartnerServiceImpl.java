@@ -24,15 +24,23 @@ public class PartnerServiceImpl implements PartnerService{
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	//Partner ID, PW 입력 후 로그인을 위한 
 	@Override
 	public Partner findPartner(Partner partner) {
-		Partner objPartner = partnerMmapper.findPartner(partner);
+		Partner objPartner = null;
+		try {
+			objPartner = partnerMmapper.findPartner(partner);	
+		}catch (Exception e) {
+			logger.error("PartnerServiceImpl -> findPartner -> "+getPrintStackTrace(e));
+		}
+		
 		return objPartner;
 	}
 	
+	//날짜 체크
 	@Override
 	public boolean findPartnerUseDt(String partnerId) {
-		boolean rstl = false;
+		boolean rstl 		   = false;
 		LocalDateTime datetime = null;
 		
 		try {
@@ -45,10 +53,9 @@ public class PartnerServiceImpl implements PartnerService{
 				}	
 			}	
 		}catch (Exception e) {
-			logger.debug("PartnerServiceImpl -> findPartnerUseDt -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> findPartnerUseDt -> "+getPrintStackTrace(e));
 		}
 				
-		
 		return rstl;
 	}
 	
@@ -58,11 +65,21 @@ public class PartnerServiceImpl implements PartnerService{
 		try {
 			rstl = partnerMmapper.updateSabangNo(partner);
 		}catch (Exception e) {
-			logger.debug("PartnerServiceImpl -> updateSabangNo -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> updateSabangNo -> "+getPrintStackTrace(e));
 		}
 		return rstl == 1 ? true : false;
 	}
 	
+	@Override
+	public Partner getPartnerInfo(String partnerId) {
+		Partner objPartner = null;
+		try {
+			objPartner = partnerMmapper.getPartnerInfo(partnerId);
+		}catch (Exception e) {
+			logger.error("PartnerServiceImpl -> getPartnerInfo -> "+getPrintStackTrace(e));
+		}
+		return objPartner;
+	}
 	
 	public static String getPrintStackTrace(Exception e) {
 		  StringWriter errors = new StringWriter();
