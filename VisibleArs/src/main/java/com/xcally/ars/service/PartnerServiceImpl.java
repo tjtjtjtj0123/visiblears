@@ -24,7 +24,7 @@ public class PartnerServiceImpl implements PartnerService{
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	//Partner ID, PW 입력 후 로그인을 위한 
+	//Partner ID, PW 입력 후 로그인
 	@Override
 	public Partner findPartner(Partner partner) {
 		Partner objPartner = null;
@@ -37,7 +37,7 @@ public class PartnerServiceImpl implements PartnerService{
 		return objPartner;
 	}
 	
-	//날짜 체크
+	//사용유효 기간 체크
 	@Override
 	public boolean findPartnerUseDt(String partnerId) {
 		boolean rstl 		   = false;
@@ -59,6 +59,7 @@ public class PartnerServiceImpl implements PartnerService{
 		return rstl;
 	}
 	
+	//sabangNo 업데이트
 	public boolean updateSabangNo(Partner partner) {
 		int rstl = 0;
 		
@@ -70,6 +71,7 @@ public class PartnerServiceImpl implements PartnerService{
 		return rstl == 1 ? true : false;
 	}
 	
+	//문의사항 등록을 위한 partner정보 획득
 	@Override
 	public Partner getPartnerInfo(String partnerId) {
 		Partner objPartner = null;

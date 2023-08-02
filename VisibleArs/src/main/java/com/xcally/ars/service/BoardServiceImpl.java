@@ -10,18 +10,36 @@ import com.xcally.ars.repository.PartnerMapper;
 import com.xcally.ars.repository.AttachMapper;
 import com.xcally.ars.repository.BoardMapper;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardMapper boardMmapper;
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	//게시글 등록
 	@Override
 	public int WriteBoard(Board board) {
 		int rstl=0;
-		rstl = boardMmapper.InsBoard(board);
+		
+		try {
+			rstl = boardMmapper.InsBoard(board);
+		}catch (Exception e) {
+			logger.error("BoardServiceImpl -> WriteBoard -> "+getPrintStackTrace(e));
+		}
 		
 		return rstl;
 	}
 	
-	
+	public static String getPrintStackTrace(Exception e) {
+		  StringWriter errors = new StringWriter();
+		  e.printStackTrace(new PrintWriter(errors));
+		  return errors.toString();
+	}
 }

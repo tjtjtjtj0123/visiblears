@@ -17,20 +17,33 @@ public class OrderServiceImpl implements OrderService{
 
 	@Autowired
 	private OrderMapper ordermapper;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
 	@Override
 	public Order getOrder(Order order) {
 		
-		Order objOrder = ordermapper.findOrder(order); 
+		Order objOrder = null;
+		try {
+			objOrder = ordermapper.findOrder(order); 
+		}catch (Exception e) {
+			logger.error("OrderServiceImpl -> getOrder -> "+getPrintStackTrace(e));
+		}
 		
 		return objOrder;
 	}
 
 	@Override
 	public List<Order> findOrderBySabangNo(int OrderNo) {
+		List<Order> objOrderList = null;
 		
-		List<Order> objOrderList = ordermapper.findOrderBySabangNo(OrderNo);
-		
+		try {
+			objOrderList = ordermapper.findOrderBySabangNo(OrderNo);
+		}catch (Exception e) {
+			logger.error("OrderServiceImpl -> findOrderBySabangNo -> "+getPrintStackTrace(e));
+		}
+				
 		return objOrderList;
 	}
 
