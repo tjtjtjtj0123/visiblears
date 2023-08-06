@@ -1,8 +1,0 @@
-[2023-05-24 21:18:07.927][INFO ] Starting VisibleArsApplication using Java 17.0.6 with PID 27920 (C:\Users\eke67\git\visiblears\VisibleArs\bin\main started by eke67 in C:\Users\eke67\git\visiblears\VisibleArs)
-[2023-05-24 21:18:07.930][DEBUG] Running with Spring Boot v3.0.4, Spring v6.0.6
-[2023-05-24 21:18:07.930][INFO ] No active profile set, falling back to 1 default profile: "default"
-[2023-05-24 21:18:13.012][INFO ] Started VisibleArsApplication in 5.794 seconds (process running for 7.183)
-[2023-05-24 21:19:26.014][DEBUG] Controller ===> com.xcally.ars.controller.SorniaController.menu()
-[2023-05-24 21:20:09.827][DEBUG] Controller ===> com.xcally.ars.controller.SorniaController.menu()
-[2023-05-24 21:20:40.523][DEBUG] Controller ===> com.xcally.ars.controller.SorniaController.menu()
-[2023-05-24 21:22:36.617][DEBUG] Controller ===> com.xcally.ars.controller.SorniaController.menu()

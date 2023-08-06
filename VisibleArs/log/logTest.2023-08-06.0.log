@@ -1,0 +1,5 @@
+[2023-08-06 22:11:32.937][INFO ] Starting VisibleArsApplication using Java 17.0.7 with PID 26928 (C:\Users\dt\git\visiblears\VisibleArs\bin\main started by dt in C:\Users\dt\git\visiblears\VisibleArs)
+[2023-08-06 22:11:32.939][DEBUG] Running with Spring Boot v3.0.4, Spring v6.0.6
+[2023-08-06 22:11:32.939][INFO ] No active profile set, falling back to 1 default profile: "default"
+[2023-08-06 22:11:34.963][INFO ] Started VisibleArsApplication in 2.338 seconds (process running for 2.901)
+[2023-08-06 22:11:43.901][INFO ] Controller ===> com.xcally.ars.controller.testController.naverTest()&& Parameters ===> 
