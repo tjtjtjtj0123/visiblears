@@ -217,7 +217,7 @@ public class PartnerController {
     	            				.mall(row.getCell(indexArr[14]).getStringCellValue().substring(0,row.getCell(indexArr[14]).getStringCellValue().length()-15))
     	            				.orderDt(row.getCell(indexArr[14]).getStringCellValue().substring(row.getCell(indexArr[14]).getStringCellValue().length()-14, row.getCell(indexArr[14]).getStringCellValue().length()))
     	            				.build();
-    	            orderservice.InsOrder(order);
+    	            int rstl = orderservice.InsOrder(order);
     	            
     	            tmpSabangNo = Math.max(tmpSabangNo, Integer.parseInt(order.getSabangNo()));
     	        }

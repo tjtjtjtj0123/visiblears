@@ -9,6 +9,6 @@ public interface OrderService {
 	
 	public List<Order> findOrderBySabangNo(int OrderNo);
 	
-	public void InsOrder(Order order);
+	public int InsOrder(Order order);
 
 }

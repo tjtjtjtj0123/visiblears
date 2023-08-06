@@ -135,7 +135,7 @@ public class testController {
             				.ordererEmail(row.getCell(indexArr[7]).getStringCellValue())
             				.build();
             //row.getCell(indexArr[0]).getStringCellValue()
-            orderservice.InsOrder(order);
+            int rstl = orderservice.InsOrder(order);
         }
 
         

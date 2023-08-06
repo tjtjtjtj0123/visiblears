@@ -45,7 +45,7 @@ public class LoggerAspect {
 
 	        }
 	    }
-	    log.debug(type + name + "." + joinPoint.getSignature().getName() + "()" +"&& Parameters ===> "+ parameterLog.toString());
+	    log.info(type + name + "." + joinPoint.getSignature().getName() + "()" +"&& Parameters ===> "+ parameterLog.toString());
 
 	    return joinPoint.proceed();
     }

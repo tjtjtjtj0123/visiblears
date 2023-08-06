@@ -48,14 +48,14 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public void InsOrder(Order order) {
-		
+	public int InsOrder(Order order) {
+		int rstl = 0;
 		try {
-			ordermapper.InsOrder(order);
+			rstl = ordermapper.InsOrder(order);
 		}catch (Exception e) {
 			logger.debug("PartnerServiceImpl -> InsOrder -> "+getPrintStackTrace(e));
 		}
-
+		return rstl;
 	}
 	public static String getPrintStackTrace(Exception e) {
 		  StringWriter errors = new StringWriter();

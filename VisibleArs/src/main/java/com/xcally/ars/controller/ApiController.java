@@ -41,7 +41,7 @@ import org.springframework.util.MultiValueMap;
 @RestController
 public class ApiController {
 	
-    @Value("${api.baseurl}")
+    @Value("${api.crmurl}")
     private String apiUrl;
     
 	@Autowired

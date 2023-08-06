@@ -20,7 +20,7 @@ import com.xcally.ars.domain.Partner;
 @Service
 public class ContactServiceImpl implements ContactService{
     
-	@Value("${api.baseurl}")
+	@Value("${api.crmurl}")
     private String apiUrl;
     
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -108,21 +108,22 @@ public class ContactServiceImpl implements ContactService{
 		try {
 			// API URL 및 데이터 준비
 	        String url     = apiUrl  + "/ServiceAPI/MsgRegister/";
-	        String comid   = "xcally";
-	        String keycode = "0bs6h0h3jybk75cv7xwxq7oxg6a5x9uh";
+	        //String comid   = "xcally";
+	        //String keycode = "0bs6h0h3jybk75cv7xwxq7oxg6a5x9uh";
 
 	        // HttpHeaders 설정
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+	        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
 	        // form 데이터 설정
 	        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
 	        formData.add("comid", parnter.getCommid());
 	        formData.add("keycode", parnter.getKeycode());
 	        formData.add("hp", hp);
 	        formData.add("msg", msg);
-	        formData.add("procitme",  proctime);
-	        formData.add("seq", proctime);
+	        formData.add("proctime",  proctime);
+	        formData.add("seq", seq);
 
 	        // HttpEntity 생성
 	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);

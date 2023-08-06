@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
-
-    <!-- Appenders -->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <Pattern>%d %5p [%c] %m%n</Pattern>
-        </encoder>
-    </appender>
-
-    <appender name="console-infolog" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <Pattern>%d %5p %m%n</Pattern>
-        </encoder>
-    </appender>
-
-    <!-- Logger -->
-    <logger name="com.xcally.ars" level="DEBUG" appender-ref="console" />
-    <logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog" />
-    <logger name="jdbc.resultsettable" level="INFO" appender-ref="console-infolog" />
-
-    <!-- Root Logger -->
-    <root level="off">
-        <appender-ref ref="console" />
-    </root>
+<configuration scan="true" scanPeriod="10 seconds">
+    
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <withJansi>false</withJansi>
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level] %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <append>true</append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- 로그 파일 경로 및 파일명 -->
+      <fileNamePattern>log/logTest.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      
+      <!-- 용량 제한 -->
+      <maxFileSize>10MB</maxFileSize>
+      
+      <!--  30일 지난 파일 삭제 -->
+      <maxHistory>30</maxHistory>
+      
+    </rollingPolicy>
+    <encoder>
+      <charset>UTF-8</charset>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level] %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  
+  <logger level="TRACE" name="com.xcally.ars" additivity="FALSE">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+  
+  <root level="OFF">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
 </configuration>

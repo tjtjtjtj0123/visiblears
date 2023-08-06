@@ -1,7 +1,9 @@
 package com.xcally.ars.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -195,6 +197,8 @@ public class SorniaController {
 		int board_seq = 0;
 		Attach attach = null;
 		Board board   = null;
+		ArrayList<String> fileNameList = new ArrayList<String>();
+		String fullContent = "";
 		try {
 
 			//게시글 등록
@@ -217,6 +221,8 @@ public class SorniaController {
 				for (int i = 0; i < multipartFileList.size(); i++) {
 					String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
 					
+					fileNameList.add(fileName);
+					
 					attach = Attach.builder()
 							.boardSeq(board_seq)
 							.s3Addr(fileName)
@@ -226,21 +232,29 @@ public class SorniaController {
 				}
 			}
 			
-			//DB에서 조회
-			
-			//고객 정보 조회
+			//문자 등록
 			Partner Partner = partnerService.getPartnerInfo(partner);
-			
-			//Partner parnter, String hp, String msg, String proctime, String seq
-			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1,content,"2023080111","123451234512345" );
+			//날짜 가져오기
+			Date currentDate = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");	        
+	        String formattedDate = sdf.format(currentDate);
+	        
+	        //내용 만들기
+	        fullContent = title
+	        			 + content;
+	        
+	        if(multipartFileList != null) {
+	        	for(String tmp :fileNameList) {	        	
+	        		fullContent += tmp + "/n";
+	        	}
+	        }
+	        			
+	        
+			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1, fullContent, formattedDate, Integer.toString(board_seq));
 			String responseBody = userInfo.getBody();
 			
-			System.out.println(responseBody);
-			//JsonNode jsonNode = objectMapper.readTree(responseBody);
-	        //int codeValue = jsonNode.get("code").asInt();
-			//고객 정보 등록
+			//System.out.println(responseBody);
 
-			//문자 등록
 			rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();
