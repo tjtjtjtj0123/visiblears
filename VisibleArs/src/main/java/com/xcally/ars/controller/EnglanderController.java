@@ -1,11 +1,14 @@
 package com.xcally.ars.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -19,10 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
 import com.xcally.ars.domain.Order;
+import com.xcally.ars.domain.Partner;
+import com.xcally.ars.domain.common.S3Uploader;
 import com.xcally.ars.service.AttachService;
 import com.xcally.ars.service.BoardService;
+import com.xcally.ars.service.ContactService;
 import com.xcally.ars.service.OrderService;
-import com.xcally.ars.service.S3Uploader;
+import com.xcally.ars.service.PartnerService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +45,12 @@ public class EnglanderController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private PartnerService partnerService;
+
+	@Autowired
+	private ContactService contactService;
 	
 	private final S3Uploader s3Uploader;
 
@@ -169,6 +181,7 @@ public class EnglanderController {
 			order.setPartner(partner);
 			
 			rstl = orderservice.getOrder(order);
+			//rstl = orderservice.getOrderDecode(order);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,9 +196,11 @@ public class EnglanderController {
 		int board_seq = 0;
 		Attach attach = null;
 		Board board   = null;
-		
+		ArrayList<String> fileNameList = new ArrayList<String>();
+		String fullContent = "";
 		try {
 
+			//게시글 등록
 			board = Board.builder()
 					.partner(partner)
 					.title(title)
@@ -198,10 +213,14 @@ public class EnglanderController {
 			rstl = boardService.WriteBoard(board);			
 			
 			board_seq = board.getBoardSeq();
+			
+			//파일 등록
 			if(multipartFileList != null ) 
 			{
 				for (int i = 0; i < multipartFileList.size(); i++) {
 					String fileName = s3Uploader.uploadFiles(multipartFileList.get(i), partner);
+					
+					fileNameList.add(fileName);
 					
 					attach = Attach.builder()
 							.boardSeq(board_seq)
@@ -211,6 +230,30 @@ public class EnglanderController {
 					int aa = attachmentService.WriteAttach(attach);
 				}
 			}
+			
+			//문자 등록
+			Partner Partner = partnerService.getPartnerInfo(partner);
+			//날짜 가져오기
+			Date currentDate = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");	        
+	        String formattedDate = sdf.format(currentDate);
+	        
+	        //내용 만들기
+	        fullContent = title
+	        			 + content;
+	        
+	        if(multipartFileList != null) {
+	        	for(String tmp :fileNameList) {	        	
+	        		fullContent += tmp + "/n";
+	        	}
+	        }
+	        			
+	        
+			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1, fullContent, formattedDate, Integer.toString(board_seq));
+			String responseBody = userInfo.getBody();
+			
+			//System.out.println(responseBody);
+
 			rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();

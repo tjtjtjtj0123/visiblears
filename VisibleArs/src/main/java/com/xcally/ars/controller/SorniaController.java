@@ -24,12 +24,13 @@ import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.Partner;
+import com.xcally.ars.domain.common.S3Uploader;
 import com.xcally.ars.service.AttachService;
 import com.xcally.ars.service.BoardService;
 import com.xcally.ars.service.ContactService;
 import com.xcally.ars.service.OrderService;
 import com.xcally.ars.service.PartnerService;
-import com.xcally.ars.service.S3Uploader;
+
 import lombok.RequiredArgsConstructor;
 
 

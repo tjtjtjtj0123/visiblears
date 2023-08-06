@@ -48,4 +48,18 @@
         		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
         		#{mallOrderDt}, #{mall}, #{orderDt});
     </insert >    
+    
+    
+	<select id="case1" parameterType="int" resultType="order">
+        SELECT <include refid="orderColumns" /> 
+		FROM   orders
+		WHERE  orderer_name   = pi_orderer_name
+		AND    STR_TO_DATE(order_dt,'%Y%m%d%H%i%s') >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+		AND    replace(orderer_phone1, '-', '') = replace(#{orderer_phone1}, '-', '')
+		AND    receiver_address LIKE CONCAT('%', #{receiver_address}, '%')
+		AND    partner = #{partner}
+		ORDER BY order_dt DESC
+        LIMIT 1
+	</select>
+
 </mapper>

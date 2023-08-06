@@ -1,4 +1,4 @@
-package com.xcally.ars.service;
+package com.xcally.ars.domain.common;
 
 import lombok.extern.slf4j.Slf4j;
 
