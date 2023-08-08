@@ -251,8 +251,8 @@ public class SorniaController {
 	        }
 	        			
 	        
-			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1, fullContent, formattedDate, Integer.toString(board_seq));
-			String responseBody = userInfo.getBody();
+			//ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1, fullContent, formattedDate, Integer.toString(board_seq));
+			//String responseBody = userInfo.getBody();
 			
 			//System.out.println(responseBody);
 

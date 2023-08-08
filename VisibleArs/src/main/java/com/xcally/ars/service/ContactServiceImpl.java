@@ -2,6 +2,8 @@ package com.xcally.ars.service;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.xcally.ars.domain.Partner;
@@ -24,6 +27,66 @@ public class ContactServiceImpl implements ContactService{
     private String apiUrl;
     
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+
+	//문자 등록
+	@Override
+	public ResponseEntity<String> Contact(Partner parnter, String hp,String title,String msg, String proctime, String seq,ArrayList<String> fileNameList) {
+
+		ResponseEntity<String> responseEntity = null;
+		
+		try {
+			// API URL 및 데이터 준비
+	        String url     = apiUrl  + "/ServiceAPI/MsgRegister/";
+	        //String comid   = "xcally";
+	        //String keycode = "0bs6h0h3jybk75cv7xwxq7oxg6a5x9uh";
+
+	        // HttpHeaders 설정
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+	        // form 데이터 설정
+	        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
+	        formData.add("comid", parnter.getCommid());
+	        formData.add("keycode", parnter.getKeycode());
+	        formData.add("hp", hp);     
+	        formData.add("title", title);
+	        formData.add("msg", msg);
+	        formData.add("proctime",  proctime);
+	        formData.add("seq", seq);
+        
+	        if(fileNameList.size() > 0 ) {
+	        	for(int i = 0;i<fileNameList.size();i++) {
+	        		formData.add("imglink"+(i+1), fileNameList.get(i));
+	        	}
+	        }
+	        //formData.add("imglink1", "https://mytestdtbucket.s3.ap-northeast-2.amazonaws.com/englander/4f97aff0-aec9-4a3d-9442-d94a29b370e8.png");
+	        //formData.add("imglink2", "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/09/10/7c918290-1935-4065-9fba-dac046768d4f.jpg");
+	        //formData.add("imglink3", seq);
+	        //formData.add("imglink4", seq);
+	        //formData.add("imglink5", seq);
+	        
+	        for (String key : formData.keySet()) {
+	            logger.info("Key: {}", key);
+	            for (String value : formData.get(key)) {
+	                logger.info("  Value: {}", value);
+	            }
+	        }
+	        // HttpEntity 생성
+	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+
+	        // RestTemplate을 사용하여 API 호출
+	        RestTemplate restTemplate = new RestTemplate();
+	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+		}catch (Exception e) {
+			logger.error("PartnerServiceImpl -> Contact -> "+getPrintStackTrace(e));
+		}
+		
+        // API 호출 결과 반환
+        return responseEntity;
+	}
 	
 	//고객 검색
 	@Override
@@ -99,46 +162,6 @@ public class ContactServiceImpl implements ContactService{
         return responseEntity;
 	}
 
-	//문자 등록
-	@Override
-	public ResponseEntity<String> Contact(Partner parnter, String hp, String msg, String proctime, String seq) {
-
-		ResponseEntity<String> responseEntity = null;
-		
-		try {
-			// API URL 및 데이터 준비
-	        String url     = apiUrl  + "/ServiceAPI/MsgRegister/";
-	        //String comid   = "xcally";
-	        //String keycode = "0bs6h0h3jybk75cv7xwxq7oxg6a5x9uh";
-
-	        // HttpHeaders 설정
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-	        // form 데이터 설정
-	        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-
-	        formData.add("comid", parnter.getCommid());
-	        formData.add("keycode", parnter.getKeycode());
-	        formData.add("hp", hp);
-	        formData.add("msg", msg);
-	        formData.add("proctime",  proctime);
-	        formData.add("seq", seq);
-
-	        // HttpEntity 생성
-	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
-
-	        // RestTemplate을 사용하여 API 호출
-	        RestTemplate restTemplate = new RestTemplate();
-	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
-		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> Contact -> "+getPrintStackTrace(e));
-		}
-		
-        // API 호출 결과 반환
-        return responseEntity;
-	}
 	
 	public static String getPrintStackTrace(Exception e) {
 		  StringWriter errors = new StringWriter();

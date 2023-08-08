@@ -197,7 +197,7 @@ public class EnglanderController {
 		Attach attach = null;
 		Board board   = null;
 		ArrayList<String> fileNameList = new ArrayList<String>();
-		String fullContent = "";
+
 		try {
 
 			//게시글 등록
@@ -237,22 +237,12 @@ public class EnglanderController {
 			Date currentDate = new Date();
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");	        
 	        String formattedDate = sdf.format(currentDate);
+
 	        
-	        //내용 만들기
-	        fullContent = title
-	        			 + content;
-	        
-	        if(multipartFileList != null) {
-	        	for(String tmp :fileNameList) {	        	
-	        		fullContent += tmp + "/n";
-	        	}
-	        }
-	        			
-	        
-			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1, fullContent, formattedDate, Integer.toString(board_seq));
+			ResponseEntity<String> userInfo = contactService.Contact(Partner, orderer_phone1,title, content, formattedDate, Integer.toString(board_seq),fileNameList);
 			String responseBody = userInfo.getBody();
 			
-			//System.out.println(responseBody);
+			System.out.println(responseBody);
 
 			rstl = 1;
 		} catch (Exception e) {
