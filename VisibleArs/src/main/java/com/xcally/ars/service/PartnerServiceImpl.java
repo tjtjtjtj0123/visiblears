@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.xcally.ars.domain.Partner;
+import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.repository.PartnerMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class PartnerServiceImpl implements PartnerService{
 		try {
 			objPartner = partnerMmapper.findPartner(partner);	
 		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> findPartner -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> findPartner -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
 		return objPartner;
@@ -53,7 +54,7 @@ public class PartnerServiceImpl implements PartnerService{
 				}	
 			}	
 		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> findPartnerUseDt -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> findPartnerUseDt -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 				
 		return rstl;
@@ -66,7 +67,7 @@ public class PartnerServiceImpl implements PartnerService{
 		try {
 			rstl = partnerMmapper.updateSabangNo(partner);
 		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> updateSabangNo -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> updateSabangNo -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		return rstl == 1 ? true : false;
 	}
@@ -78,14 +79,9 @@ public class PartnerServiceImpl implements PartnerService{
 		try {
 			objPartner = partnerMmapper.getPartnerInfo(partnerId);
 		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> getPartnerInfo -> "+getPrintStackTrace(e));
+			logger.error("PartnerServiceImpl -> getPartnerInfo -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		return objPartner;
 	}
 	
-	public static String getPrintStackTrace(Exception e) {
-		  StringWriter errors = new StringWriter();
-		  e.printStackTrace(new PrintWriter(errors));
-		  return errors.toString();
-	}
 }

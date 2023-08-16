@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <h1>CRM API 요청 실패</h1>
+    <br>
+    <h1>요청</h1>
+    <table border="1">
+		<tr>
+			<td>파트너사</td>
+		    <td><span th:text="${partner}"></span></td>
+		</tr>
+		<tr>
+			<td>keycode</td>
+		    <td><span th:text="${keycode}"></span></td>
+		</tr>
+		<tr>
+			<td>hp</td>
+		    <td><span th:text="${hp}"></span></td>
+		</tr>
+		<tr>
+			<td>title</td>
+		    <td><span th:text="${title}"></span></td>
+		</tr>
+		<tr>
+			<td>msg</td>
+		    <td><span th:text="${msg}"></span></td>
+		</tr>
+		<tr>
+			<td>seq</td>
+		    <td><span th:text="${seq}"></span></td>
+		</tr>
+		<tr>
+			<td>fileNameList</td>
+		    <td><span th:text="${fileNameList}"></span></td>
+		</tr>
+				
+    </table>
+    <br/>
+    <h1>응답</h1>
+    <table border="1">
+		<tr>
+			<td>state</td>
+		    <td><span th:text="${state}"></span></td>
+		</tr>
+		<tr>
+			<td>code</td>
+		    <td><span th:text="${code}"></span></td>
+		</tr>
+		<tr>
+			<td>message</td>
+		    <td><span th:text="${message}"></span></td>
+		</tr>		
+    </table>
+</div>
+
+</body>
+</html>

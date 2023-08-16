@@ -16,18 +16,6 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
-		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
-		</div>
-	</header>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
@@ -44,6 +32,11 @@
 			</div>
 		</div>
 		<div class="content">
+			<input type="hidden" id="ordererName" th:value="${ordererName}"/>
+			<input type="hidden" id="ordererPhone1" th:value="${ordererPhone1}"/>
+			<input type="hidden" id="receiverAddress" th:value="${receiverAddress}"/>
+			<input type="hidden" id="sabangNo" th:value="${sabangNo}"/>
+			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 			<div class="ui-data-table">
 				<table>
 					<colgroup>
@@ -71,7 +64,7 @@
 				</table>
 			</div>
 			<div class="inquiry">
-				<p class="message">다른 문의사항이 있으신가요?</p>
+				<!--<p class="message">다른 문의사항이 있으신가요?</p>-->
 				<a th:onclick="|javascript:fnMoveMenu()|">
 					<div class="ui-button primary">
 						<span class="title">1:1 문의하기</span>
@@ -80,10 +73,10 @@
 			</div>
 		</div>
 	</div>
-	<!-- notice -->
+	<!-- notice
 	<div class="notice" id="notice">
 		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-	</div>
+	</div> -->
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -112,7 +105,37 @@
 	};
 
 	function fnMoveMenu() {
-		location.href = "/englander/inquiry?sabangNo=" + "[[${sabangNo}]]&token=" + token;
+
+		var form = document.createElement('form');
+		var inquiryType = $("#inquiryType").val();
+		
+		form.setAttribute('method', 'post');
+		form.appendChild(addHiddenField('ordererName', $("#ordererName").val()));
+		form.appendChild(addHiddenField('ordererPhone1', $("#ordererPhone1").val()));
+		form.appendChild(addHiddenField('receiverAddress', $("#receiverAddress").val()));
+		form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
+				
+		if(inquiryType=='getShip') //배송 조회
+		{
+			form.setAttribute('action', "/englander/inquiry?token=" + token+ "&sabangNo="+$("#sabangNo").val());
+		}
+		else if(inquiryType=='changeShip') //배송지 변경요청
+		{
+			form.setAttribute('action', "/englander/changeaddr?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		}
+		else if(inquiryType =='ShipDate'){
+			form.setAttribute('action', "/englander/changedate?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		}
+		else if(inquiryType == 'requestExRe'){
+			form.setAttribute('action', "/englander/requestExRe?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		}
+		else if(inquiryType == 'cancelOrder'){
+			form.setAttribute('action', "/englander/cancelOrder?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		}
+				
+		document.body.appendChild(form);
+		form.submit();
+
 	}
 
 </script>

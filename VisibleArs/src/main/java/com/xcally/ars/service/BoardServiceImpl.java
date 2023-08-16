@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xcally.ars.domain.Partner;
+import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
+import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.repository.PartnerMapper;
 import com.xcally.ars.repository.AttachMapper;
 import com.xcally.ars.repository.BoardMapper;
@@ -26,20 +28,15 @@ public class BoardServiceImpl implements BoardService{
 	//게시글 등록
 	@Override
 	public int WriteBoard(Board board) {
-		int rstl=0;
+		int rstl = 0;
 		
 		try {
 			rstl = boardMmapper.InsBoard(board);
+
 		}catch (Exception e) {
-			logger.error("BoardServiceImpl -> WriteBoard -> "+getPrintStackTrace(e));
+			logger.error("BoardServiceImpl -> WriteBoard -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
 		return rstl;
-	}
-	
-	public static String getPrintStackTrace(Exception e) {
-		  StringWriter errors = new StringWriter();
-		  e.printStackTrace(new PrintWriter(errors));
-		  return errors.toString();
 	}
 }

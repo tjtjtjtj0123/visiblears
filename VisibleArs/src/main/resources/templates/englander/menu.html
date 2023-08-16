@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
 	<meta charset="UTF-8" />
@@ -17,18 +17,6 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
-		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/englander/assets/ico_close_w_menu.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
-		</div>
-	</header>
 	<div class="page-container">
 		<div class="menu">
 			<div class="menu-header">
@@ -38,65 +26,228 @@
 		</div>
 		<div class="content">
 			<div class="menu">
-				<a th:onclick="|javascript:fnMoveMenu()|">
-					<div class="ui-box-button">
-						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-							viewBox="0 0 195.3 200" class="icon">
-							<g>
+				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('getShip')|">
+					<img src="/englander/assets/ico_menu_1.svg" alt="delivery" class="icon" />
+					<div class="menu-name">
+						<p class="name">배송 조회</p>
+						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+					<!-- menu 
+					<div class="menu-modal">
+						<div class="menu-list">
+							<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
+								onclick="handleToggleSubMenu(event, this)" />
+							<div class="header">
+								<p class="name">배송</p>
+								<p class="description">원하시는 서비스를 선택해주세요.</p>
+							</div>
+							<div class="content">
+								<ul>
+									<a th:href="@{/englander/detail(sabangNo=${sabangNo})}">
+										<li>배송조회</li>
+									</a>
+									<a href="#">
+										<li>배송변경</li>
+									</a>
+									<a href="#">
+										<li>1:1 문의</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+					-->
+				</div>
+				<div class="ui-box-sub-button" onclick="handleToggleSubMenu(event, this)">
+					<img src="/englander/assets/ico_menu_2.svg" alt="exchange" class="icon" />
+					<div class="menu-name">
+						<p class="name">주문 변경 요청</p>
+						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+					<!-- menu -->
+					<div class="menu-modal">
+						<div class="menu-list">
+							<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
+								onclick="handleToggleSubMenu(event, this)" />
+							<div class="header">
+								<p class="name">주문 변경 요청</p>
+								<p class="description">원하시는 서비스를 선택해주세요.</p>
+							</div>
+							<div class="content">
+								<ul>
+									<a th:onclick="|javascript:fnMoveMenu('changeShip')|">
+										<li>배송지 변경</li>
+									</a>
+									<a th:onclick="|javascript:fnMoveMenu('ShipDate')|">
+										<li>배송 희망일 요청</li>
+									</a>
+									<a th:onclick="|javascript:fnMoveMenu('cancelOrder')|">
+										<li>주문 취소</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui-box-sub-button"th:onclick="|javascript:fnMoveMenu('requestExRe')|">
+					<img src="/englander/assets/ico_menu_3.svg" alt="return" class="icon" />
+					<div class="menu-name">
+						<p class="name">교환 반품 요청</p>
+						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+					<!-- menu
+					<div class="menu-modal">
+						<div class="menu-list">
+							<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
+								onclick="handleToggleSubMenu(event, this)" />
+							<div class="header">
+								<p class="name">반품</p>
+								<p class="description">원하시는 서비스를 선택해주세요.</p>
+							</div>
+							<div class="content">
+								<ul>
+									<a href="#">
+										<li>반품조회</li>
+									</a>
+									<a href="#">
+										<li>반품변경</li>
+									</a>
+									<a href="#">
+										<li>1:1 문의</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+						 -->
+					</div>
+				</div>
+				<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
+					<img src="/englander/assets/ico_menu_4.svg" alt="exchange" class="icon" />
+					<!-- 
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+						viewBox="0 0 145.59 145.59" class="icon">
+						<defs>
+							<style>
+								.inquiry-2 {
+									fill: url(#shadow);
+								}
+
+								.inquiry-3 {
+									mask: url(#mask);
+								}
+
+								.inquiry-7 {
+									fill: url(#gredient2);
+								}
+
+								.inquiry-8 {
+									fill: url(#gredient3);
+								}
+							</style>
+							<linearGradient id="gredient3" x1="100.58" y1="-15329.82" x2="222.12" y2="-15540.32"
+								gradientTransform="translate(376.07 -14815.77) scale(1 -1)"
+								gradientUnits="userSpaceOnUse">
+								<stop offset="0" stop-color="#262626" />
+								<stop offset=".31" stop-color="#262626" />
+								<stop offset=".38" stop-color="#000" />
+								<stop offset="1" stop-color="#000" />
+							</linearGradient>
+							<mask id="mask" y="-799.37" width="799.37" height="799.37" maskUnits="userSpaceOnUse">
+								<rect class="inquiry-8" width="799.37" height="799.37" />
+							</mask>
+							<linearGradient id="gredient2" x1="100.58" y1="-15329.82" x2="222.12" y2="-15540.32"
+								gradientTransform="translate(376.07 -14815.77) scale(1 -1)"
+								gradientUnits="userSpaceOnUse">
+								<stop offset="0" stop-color="#000" />
+								<stop offset=".31" stop-color="#000" />
+								<stop offset=".38" stop-color="#f7f9fc" />
+								<stop offset="1" stop-color="#f7f9fc" />
+							</linearGradient>
+							<pattern id="shadow" x="0" y="0" width="799.37" height="799.37"
+								patternTransform="translate(-1745.67 -626.87) scale(.41 -.41)"
+								patternUnits="userSpaceOnUse" viewBox="0 0 799.37 799.37">
 								<g>
-									<circle class="visible-ars-1" cx="97.65" cy="100.11" r="97.65" />
-									<g class="visible-ars-5">
-										<image width="145" height="200" transform="translate(25.1)"
-											xlink:href="data:image/png;base64,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" />
+									<rect class="inquiry-1" width="799.37" height="799.37" />
+									<g class="inquiry-3">
+										<rect class="inquiry-7" width="799.37" height="799.37" />
 									</g>
-									<path class="visible-ars-4"
-										d="M121.37,36.76h-47.43c-6.54,0-11.86,5.32-11.86,11.85v103.01c0,6.54,5.32,11.85,11.86,11.85h47.43c6.54,0,11.85-5.32,11.85-11.85V48.61c0-6.54-5.32-11.85-11.85-11.85Z" />
-									<path class="visible-ars-2"
-										d="M108.37,50.73h-21.44c-1.09,0-1.98-.89-1.98-1.98s.89-1.98,1.98-1.98h21.44c1.09,0,1.98,.89,1.98,1.98s-.89,1.98-1.98,1.98Z" />
-									<circle class="visible-ars-2" cx="79.79" cy="96.41" r="6.14" />
-									<circle class="visible-ars-2" cx="98.35" cy="96.41" r="6.14" />
-									<circle class="visible-ars-2" cx="116.91" cy="96.41" r="6.14" />
-									<circle class="visible-ars-3" cx="79.79" cy="113.85" r="6.14" />
-									<circle class="visible-ars-3" cx="98.35" cy="113.85" r="6.14" />
-									<circle class="visible-ars-3" cx="116.91" cy="113.85" r="6.14" />
-									<circle class="visible-ars-2" cx="79.79" cy="131.29" r="6.14" />
-									<circle class="visible-ars-2" cx="98.35" cy="131.29" r="6.14" />
-									<circle class="visible-ars-2" cx="116.91" cy="131.29" r="6.14" />
+								</g>
+							</pattern>
+						</defs>
+						<g>
+							<g>
+								<circle class="inquiry-4" cx="72.79" cy="72.79" r="72.79" />
+								<g>
+									<path class="inquiry-5"
+										d="M122.32,74.82l-4.24-2.15s-3.59,.43-6.7-.43c-1.86-.52-3.55-1.88-4.85-3.6v-25.88c0-3.73-2.02-6.77-4.84-8.41-.16-.1-1.8-1.16-4.9-2.59-2.7-1.24-5.97-1.27-8.91,.42l-45.3,25.92c-6.33,4.13-9.87,7.97-9.8,16.98v27.74c0,3.25,1.52,5.97,3.78,7.7,2.83,2.17,4.7,2.66,4.85,2.7,.36,.23,.74,.43,1.13,.61,2.7,1.23,5.96,1.26,8.89-.43l45.3-25.92c2.86-1.65,16.3,2.45,25.59-12.66Z" />
+									<path class="inquiry-6"
+										d="M118.08,72.67s-3.59,.43-6.7-.43c-1.86-.52-3.55-1.88-4.85-3.6v1.86c-.02,7.58,15.79,4.32,15.79,4.32l-4.24-2.15Z" />
+									<path class="inquiry-5"
+										d="M87.88,32.18l-45.3,25.92c-6.33,4.13-9.87,7.97-9.8,16.98v27.74c0,3.25,1.52,5.97,3.78,7.7,2.83,2.17,4.7,2.66,4.85,2.7-2.68-1.67-4.57-4.63-4.57-8.25v-31.38c0-7.01,3.74-9.85,9.81-13.35l45.3-25.92c3.25-1.88,6.91-1.64,9.75,.01-.15-.1-1.8-1.16-4.9-2.59-2.7-1.24-5.97-1.27-8.91,.42Z" />
+									<path class="inquiry-2"
+										d="M36.84,104.98v-31.38c0-7.01,3.74-9.85,9.81-13.35l45.3-25.92c3.25-1.88,6.91-1.64,9.75,.01-.15-.1-1.8-1.16-4.9-2.59-2.7-1.24-5.97-1.27-8.91,.42l-45.3,25.92c-6.33,4.13-9.87,7.97-9.8,16.98v27.74c0,3.25,1.52,5.97,3.78,7.7,2.83,2.17,4.7,2.66,4.85,2.7-2.68-1.67-4.57-4.63-4.57-8.25Z" />
+									<path class="inquiry-4"
+										d="M90.54,53.42c-14.56,8.41-22.26,12.84-36.82,21.25-2.63,1.52-2.63,5.46,0,3.94,14.56-8.41,22.26-12.84,36.82-21.25,2.63-1.52,2.63-5.46,0-3.94Z" />
+									<path class="inquiry-4"
+										d="M90.54,61.91c-14.56,8.41-22.26,12.84-36.82,21.25-2.63,1.52-2.63,5.46,0,3.94,14.56-8.41,22.26-12.84,36.82-21.25,2.63-1.52,2.63-5.46,0-3.94Z" />
+									<path class="inquiry-4"
+										d="M90.54,70.41c-14.56,8.41-22.26,12.84-36.82,21.25-2.63,1.52-2.63,5.46,0,3.94,14.56-8.41,22.26-12.84,36.82-21.25,2.63-1.52,2.63-5.46,0-3.94Z" />
 								</g>
 							</g>
-						</svg>
-						<div class="menu-name">
-							<p class="name">보이는 ARS</p>
-							<p class="description">화면을 보면서 빠르게 진행</p>
-						</div>
+						</g>
+					</svg>
+					-->
+					<div class="menu-name">
+						<p class="name">AS 요청</p>
+						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
 					</div>
-				</a>
-				<a href="#">
-					<div class="ui-box-button">
-						<img src="/englander/assets/ico_speak_ars.svg" alt="speak_ars" class="icon" />
-						<div class="menu-name">
-							<p class="name">음성 ARS</p>
-							<p class="description">음성 안내를 들으면서 진행</p>
+					<!-- menu 
+					<div class="menu-modal">
+						<div class="menu-list">
+							<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
+								onclick="handleToggleSubMenu(event, this)" />
+							<div class="header">
+								<p class="name">기타문의</p>
+								<p class="description">원하시는 서비스를 선택해주세요.</p>
+							</div>
+							<div class="content">
+								<ul>
+									<a href="#">
+										<li>문의조회</li>
+									</a>
+									<a href="#">
+										<li>문의변경</li>
+									</a>
+									<a href="#">
+										<li>1:1 문의</li>
+									</a>
+								</ul>
+							</div>
 						</div>
-					</div>
-				</a>
+					</div>-->
+				</div>
+				<br><br><br>
+				<br><br><br>
+
+				<div  th:onclick="|javascript:fnGoInquiry()|" class="ui-button primary" style="width: 75%;margin: 0 auto">
+					<span class="title">기타문의</span>
+				</div>
 			</div>
 		</div>
+
 	</div>
 	<!-- notice -->
-	<div class="notice" id="notice">
-		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-	</div>
+
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
-			<div class="left-area" onclick="fnArsCall('service00')">
-				<div class="button">
+			<div class="left-area">
+				<div class="button" onclick="fnCallCRS()">
 					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
-			<div class="right-area" onclick="fnArsCall('service00')">
+			<div class="right-area">
 				<div class="button">
 					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
@@ -105,8 +256,7 @@
 		</div>
 	</div>
 </body>
-<script th:inline="javascript">
-
+<script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
 
@@ -115,8 +265,51 @@
 		fnArsCall("index");
 	};
 
-	function fnMoveMenu() {
-		location.href = "/englander/auth?token=" + token;
+	function fnMoveMenu(inquiryType) {
+		
+		/*
+			getShip     : 배송 조회
+			changeShip : 배송지 변경
+			ShipDate : 배송 희망일 요청
+			cancelOrder 주문 취소
+			requestExRe 교환 반품 요청	
+			ASRequest : AS요청
+		*/
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/englander/auth?token=" + token);
+		form.appendChild(addHiddenField('inquiryType', inquiryType));
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
+	function fnGoInquiry(inquiryType){
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/englander/inquiry?token=" + token);
+		if(inquiryType != null){
+			form.appendChild(addHiddenField('inquiryType', inquiryType));	
+		}		
+		document.body.appendChild(form);
+		form.submit();
+	} 
+
+	function handleToggleSubMenu(event, target) {
+		event.stopPropagation();
+
+		if (
+			target.className === 'icon' &&
+			String(target.getAttribute('src')).includes('ico_close_w')
+		) {
+			target.parentElement.parentElement.classList.remove('visible');
+		} else {
+			for (let i = 0, length = target.children.length; i < length; ++i) {
+				if (target.children[i].className === 'menu-modal') {
+					target.children[i].classList.add('visible');
+					break;
+				}
+			}
+		}
 	}
 </script>
 

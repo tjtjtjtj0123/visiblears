@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>배송 희망일 요청</title>
+	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/authentication.css}" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@2.2.3/dist/css/datepicker.min.css">
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<!--달력-->
+	<script type="text/javascript" th:src="@{/js/datepicker.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/datelang.js}"></script>
+</head>
+
+<body>
+	<!--
+	<header class="page-header">
+		<div class="left-area">
+			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
+			<span class="title">보이는 ARS</span>
+		</div>`1
+		<div class="right-area">
+			<div class="button" onclick="handleClickClose()">
+				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</header>
+	-->
+
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome()">
+			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<p class="title">배송 희망일 요청</p>
+				<p class="description">* 표시는 필수 입력 사항입니다.</p>
+			</div>
+		</div>
+		<div class="content">
+			<input type="hidden" id="reqType" th:value="${reqType}"/>
+			<!-- text fields -->
+			<div class="ui-text-field">
+				<label for="name">
+					<p class="title">* 이름</p>
+					<input id="ordererName" th:value="${ordererName}" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
+				</label>
+			</div>
+			<div class="ui-text-field">
+				<label for="phone">
+					<p class="title">* 전화번호</p>
+					<input id="ordererPhone1" th:value="${ordererPhone1}" type="text" placeholder="-제외하고 번호만 입력하세요"
+						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+				</label>
+			</div>
+			<div class="ui-text-field">
+				<label for="name">
+				<p class="title">* 배송 희망 일자</p>
+				<input type="text" id="datepicker" placeholder="YYYY-MM-DD" readonly>
+				</label>
+			</div>
+			<br>
+			<div class="ui-text-field">
+				<label for="address">
+					<p class="title"> 요청 사항</p>
+					<div class="ui-textarea">
+						<textarea name="content" id="content" maxlength="200" placeholder="요청사항을 200자 이내로 써주세요."></textarea>
+					</div>
+				</label>
+			</div>
+			
+			<!-- terms -->
+			<div class="terms">
+				<div class="terms-content">
+					<div th:onclick="dataSend()" class="ui-button primary">
+						<span class="title">변경 요청하기</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div class="page-footer-navigation">
+		<div class="controller">
+			<div class="left-area" onclick="fnArsCall('service00')">
+				<div class="button">
+					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>
+			<div class="right-area">
+				<div class="button" onclick="fnArsCall('service00')">
+					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal -->
+		<div class="ui-modal" id="modal">
+			<div class="content">
+				<div class="icon">
+					<img src="/englander/assets/ico_inquiry_2.svg" alt="info">
+				</div>
+				<div class="message">
+					<p><b>배송지 변경요청이 접수되었습니다.</b></p>
+					<p>빠른 처리를 위해 최선을 다하겠습니다.</p>
+					<p>감사합니다.</p>
+				</div>
+				<div onclick="modalClose(this);fnArsEnd();" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>
+		<!-- modal -->
+		<div class="ui-modal" id="modal_info">
+			<div class="content">
+				<div class="icon">
+					<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				</div>
+				<div class="message">
+					<p id="modal_msg"></p>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>
+	<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
+			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+			alt="닫기 버튼">
+	</div>
+</body>
+<script>
+	const urlParams = new URL(location.href).searchParams;
+	const token = urlParams.get('token');
+	
+	function handleClickHome()
+	{
+		location.href = "/englander/menu";
+	}
+	
+	window.onload = function () {
+		fnOnLoad();
+		fnArsCall("service01");
+	};
+	$("#datepicker").datepicker({
+        dateFormat: "yyyy-mm-dd",
+        autoClose: true,
+         language: 'en',
+        minDate: new Date() // 현재일자 이후만 선택 가능하도록 설정
+    });
+	function modalOpen() {
+		const modal = document.getElementById("modal");
+		modal.classList.add("visible");
+	}
+	function modalClose(element) {
+		while(true) {
+			if (!element) return;
+			if (element.classList.contains("ui-modal")) break;
+			element = element.parentNode;
+		}
+		element.classList.remove("visible");
+	}
+	
+	function modalInfoOpen() {
+		const modal = document.getElementById("modal_info");
+		modal.classList.add("visible");
+	}
+	
+	
+	// 공백제거
+ 	function noSpaceForm(obj) 
+    {             
+        var str_space = /\s/;               
+        if(str_space.exec(obj.value)) 
+        {     
+            obj.value = obj.value.replace(' ',''); 
+            return false;
+        }
+    }
+
+	function closeTermsModal() {
+		const element = document.querySelector('.terms-modal.visible');
+		element.classList.remove('visible');
+	}
+
+	function detectAllTermsAgreed() {
+		const checkboxItems = document.querySelectorAll(
+			'.terms-content .ui-checkbox input[type="checkbox"]'
+		);
+		const toggleElement = document.querySelector('#toggle');
+		for (let i = 0, length = checkboxItems.length; i < length; ++i) {
+			if (!checkboxItems[i].checked) {
+				toggleElement.checked = false;
+				return;
+			}
+		}
+		toggleElement.checked = true;
+	}
+
+	function handleClickAgreeTerms(event, target, termsId) {
+		if (event) event.stopPropagation();
+		const checkboxItems = document.querySelectorAll(
+			'.terms-content .ui-checkbox input[type="checkbox"]'
+		);
+		if (/[0-4]/.test(termsId)) {
+			checkboxItems[termsId].checked = true;
+			closeTermsModal();
+		} else {
+			for (let i = 0, length = checkboxItems.length; i < length; ++i)
+				checkboxItems[i].checked = target.checked;
+		}
+		detectAllTermsAgreed();
+	}
+
+	function handleToggleTermsModal(event, target) {
+		event.stopPropagation();
+
+		if (target.className === 'icon' && String(target.getAttribute('src')).includes('ico_more')) {
+			for (
+				let i = 0, elements = target.parentElement.children, length = elements.length;
+				i < length;
+				++i
+			) {
+				if (elements[i].className === 'terms-modal') {
+					elements[i].classList.add('visible');
+					break;
+				}
+			}
+		} else closeTermsModal();
+	}
+
+
+	// 우편번호 찾기 화면을 넣을 element
+	var element_layer = document.getElementById('layer');
+
+	function closeDaumPostcode() {
+		// iframe을 넣은 element를 안보이게 한다.
+		element_layer.style.display = 'none';
+	}
+
+	function sample2_execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+					//document.getElementById("sample2_extraAddress").value = extraAddr;
+
+				} else {
+					//document.getElementById("sample2_extraAddress").value = '';
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				//document.getElementById('sample2_postcode').value = data.zonecode;
+				document.getElementById("receiverAddress").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				//document.getElementById("sample2_detailAddress").focus();
+
+				// iframe을 넣은 element를 안보이게 한다.
+				// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+				element_layer.style.display = 'none';
+			},
+			width: '100%',
+			height: '100%',
+			maxSuggestItems: 5
+		}).embed(element_layer);
+
+		// iframe을 넣은 element를 보이게 한다.
+		element_layer.style.display = 'block';
+
+		// iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+		initLayerPosition();
+	}
+
+	function initLayerPosition() {
+		var width = 400; //우편번호서비스가 들어갈 element의 width
+		var height = 600; //우편번호서비스가 들어갈 element의 height
+		var borderWidth = 1; //샘플에서 사용하는 border의 두께
+
+		// 위에서 선언한 값들을 실제 element에 넣는다.
+		element_layer.style.width = width + 'px';
+		element_layer.style.height = height + 'px';
+		element_layer.style.border = borderWidth + 'px solid';
+		// 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+		element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
+		element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
+	}
+
+
+	function dataSend() {	
+		
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test($("#content").val()) == true 
+		|| special_pattern.test($("#ordererPhone1").val()) == true 
+		|| special_pattern.test($("#ordererName").val()) == true) 
+		{
+			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalInfoOpen();
+			return false;
+		}
+
+		if($("#ordererPhone1").val().length === 0 ){
+			$("#modal_msg").text("이름을 입력해 주세요.");
+			modalInfoOpen();	
+			return false;
+		}
+
+		if($("#ordererPhone1").val().length === 0 ){
+			$("#modal_msg").text("전화번호를 입력해 주세요.");
+			modalInfoOpen();	
+			return false;
+		}
+
+		if($("#datepicker").val().length === 0 ){
+			$("#modal_msg").text("배송 희망 일자를 입력해 주세요.");
+			modalInfoOpen();	
+			return false;
+		}
+		const formData = new FormData();
+
+		formData.append("sabang_no",	$("#sabangNo").val());
+		formData.append("content",		$("#content").val());
+		
+		formData.append("ordererPhone1",$("#ordererPhone1").val());
+		formData.append("ordererName", 	$("#ordererName").val());
+		formData.append("inquiryType", 	$("#inquiryType").val());
+		formData.append("datepicker", 	$("#datepicker").val());
+		
+		$.ajax({
+			type: 'POST',
+			url: "/englander/changeDateAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		})
+		.always(function (data) {
+			modalOpen();			
+		})
+		.done(function (data) {
+			$('#result-image').attr("src", data);
+			//modalOpen();
+			$("#uploadBtn").attr("onclick","modalOpen()");
+		})
+	}
+
+	function addressIns() {
+		new daum.Postcode({
+			oncomplete: function (data) { //선택시 입력값 세팅
+				document.getElementById("address").value = data.address; // 주소 넣기
+				document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+			}
+		}).open();
+	}
+
+
+</script>
+
+</html>

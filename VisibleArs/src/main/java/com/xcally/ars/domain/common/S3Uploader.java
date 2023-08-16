@@ -3,58 +3,93 @@ package com.xcally.ars.domain.common;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.core.sync.ResponseTransformer;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class S3Uploader {
-    private final AmazonS3Client amazonS3Client;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Autowired
+    private S3Client s3; 
+    
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     public String uploadFiles(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-        return upload(uploadFile, dirName);
+    	
+    	try {
+            File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
+                    .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+            return upload(uploadFile, dirName);
+    	}catch (Exception e) {
+			return "Fail Convert"+ExceptionUtils.getPrintStackTrace(e);
+		}    	
     }
 
     public String upload(File uploadFile, String filePath) {
-    	String originalFileName = uploadFile.getName(); // 원본 파일 이름
-    	String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
-        String fileName = filePath + "/" + UUID.randomUUID()+extension;   // S3에 저장된 파일 이름
-    	//String fileName = filePath+"/"+str+"_"+ uploadFile.getName();
-        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-        removeNewFile(uploadFile);
-        return uploadImageUrl;
+    	
+    	try {
+        	String originalFileName = uploadFile.getName(); // 원본 파일 이름
+        	String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); // 파일 확장자
+            String fileName = filePath + "/" + UUID.randomUUID()+extension;   // S3에 저장된 파일 이름
+            String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+            if(uploadImageUrl.contains("Fail")) {             	
+            	return "Fail: "+uploadFile.getAbsolutePath();
+            }   
+            removeNewFile(uploadFile);
+            return uploadImageUrl;
+    	}catch (Exception e) {
+			return "Fail Upload"+ExceptionUtils.getPrintStackTrace(e);
+		}    	
+
     }
 
-    // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        System.out.println(amazonS3Client.getUrl(bucket, fileName).toString());
-        return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
-
-    // 로컬에 저장된 이미지 지우기
-    private void removeNewFile(File targetFile) {
-        if (targetFile.delete()) {
-            System.out.println("File delete success");
-            return;
+        try  {
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucket)
+                    .key(fileName)
+                    .build();
+            s3.putObject(putObjectRequest, RequestBody.fromFile(uploadFile));
+            return s3.utilities().getUrl(builder -> builder.bucket(bucket).key(fileName)).toExternalForm();
+        } catch (Exception e) {
+            return "Fail Upload S3" + ExceptionUtils.getPrintStackTrace(e);
         }
-        System.out.println("File delete fail");
+    }
+    // 로컬에 저장된 이미지 지우기
+    private void removeNewFile(File targetFile) {    	
+    	try {
+            if (targetFile.delete()) {
+                logger.info("File delete success");
+                return;
+            }
+            logger.error("File delete fail");
+    	}catch (Exception e) {
+    		logger.error("Fail removeFile" + ExceptionUtils.getPrintStackTrace(e));
+		}
+
     }
 
     // 로컬에 파일 업로드 하기

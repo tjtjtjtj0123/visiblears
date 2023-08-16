@@ -16,18 +16,6 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
-		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
-		</div>
-	</header>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
@@ -44,6 +32,9 @@
 			</div>
 		</div>
 		<div class="content">
+			<input type="hidden" id="ordererName" th:value="${ordererName}"/>
+			<input type="hidden" id="ordererPhone1" th:value="${ordererPhone1}"/>
+			<input type="hidden" id="receiverAddress" th:value="${receiverAddress}"/>
 			<div class="orders">
 				<img src="/englander/assets/ico_cart.svg" alt="cart" class="icon" />
 				<p class="message">주문하신 상품이 없습니다.</p>
@@ -92,10 +83,10 @@
 			</div>
 		</div>
 	</div>
-	<!-- notice -->
+	<!-- notice
 	<div class="notice" id="notice">
 		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-	</div>
+	</div> -->
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -123,12 +114,36 @@
 		fnOnLoad();
 		fnArsCall("service02");
 	};
-
+	function handleClickHome()
+	{
+		location.href = "/englander/menu";
+	}
 	function goInquiry() {
-		var pa1 = "[[${order.ordererName}]]";
-		var pa2 = "[[${order.ordererPhone1}]]";
-		var pa3 = "[[${order.receiverAddress}]]";
-		location.href = "/englander/inquiry?ordererName=" + pa1 + "&ordererPhone1=" + pa2 + "&receiverAddress=" + pa3 + "&token=" + token;
+
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/englander/inquiry?token=" + token);
+
+		var hiddenField = document.createElement('input');
+		hiddenField.setAttribute('type', 'hidden');
+		hiddenField.setAttribute('name', 'ordererName');
+		hiddenField.setAttribute('value', $("#ordererName").val());
+		form.appendChild(hiddenField);
+
+		var hiddenField = document.createElement('input');
+		hiddenField.setAttribute('type', 'hidden');
+		hiddenField.setAttribute('name', 'ordererPhone1');
+		hiddenField.setAttribute('value', $("#ordererPhone1").val());
+		form.appendChild(hiddenField);
+
+		var hiddenField = document.createElement('input');
+		hiddenField.setAttribute('type', 'hidden');
+		hiddenField.setAttribute('name', 'receiverAddress');
+		hiddenField.setAttribute('value', $("#receiverAddress").val());
+
+		form.appendChild(hiddenField);
+		document.body.appendChild(form);
+		form.submit();
 
 	}
 	/*]]>*/

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.common.EncryptionService;
+import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.repository.OrderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService{
 		try {
 			objOrder = ordermapper.findOrder(order); 
 		}catch (Exception e) {
-			logger.error("OrderServiceImpl -> getOrder -> "+getPrintStackTrace(e));
+			logger.error("OrderServiceImpl -> getOrder -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
 		return objOrder;
@@ -45,22 +46,9 @@ public class OrderServiceImpl implements OrderService{
 		try {
 			rstl = ordermapper.InsOrder(order);
 		}catch (Exception e) {
-			logger.debug("PartnerServiceImpl -> InsOrder -> "+getPrintStackTrace(e));
+			logger.debug("PartnerServiceImpl -> InsOrder -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		return rstl;
-	}
-
-	//암호화 O
-	@Override
-	public Order getOrderDecode(Order order) {
-		Order objOrder = null;
-		try {
-			objOrder = ordermapper.case1(order); 
-		}catch (Exception e) {
-			logger.error("OrderServiceImpl -> getOrderDecode -> "+getPrintStackTrace(e));
-		}
-		
-		return objOrder;
 	}
 
 	//암호화 O
@@ -89,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
     				.build();
 			rstl = ordermapper.InsOrder(encOrder);
 		}catch (Exception e) {
-			logger.debug("PartnerServiceImpl -> InsOrder -> "+getPrintStackTrace(e));
+			logger.debug("PartnerServiceImpl -> InsOrder -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		return rstl;
 	}
@@ -101,15 +89,15 @@ public class OrderServiceImpl implements OrderService{
 		try {
 			objOrderList = ordermapper.findOrderBySabangNo(OrderNo);
 		}catch (Exception e) {
-			logger.error("OrderServiceImpl -> findOrderBySabangNo -> "+getPrintStackTrace(e));
+			logger.error("OrderServiceImpl -> findOrderBySabangNo -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 				
 		return objOrderList;
 	}
-	
-	public static String getPrintStackTrace(Exception e) {
-		  StringWriter errors = new StringWriter();
-		  e.printStackTrace(new PrintWriter(errors));
-		  return errors.toString();
+
+	@Override
+	public Order getOrderDecode(Order order) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

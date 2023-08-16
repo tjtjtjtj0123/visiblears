@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcally.ars.repository.LogMapper">
+    <insert  id="InsOrderLog" parameterType="orderLog">
+        INSERT INTO orderlog(partner, target_cnt, suc_cnt, reg_ymd, reg_dt)
+         VALUES(#{partner}, #{targetCnt}, #{sucCnt}, #{regYmd}, NOW());
+    </insert >    
+    
+    <!-- Insert for apilog table -->
+	<insert id="InsApiLog" parameterType="apiLog">
+	    INSERT INTO apilog (
+	        api_log_seq, partner, end_point, request, reg_dt
+	    )
+	    VALUES (
+	        #{apiLogSeq}, #{partner}, #{endPoint}, #{request}, NOW()
+	    )
+	</insert>
+		
+    <update id="UpdApiLog" parameterType="apiLog">
+		UPDATE apilog
+		SET    response      = #{response},
+			   success       = #{success},
+			   response      = #{response},
+			   error_message = #{errorMessage},
+			   upd_dt        = NOW()
+		WHERE api_log_seq    = #{apiLogSeq}
+	</update>
+	<!-- Insert for exlog table -->
+	<insert id="InsExceptionLog" parameterType="exceptionLog">
+	    INSERT INTO exlog (partner, exception_message, exception_stack_trace, reg_dt)
+	    VALUES (#{partner}, #{exceptionMessage}, #{exceptionStackTrace}, NOW())
+	</insert>
+
+</mapper>

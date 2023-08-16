@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <h1>게시글 등록 실패</h1>
+    <br>
+        <table border="1">
+	<tr>
+		<td>게시글 번호</td>
+	    <td><span th:text="${boardSeq}"></span></td>
+	</tr>
+	<tr>
+		<td>파트너사</td>
+	    <td><span th:text="${partner}"></span></td>
+	</tr>
+	<tr>
+		<td>게시글 제목</td>
+	    <td><span th:text="${title}"></span></td>
+	</tr>
+	<tr>
+		<td>게시글 내용</td>
+	    <td><span th:text="${content}"></span></td>
+	</tr>
+	<tr>
+		<td>문의자 이름</td>
+	    <td><span th:text="${inquiryName}"></span></td>
+	</tr>
+	<tr>
+		<td>문의자 전화번호</td>
+	    <td><span th:text="${inquiryPhone}"></span></td>
+	</tr>
+	<tr>
+		<td>쇼핑몰 주문 번호</td>
+	    <td><span th:text="${mallOrderDt}"></span></td>
+	</tr>
+	<tr>
+		<td>문의 타입</td>
+	    <td><span th:text="${inquiryType}"></span></td>
+	</tr>
+	<tr>
+		<td>등록 일자</td>
+	    <td><span th:text="${regDt}"></span></td>
+	</tr>
+    </table>
+    <br/>
+</div>
+
+</body>
+</html>

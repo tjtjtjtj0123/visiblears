@@ -16,18 +16,14 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/sornia/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/sornia/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
+		<div class="button" onclick="handleClickHome()">
+			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
-	</header>
+	</div>
 	<div class="page-container">
 		<div class="content">
 			<div class="header">
@@ -36,7 +32,7 @@
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
 			<div class="ui-data-table">
-				<input type="hidden" id="mall_order_dt" th:value="${mall_order_dt}"/>
+				<input type="hidden" id="sabang_no" th:value="${sabang_no}"/>
 				<input type="hidden" id="orderno" />
 				<input type="hidden" id="userid" />
 				<table>
@@ -106,7 +102,7 @@
 					<label for="files">
 						<div class="ui-button default">
 							<span class="title">파일등록하기</span>
-							<input type="file" multiple id="files" name="files" />
+							<input type="file" accept="image/*" multiple id="files" name="files" />
 							<img src="/sornia/assets/ico_upload.svg" alt="upload" />
 						</div>
 					</label>
@@ -123,11 +119,11 @@
 	</div>
 	<div>
 
-		<!-- notice -->
+		<!-- notice
 		<div class="notice" id="notice">
 			<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
 			<img src="/sornia/assets/ico_smart_cti.svg" alt="smart_cti" />
-		</div>
+		</div> -->
 		<!-- modal -->
 		<div class="ui-modal" id="modal">
 			<div class="content">
@@ -138,22 +134,43 @@
 					<p><b>1:1 문의가 접수되었습니다.</b></p>
 					<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
 				</div>
-				<div onclick="modalClose(this)" class="ui-button blue">
+				<div onclick="modalClose(this);fnArsEnd();" class="ui-button blue">
 					<span class="title">닫기</span>
 				</div> 
 			</div>
 		</div>
+		<!-- modal -->
+		<div class="ui-modal" id="modal_info">
+			<div class="content">
+				<div class="icon">
+					<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				</div>
+				<div class="message">
+					<!--<p><b id="modal_msg">1:1 문의가 접수되었습니다.</b></p>-->
+					<p id="modal_msg"></p>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>		
 </body>
 
 <script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-		
+	function handleClickHome()
+	{
+		location.href = "/sornia/menu";
+	}		
 	function modalOpen() {
 		const modal = document.getElementById("modal");
 		modal.classList.add("visible");
 	}
-
+	function modalInfoOpen() {
+		const modal = document.getElementById("modal_info");
+		modal.classList.add("visible");
+	}
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
 		fnArsCall("service04");
@@ -185,50 +202,66 @@
 	function uploadimg() {
 	
 		
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true 
+		|| special_pattern.test($("#orderer_phone1").val()) == true ||special_pattern.test($("#orderer_name").val()) == true) {
+			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalInfoOpen();
+			return false;
+		}
+		
 		if($("#title").val().length === 0 ){
-			alert('제목을 입력해 주세요.');
+			$("#modal_msg").text("제목을 입력해 주세요.");
+			modalInfoOpen();			
 			return false;
 		}
 		
 		if($("#content").val().length === 0 ){
-			alert('내용을 입력해 주세요.');
+			$("#modal_msg").text("내용을 입력해 주세요.");
+			modalInfoOpen();			
 			return false;
 		}
 		
 		if($("#orderer_phone1").val().length === 0 ){
-			alert('전화번호를 입력해 주세요.');
+			$("#modal_msg").text("전화번호를 입력해 주세요.");
+			modalInfoOpen();	
 			return false;
 		}
 		
-		if($("#orderer_name").val().length === 0 ){
-			alert('이름을 입력해 주세요.');
+		if($("#orderer_phone1").val().length === 0 ){
+			$("#modal_msg").text("이름을 입력해 주세요.");
+			modalInfoOpen();	
 			return false;
 		}
 
 		//파일개수 체크
 		if (sel_files.length > 5) {
-			alert("이미지는 5개까지 업로드가 가능합니다.");
+			$("#modal_msg").text("이미지는 5개까지 업로드가 가능합니다.");
+			modalInfoOpen();				
 			sel_files = [];
 			$("#imglistul").empty();
 			return;
 		}
+		
 		//확장자 검사
 		for (var i = 0; i < sel_files.length; i++) {
 			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
 			if(!(fileDot =="jpg" || fileDot =="png" )){
-				alert("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				$("#modal_msg").text("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				modalInfoOpen();					
 				sel_files = [];
 				$("#imglistul").empty();
 				return false;
 			}
-		}		
+		}			
 
 		const formData = new FormData();
 
 		for (var i = 0; i < sel_files.length; i++) {
 			formData.append("file", sel_files[i]);
 		}
-		formData.append("mall_order_dt",$("#mall_order_dt").val());
+		formData.append("sabang_no",$("#sabang_no").val());
 		formData.append("title", $("#title").val());
 		formData.append("content",$("#content").val());
 		
@@ -244,12 +277,14 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
-		}).done(function (data) {
+		})
+		.always(function (data) {
+			modalOpen();			
+		})
+		.done(function (data) {
 			$('#result-image').attr("src", data);
-			modalOpen();
+			//modalOpen();
 			$("#uploadBtn").attr("onclick","modalOpen()");
-		}).fail(function (error) {
-			console.log(error);
 		})
 	}
 

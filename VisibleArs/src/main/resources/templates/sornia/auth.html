@@ -17,6 +17,7 @@
 </head>
 
 <body>
+	<!--
 	<header class="page-header">
 		<div class="left-area">
 			<img src="/sornia/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
@@ -29,6 +30,7 @@
 			</div>
 		</div>
 	</header>
+	-->
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
@@ -65,16 +67,19 @@
 				<label for="address">
 					<p class="title">주소</p>
 					<input id="address" readonly type="text" placeholder="주소를 검색하여 입력해 주세요" />
+					<br><br>
 					<P style="font-size: 15px;">※도로명 주소까지만 입력해 주세요.</P>
 				</label>
 			</div>
+			<br><br><br>
 			<div onclick="sample2_execDaumPostcode()" class="ui-button default">
 				<span class="title">주소찾기</span>
 				<img src="/sornia/assets/ico_search_w.svg" class="icon" />
 			</div>
-
+			<br><br><br>
 			<!-- terms -->
 			<div class="terms">
+				<!--
 				<div class="terms-header">
 					<p class="title">전체동의</p>
 					<div class="ui-toggle-button">
@@ -84,6 +89,7 @@
 						</div>
 					</div>
 				</div>
+				-->
 				<div class="terms-content">
 					<div class="ui-checkbox">
 						<input type="checkbox" id="checkbox1" onchange="detectAllTermsAgreed()" />
@@ -146,6 +152,7 @@
 							</div>
 						</div>
 					</div>
+					<!--
 					<div class="ui-checkbox">
 						<input type="checkbox" id="checkbox2" onchange="detectAllTermsAgreed()" />
 						<label for="checkbox2">
@@ -287,6 +294,7 @@
 							</div>
 						</div>
 					</div>
+					-->
 					<div th:onclick="dataSend()" class="ui-button primary">
 						<span class="title">주문 조회하기</span>
 					</div>
@@ -294,10 +302,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- notice -->
+	<!-- notice 
 	<div class="notice" id="notice">
 		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
 	</div>
+	-->
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -315,6 +324,21 @@
 			</div>
 		</div>
 	</div>
+	<!-- modal -->
+	<div class="ui-modal" id="modal">
+		<div class="content">
+			<div class="icon">
+				<img src="/sornia/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<!--<p><b id="modal_msg">1:1 문의가 접수되었습니다.</b></p>-->
+				<p id="modal_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div> 
+		</div>
+	</div>
 	<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
 			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
@@ -325,11 +349,28 @@
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
 
+	function handleClickHome()
+	{
+		location.href = "/sornia/menu";
+	}
+	
 	window.onload = function () {
 		fnOnLoad();
-		fnArsCall("service01");
+		fnArsCall("service01"); 
 	};
-	
+	function modalOpen() {
+		const modal = document.getElementById("modal");
+		modal.classList.add("visible");
+	}
+	function modalClose(element) {
+		while(true) {
+			if (!element) return;
+			if (element.classList.contains("ui-modal")) break;
+			element = element.parentNode;
+		}
+		element.classList.remove("visible");
+	}
+			
 	// 공백제거
  	function noSpaceForm(obj) 
     {             
@@ -464,9 +505,9 @@
 	}
 
 	function initLayerPosition() {
-		var width = 300; //우편번호서비스가 들어갈 element의 width
-		var height = 400; //우편번호서비스가 들어갈 element의 height
-		var borderWidth = 5; //샘플에서 사용하는 border의 두께
+		var width = 400; //우편번호서비스가 들어갈 element의 width
+		var height = 600; //우편번호서비스가 들어갈 element의 height
+		var borderWidth = 1; //샘플에서 사용하는 border의 두께
 
 		// 위에서 선언한 값들을 실제 element에 넣는다.
 		element_layer.style.width = width + 'px';
@@ -483,34 +524,42 @@
 		var name = $("#name").val();
 		var phone = $("#phone").val();
 		if (name.length == 0) {
-			alert('이름을 입력해 주세요.');
+			$("#modal_msg").text("이름을 입력해 주세요.");
+			modalOpen();
 			return false;
 		}
 		if (phone.length == 0) {
-			alert('전화번호를 입력해 주세요.');
+			$("#modal_msg").text("전화번호를 입력해 주세요.");
+			modalOpen();
 			return false;
 		}
 
 		//문자열에 공백이 있는 경우
 		var blank_pattern = /[\s]/g;
-		if (blank_pattern.test(name) == true) {
-			alert('공백은 입력 할 수 업습니다.');
+		if (blank_pattern.test(name) == true || blank_pattern.test(phone) == true) {
+			$("#modal_msg").text("공백은 입력 할 수 업습니다.");
+			modalOpen();
 			return false;
 		}
 
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-		if (special_pattern.test(name) == true) {
-			alert('특수 문자는 입력 할 수 없습니다.');
+		if (special_pattern.test(name) == true || special_pattern.test(phone) == true) {
+			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalOpen();
 			return false;
 		}
 
-		if (!($("input:checkbox[id='checkbox1']").is(":checked") &&
-			$("input:checkbox[id='checkbox2']").is(":checked") &&
-			$("input:checkbox[id='checkbox3']").is(":checked") &&
-			$("input:checkbox[id='checkbox4']").is(":checked") &&
-			$("input:checkbox[id='checkbox5']").is(":checked"))) {
-			alert('모두 동의해 주세요.');
+
+		if (!($("input:checkbox[id='checkbox1']").is(":checked")
+			//$("input:checkbox[id='checkbox2']").is(":checked") &&
+			//$("input:checkbox[id='checkbox3']").is(":checked") &&
+			//$("input:checkbox[id='checkbox4']").is(":checked") &&
+			//$("input:checkbox[id='checkbox5']").is(":checked"))
+			))
+		{
+			$("#modal_msg").text("이용약관에 동의해 주세요.");
+			modalOpen();
 			return false;
 		}
 
@@ -529,7 +578,7 @@
 		}).done(function (data) {
 
 			if (!!data.sabangNo) {
-				location.href = "/sornia/detail?sabangNo=" + data.sabangNo + "&token=" + token;
+				location.href = "/sornia/detail?sabangNo=" + data.sabangNo + "&token=" + token + "&name="+$("#name").val()+"&phone="+$("#phone").val()+"&address="+$("#address").val();
 			} else {
 
 				var form = document.createElement('form');

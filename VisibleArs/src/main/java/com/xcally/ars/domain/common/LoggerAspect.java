@@ -22,7 +22,8 @@ public class LoggerAspect {
 	//@Around("execution(* com.xcally.ars..*Controller.*(..))")
     public Object printLog(ProceedingJoinPoint joinPoint) throws Throwable {
 		StringBuilder parameterLog = new StringBuilder();
-	    String name = joinPoint.getSignature().getDeclaringTypeName();
+	    //String name = joinPoint.getSignature().getDeclaringTypeName();
+		String name=joinPoint.getTarget().getClass().getName();
 	    String type =
 	            StringUtils.contains(name, "Controller") ? "Controller ===> " :
 	                    StringUtils.contains(name, "Service") ? "Service ===> " :
@@ -45,7 +46,7 @@ public class LoggerAspect {
 
 	        }
 	    }
-	    log.info(type + name + "." + joinPoint.getSignature().getName() + "()" +"&& Parameters ===> "+ parameterLog.toString());
+	    log.debug(type + name + "." + joinPoint.getSignature().getName() + "()" +"&& Parameters ===> "+ parameterLog.toString());
 
 	    return joinPoint.proceed();
     }

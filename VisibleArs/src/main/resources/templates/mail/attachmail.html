@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <h1>첨부 문서 등록 실패</h1>
+    <br>
+        <table border="1">
+	<tr>
+		<td>첨부 번호</td>
+	    <td><span th:text="${attachSeq}"></span></td>
+	</tr>
+	<tr>
+		<td>게시글 번호</td>
+	    <td><span th:text="${boardSeq}"></span></td>
+	</tr>
+	<tr>
+		<td>파트너사</td>
+	    <td><span th:text="${partner}"></span></td>
+	</tr>
+	<tr>
+		<td>첨부 url/td>
+	    <td><span th:text="${s3Addr}"></span></td>
+	</tr>
+	<tr>
+		<td>등록일자</td>
+	    <td><span th:text="${regDt}"></span></td>
+	</tr>
+
+    </table>
+    <br/>
+</div>
+
+</body>
+</html>

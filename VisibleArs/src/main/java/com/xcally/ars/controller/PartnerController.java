@@ -29,6 +29,7 @@ import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.SimpleResult;
 import com.xcally.ars.service.OrderService;
 import com.xcally.ars.service.PartnerService;
+import com.xcally.ars.service.SeqService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +44,9 @@ public class PartnerController {
 	
 	@Autowired
 	private OrderService orderservice;
+	
+	@Autowired
+	private SeqService seqService;
 	
 	@GetMapping("/login")
 	public String partnerLogin() {
@@ -194,8 +198,9 @@ public class PartnerController {
     	        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
 
     	            Row row = worksheet.getRow(i);         
-    	            
+    	            Long order_seq = seqService.getSeq();
     	            Order order = Order.builder()
+    	            				.seqNo(order_seq)
     	            				.partner(partner_id)
     	            				.sabangNo(String.valueOf((int)row.getCell(indexArr[13]).getNumericCellValue()))
     	            				.shopNo(row.getCell(indexArr[1]).getStringCellValue())

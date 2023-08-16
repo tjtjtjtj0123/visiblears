@@ -1,8 +1,17 @@
 //window.onload 함수
 function fnOnLoad() {
 	const scrollHeight = document.scrollingElement.scrollHeight;
-	const noticeElement = document.querySelector('#notice');
-	noticeElement.style.top = `${scrollHeight - 100}px`;
+	//const noticeElement = document.querySelector('#notice');
+	//noticeElement.style.top = `${scrollHeight - 100}px`;
+}
+
+// 히든 필드 생성 및 추가
+function addHiddenField(name, value) {
+    var hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = name;
+    hiddenField.value = value;
+    return hiddenField;
 }
 
 

@@ -2,13 +2,18 @@ package com.xcally.ars.domain;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board {
-    private int boardSeq; // 문의글번호
+    private Long boardSeq; // 문의글번호
+    private String sabangNo; // 사방넷 주문번호
     private String partner; // 파트너사
     private String title; // 제목
     private String content; // 내용

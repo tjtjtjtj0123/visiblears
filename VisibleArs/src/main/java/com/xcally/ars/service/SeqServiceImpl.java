@@ -2,36 +2,37 @@ package com.xcally.ars.service;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.xcally.ars.domain.Attach;
-import com.xcally.ars.domain.OrderLog;
 import com.xcally.ars.repository.AttachMapper;
-import com.xcally.ars.repository.OrderLogMapper;
+import com.xcally.ars.repository.SeqMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class OrderLogServiceImpl implements OrderLogService{
+public class SeqServiceImpl implements SeqService{
 	@Autowired
-	private OrderLogMapper orderLogMapper;
+	private SeqMapper seqMapper;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	//첨부 문서 등록
+
 	@Override
-	public int InsOrderLog(OrderLog orderLog) {
-		int rstl=0;
-				
+	public Long getSeq() {
+		Map<String, Object> paramMap = new HashMap<>();
+		Long generatedNumber = (long) 0;
 		try {
-			rstl = orderLogMapper.InsOrderLog(orderLog);
+			int seq = seqMapper.callUpKeyNtGen(paramMap);
+			generatedNumber = (Long) paramMap.get("po_intKey");
 		}catch (Exception e) {
-			logger.error("OrderLogServiceImpl -> InsOrderLog -> "+getPrintStackTrace(e));
+			logger.error("SeqServiceImpl -> getSeq -> "+getPrintStackTrace(e));
 		}
-		
-		return rstl;
+	
+		return generatedNumber;
 	}
 	
 	public static String getPrintStackTrace(Exception e) {

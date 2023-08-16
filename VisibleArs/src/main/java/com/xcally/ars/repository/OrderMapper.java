@@ -11,6 +11,4 @@ public interface OrderMapper {
 	public Order findOrder(Order order);
 	public List<Order> findOrderBySabangNo(int OrderNo);
 	public int InsOrder(Order order);
-	
-	public Order case1(Order order);
 }

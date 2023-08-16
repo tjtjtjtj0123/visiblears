@@ -33,33 +33,20 @@
 	<select id="findOrderBySabangNo" parameterType="int" resultType="order">
         SELECT 	<include refid="orderColumns" />
         FROM  orders
-        WHERE mall_order_dt IN (SELECT  mall_order_dt 
-          						  FROM  orders 
-        						  WHERE sabang_no = #{sabangNo})
+        WHERE shop_no IN (SELECT  shop_no 
+  						  FROM  orders 
+						  WHERE sabang_no = #{sabangNo})
 	</select>
 
     <insert  id="InsOrder" useGeneratedKeys="true" keyProperty="seqNo" parameterType="order" >
-        INSERT INTO orders(partner, sabang_no, shop_no, pay_amt, quantity, 
+        INSERT INTO orders(seq_no, partner, sabang_no, shop_no, pay_amt, quantity, 
         				   product_name, orderer_name, orderer_phone1, orderer_phone2, receiver_name,  
         				   receiver_phone1, receiver_phone2, receiver_address, orderer_email, reg_dt,
         				   mall_order_dt, mall, order_dt)
-         VALUES(#{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
+         VALUES(#{seqNo}, #{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
          		#{productName}, #{ordererName}, #{ordererPhone1}, #{ordererPhone2}, #{receiverName},
         		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
         		#{mallOrderDt}, #{mall}, #{orderDt});
     </insert >    
-    
-    
-	<select id="case1" parameterType="int" resultType="order">
-        SELECT <include refid="orderColumns" /> 
-		FROM   orders
-		WHERE  orderer_name   = pi_orderer_name
-		AND    STR_TO_DATE(order_dt,'%Y%m%d%H%i%s') >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-		AND    replace(orderer_phone1, '-', '') = replace(#{orderer_phone1}, '-', '')
-		AND    receiver_address LIKE CONCAT('%', #{receiver_address}, '%')
-		AND    partner = #{partner}
-		ORDER BY order_dt DESC
-        LIMIT 1
-	</select>
 
 </mapper>

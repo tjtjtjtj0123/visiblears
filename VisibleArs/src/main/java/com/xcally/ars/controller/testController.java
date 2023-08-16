@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.ExcelSampleData;
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.common.EncryptionService;
 import com.xcally.ars.domain.common.NaverShortenUrlApi;
+import com.xcally.ars.service.EmailService;
 import com.xcally.ars.service.OrderService;
+import com.xcally.ars.service.SeqService;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -46,6 +50,12 @@ public class testController {
 	@Autowired
 	private NaverShortenUrlApi naverShortenUrlApi;
 	
+	@Autowired
+	private SeqService seqService;
+	
+	@Autowired
+	private EmailService emailService;
+	
 	@Value("${naver.shortenUrl.client.id}")
     private String YOUR_CLIENT_ID;
 	
@@ -57,7 +67,12 @@ public class testController {
 	
 	@GetMapping("index")
 	public String index(Model model) {
+		EmailMessage emailMessage = EmailMessage.builder()
+                .to("eke6767@naver.com")
+                .subject("테스트제목")
+                .build();
 
+        //emailService.sendBoardMail(emailMessage, "email");
 		return "index";
 	}
 

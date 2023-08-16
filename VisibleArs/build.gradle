@@ -23,6 +23,10 @@ dependencies {
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-aop' 
 	implementation 'org.jdom:jdom2:2.0.6'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation platform('software.amazon.awssdk:bom:2.17.230')
+	implementation 'software.amazon.awssdk:s3'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

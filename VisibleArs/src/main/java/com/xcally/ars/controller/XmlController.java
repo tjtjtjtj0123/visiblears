@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.OrderLog;
-import com.xcally.ars.service.OrderLogService;
+import com.xcally.ars.service.LogService;
 import com.xcally.ars.service.OrderService;
 import com.xcally.ars.service.PartnerService;
 
@@ -38,7 +38,7 @@ public class XmlController {
 	private OrderService orderservice;
 	
 	@Autowired
-	private OrderLogService orderLogService;
+	private LogService logService;
 	
 	@Autowired
 	private PartnerService partnerservice;
@@ -142,7 +142,6 @@ public class XmlController {
     	            				.build();
             	            
             	            int rstl = orderservice.InsOrder(order);
-            	            //int rstl = orderservice.InsOrderEncode(order);
             	            sucCnt+=rstl;
         		    }
             		    
@@ -153,7 +152,7 @@ public class XmlController {
         		    					.sucCnt(Integer.toString(sucCnt))
         		    					.build();
         		    		
-        		    int rstl = orderLogService.InsOrderLog(orderLog);
+        		    int rstl = logService.InsOrderLog(orderLog);
             	}
             }
         } catch (Exception e) {

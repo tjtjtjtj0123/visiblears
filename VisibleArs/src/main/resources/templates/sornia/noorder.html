@@ -16,18 +16,7 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/sornia/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
-		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/sornia/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
-		</div>
-	</header>
+
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
@@ -92,10 +81,10 @@
 			</div>
 		</div>
 	</div>
-	<!-- notice -->
+	<!-- notice
 	<div class="notice" id="notice">
 		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-	</div>
+	</div> -->
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -123,7 +112,10 @@
 		fnOnLoad();
 		fnArsCall("service02");
 	};
-
+	function handleClickHome()
+	{
+		location.href = "/sornia/menu";
+	}
 	function goInquiry() {
 		var pa1 = "[[${order.ordererName}]]";
 		var pa2 = "[[${order.ordererPhone1}]]";

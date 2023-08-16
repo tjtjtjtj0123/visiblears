@@ -16,6 +16,5 @@ public class OrderLog {
     private String 		  targetCnt;   //엑셀주문일자
     private String        sucCnt; 	   //성공개수
     private String 		  regYmd;	   // 주믄 등록일
-    private LocalDateTime regDt; 	   // 배치 시간
-    
+    private LocalDateTime regDt; 	   // 배치 시간    
 }
