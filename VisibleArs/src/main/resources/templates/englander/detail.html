@@ -20,7 +20,7 @@
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome()">
+		<div class="button" onclick="handleClickHome('englander')">
 			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
@@ -32,9 +32,9 @@
 			</div>
 		</div>
 		<div class="content">
-			<input type="hidden" id="ordererName" th:value="${ordererName}"/>
-			<input type="hidden" id="ordererPhone1" th:value="${ordererPhone1}"/>
-			<input type="hidden" id="receiverAddress" th:value="${receiverAddress}"/>
+			<input type="hidden" id="ordName" th:value="${ordName}"/>
+			<input type="hidden" id="ordPhone" th:value="${ordPhone}"/>
+			<input type="hidden" id="recvAddr" th:value="${recvAddr}"/>
 			<input type="hidden" id="sabangNo" th:value="${sabangNo}"/>
 			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 			<div class="ui-data-table">
@@ -55,7 +55,7 @@
 						<tr>
 						<tr>
 							<th>배 송 지</th>
-							<td th:text="${order.receiverAddress}"></td>
+							<td th:text="${order.recvAddr}"></td>
 						</tr>
 						<tr>
 							<td style="text-align: center;" colspan="2"><br></td>
@@ -110,27 +110,28 @@
 		var inquiryType = $("#inquiryType").val();
 		
 		form.setAttribute('method', 'post');
-		form.appendChild(addHiddenField('ordererName', $("#ordererName").val()));
-		form.appendChild(addHiddenField('ordererPhone1', $("#ordererPhone1").val()));
-		form.appendChild(addHiddenField('receiverAddress', $("#receiverAddress").val()));
+		form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+		form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+		form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
 		form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
+		form.appendChild(addHiddenField('sabangNo', $("#sabangNo").val()));
 				
 		if(inquiryType=='getShip') //배송 조회
 		{
-			form.setAttribute('action', "/englander/inquiry?token=" + token+ "&sabangNo="+$("#sabangNo").val());
+			form.setAttribute('action', "/englander/inquiry?token=" + token);
 		}
 		else if(inquiryType=='changeShip') //배송지 변경요청
 		{
-			form.setAttribute('action', "/englander/changeaddr?token=" + token + "&sabangNo="+$("#sabangNo").val());
+			form.setAttribute('action', "/englander/changeaddr?token=" + token);
 		}
-		else if(inquiryType =='ShipDate'){
-			form.setAttribute('action', "/englander/changedate?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		else if(inquiryType =='ShipDate'){ //배송희망일자요청
+			form.setAttribute('action', "/englander/changedate?token=" + token);
 		}
-		else if(inquiryType == 'requestExRe'){
-			form.setAttribute('action', "/englander/requestExRe?token=" + token + "&sabangNo="+$("#sabangNo").val());
+		else if(inquiryType == 'requestExRe'){//교환반품요청
+			form.setAttribute('action', "/englander/requestExRe?token=" + token);
 		}
 		else if(inquiryType == 'cancelOrder'){
-			form.setAttribute('action', "/englander/cancelOrder?token=" + token + "&sabangNo="+$("#sabangNo").val());
+			form.setAttribute('action', "/englander/cancelOrder?token=" + token);
 		}
 				
 		document.body.appendChild(form);

@@ -17,25 +17,11 @@
 </head>
 
 <body>
-	<!--
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
-		</div>`1
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
-		</div>
-	</header>
-	-->
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome()">
+		<div class="button" onclick="handleClickHome('englander')">
 			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
@@ -52,22 +38,20 @@
 			<div class="ui-text-field">
 				<label for="name">
 					<p class="title">이름</p>
-					<input id="ordererName" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
+					<input id="ordName" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
 				</label>
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
 					<p class="title">전화번호</p>
-					<input id="ordererPhone1" type="text" placeholder="-제외하고 번호만 입력하세요"
+					<input id="ordPhone" type="text" placeholder="-제외하고 번호만 입력하세요"
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
 			</div>
-			<!--<br /><br /><br /><br /><br /><br /><br />	-->
-
 			<div class="ui-text-field">
 				<label for="address">
 					<p class="title">주소</p>
-					<input id="receiverAddress" readonly type="text" placeholder="주소를 검색하여 입력해 주세요" />
+					<input id="recvAddr" readonly type="text" placeholder="주소를 검색하여 입력해 주세요" />
 					<br><br>
 					<P style="font-size: 15px;">※도로명 주소까지만 입력해 주세요.</P>
 				</label>
@@ -80,17 +64,6 @@
 			<br><br><br>
 			<!-- terms -->
 			<div class="terms">
-				<!--
-				<div class="terms-header">
-					<p class="title">전체동의</p>
-					<div class="ui-toggle-button">
-						<div class="toggle">
-							<input type="checkbox" id="toggle" onchange="handleClickAgreeTerms(event, this)" />
-							<label for="toggle" class="toggle-switch"></label>
-						</div>
-					</div>
-				</div>
-				-->
 				<div class="terms-content">
 					<div class="ui-checkbox">
 						<input type="checkbox" id="checkbox1" onchange="detectAllTermsAgreed()" />
@@ -153,150 +126,6 @@
 							</div>
 						</div>
 					</div>
-					
-					<!--
-					<div class="ui-checkbox">
-						<input type="checkbox" id="checkbox2" onchange="detectAllTermsAgreed()" />
-						<label for="checkbox2">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
-								<g>
-									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
-								<g>
-									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<p>개인정보 수집 · 이용 제공 동의</p>
-						</label>
-						<img src="/englander/assets/ico_more.svg" class="icon"
-							onclick="handleToggleTermsModal(event, this)" />
-						<div class="terms-modal">
-							<div class="terms-content">
-								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
-									onclick="handleToggleTermsModal(event, this)" />
-								<div class="terms-script">
-									<p>개인정보동의서 내용</p>
-								</div>
-								<div class="terms-footer">
-									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 1)">
-										<span>동의</span>
-									</div>
-									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
-										<span>취소</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="ui-checkbox">
-						<input type="checkbox" id="checkbox3" onchange="detectAllTermsAgreed()" />
-						<label for="checkbox3">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
-								<g>
-									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
-								<g>
-									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<p>본인확인 이용 약관</p>
-						</label>
-						<img src="/englander/assets/ico_more.svg" class="icon"
-							onclick="handleToggleTermsModal(event, this)" />
-						<div class="terms-modal">
-							<div class="terms-content">
-								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
-									onclick="handleToggleTermsModal(event, this)" />
-								<div class="terms-script">
-									<p>본인확인 이용 약관</p>
-								</div>
-								<div class="terms-footer">
-									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 2)">
-										<span>동의</span>
-									</div>
-									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
-										<span>취소</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="ui-checkbox">
-						<input type="checkbox" id="checkbox4" onchange="detectAllTermsAgreed()" />
-						<label for="checkbox4">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
-								<g>
-									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
-								<g>
-									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<p>고유식별정보 처리 동의</p>
-						</label>
-						<img src="/englander/assets/ico_more.svg" class="icon"
-							onclick="handleToggleTermsModal(event, this)" />
-						<div class="terms-modal">
-							<div class="terms-content">
-								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
-									onclick="handleToggleTermsModal(event, this)" />
-								<div class="terms-script">
-									<p>고유식별정보 처리 동의</p>
-								</div>
-								<div class="terms-footer">
-									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 3)">
-										<span>동의</span>
-									</div>
-									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
-										<span>취소</span>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="ui-checkbox">
-						<input type="checkbox" id="checkbox5" onchange="detectAllTermsAgreed()" />
-						<label for="checkbox5">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
-								<g>
-									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
-								<g>
-									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<p>통신사 본인확인 이용약관 동의</p>
-						</label>
-						<img src="/englander/assets/ico_more.svg" class="icon"
-							onclick="handleToggleTermsModal(event, this)" />
-						<div class="terms-modal">
-							<div class="terms-content">
-								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
-									onclick="handleToggleTermsModal(event, this)" />
-								<div class="terms-script">
-									<p>통신사 본인확인 이용약관 동의</p>
-								</div>
-								<div class="terms-footer">
-									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 4)">
-										<span>동의</span>
-									</div>
-									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
-										<span>취소</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					-->
 					<div th:onclick="dataSend()" class="ui-button primary">
 						<span class="title">주문 조회하기</span>
 					</div>
@@ -304,11 +133,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- notice 
-	<div class="notice" id="notice">
-		<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-	</div>
-	-->
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -351,38 +175,12 @@
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
 	
-	function handleClickHome()
-	{
-		location.href = "/englander/menu";
-	}
-	
 	window.onload = function () {
 		fnOnLoad();
 		fnArsCall("service01");
 	};
 		
-	function modalOpen() {
-		const modal = document.getElementById("modal");
-		modal.classList.add("visible");
-	}
-	function modalClose(element) {
-		while(true) {
-			if (!element) return;
-			if (element.classList.contains("ui-modal")) break;
-			element = element.parentNode;
-		}
-		element.classList.remove("visible");
-	}
-	// 공백제거
- 	function noSpaceForm(obj) 
-    {             
-        var str_space = /\s/;               
-        if(str_space.exec(obj.value)) 
-        {     
-            obj.value = obj.value.replace(' ',''); 
-            return false;
-        }
-    }
+
 
 	function closeTermsModal() {
 		const element = document.querySelector('.terms-modal.visible');
@@ -435,103 +233,18 @@
 		} else closeTermsModal();
 	}
 
-
-	// 우편번호 찾기 화면을 넣을 element
-	var element_layer = document.getElementById('layer');
-
-	function closeDaumPostcode() {
-		// iframe을 넣은 element를 안보이게 한다.
-		element_layer.style.display = 'none';
-	}
-
-	function sample2_execDaumPostcode() {
-		new daum.Postcode({
-			oncomplete: function (data) {
-				// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
-				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-				var addr = ''; // 주소 변수
-				var extraAddr = ''; // 참고항목 변수
-
-				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-					addr = data.roadAddress;
-				} else { // 사용자가 지번 주소를 선택했을 경우(J)
-					addr = data.jibunAddress;
-				}
-
-				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-				if (data.userSelectedType === 'R') {
-					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-						extraAddr += data.bname;
-					}
-					// 건물명이 있고, 공동주택일 경우 추가한다.
-					if (data.buildingName !== '' && data.apartment === 'Y') {
-						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-					}
-					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-					if (extraAddr !== '') {
-						extraAddr = ' (' + extraAddr + ')';
-					}
-					// 조합된 참고항목을 해당 필드에 넣는다.
-					//document.getElementById("sample2_extraAddress").value = extraAddr;
-
-				} else {
-					//document.getElementById("sample2_extraAddress").value = '';
-				}
-
-				// 우편번호와 주소 정보를 해당 필드에 넣는다.
-				//document.getElementById('sample2_postcode').value = data.zonecode;
-				document.getElementById("receiverAddress").value = addr;
-				// 커서를 상세주소 필드로 이동한다.
-				//document.getElementById("sample2_detailAddress").focus();
-
-				// iframe을 넣은 element를 안보이게 한다.
-				// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-				element_layer.style.display = 'none';
-			},
-			width: '100%',
-			height: '100%',
-			maxSuggestItems: 5
-		}).embed(element_layer);
-
-		// iframe을 넣은 element를 보이게 한다.
-		element_layer.style.display = 'block';
-
-		// iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
-		initLayerPosition();
-	}
-
-	function initLayerPosition() {
-		var width = 300; //우편번호서비스가 들어갈 element의 width
-		var height = 500; //우편번호서비스가 들어갈 element의 height
-		var borderWidth = 1; //샘플에서 사용하는 border의 두께
-
-		// 위에서 선언한 값들을 실제 element에 넣는다.
-		element_layer.style.width = width + 'px';
-		element_layer.style.height = height + 'px';
-		element_layer.style.border = borderWidth + 'px solid';
-		// 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
-		element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
-		element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
-	}
-
-
 	function dataSend() {
 
-		var name = $("#ordererName").val();
-		var phone = $("#ordererPhone1").val();
+		var name = $("#ordName").val();
+		var phone = $("#ordPhone").val();
 		var inquiryType = $("#inquiryType").val();
 		
-		if (name.length == 0) {
+		if (name.length == 0){
 			$("#modal_msg").text("이름을 입력해 주세요.");
 			modalOpen();
 			return false;
 		}
-		if (phone.length == 0) {
+		if (phone.length == 0){
 			$("#modal_msg").text("전화번호를 입력해 주세요.");
 			modalOpen();
 			return false;
@@ -539,7 +252,8 @@
 
 		//문자열에 공백이 있는 경우
 		var blank_pattern = /[\s]/g;
-		if (blank_pattern.test(name) == true || blank_pattern.test(phone) == true) {
+		if (blank_pattern.test(name) == true || 
+		    blank_pattern.test(phone) == true){
 			$("#modal_msg").text("공백은 입력 할 수 업습니다.");
 			modalOpen();
 			return false;
@@ -547,18 +261,14 @@
 
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-		if (special_pattern.test(name) == true || special_pattern.test(phone) == true) {
+		if (special_pattern.test(name) == true || 
+		    special_pattern.test(phone) == true){
 			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
 			modalOpen();
 			return false;
 		}
 
-		if (!($("input:checkbox[id='checkbox1']").is(":checked")
-			//$("input:checkbox[id='checkbox2']").is(":checked") &&
-			//$("input:checkbox[id='checkbox3']").is(":checked") &&
-			//$("input:checkbox[id='checkbox4']").is(":checked") &&
-			//$("input:checkbox[id='checkbox5']").is(":checked"))
-			))
+		if (!($("input:checkbox[id='checkbox1']").is(":checked")))
 		{
 			$("#modal_msg").text("이용약관에 동의해 주세요.");
 			modalOpen();
@@ -567,9 +277,9 @@
 
 		const order = {
 			seqNo: 0,
-			ordererName: $("#ordererName").val(),
-			ordererPhone1: $("#ordererPhone1").val(),
-			receiverAddress: $("#receiverAddress").val(),
+			ordName: $("#ordName").val(),
+			ordPhone: $("#ordPhone").val(),
+			recvAddr: $("#recvAddr").val(),
 			quantity: 0,
 			payAmt: 0
 		}
@@ -580,66 +290,31 @@
 		}).done(function (data) {
 
 			if (!!data.sabangNo) {
+				//sabangNo가 있다면 detail로
 				var form = document.createElement('form');
 				form.setAttribute('method', 'post');
-				form.appendChild(addHiddenField('ordererName', $("#ordererName").val()));
-				form.appendChild(addHiddenField('ordererPhone1', $("#ordererPhone1").val()));
-				form.appendChild(addHiddenField('receiverAddress', $("#receiverAddress").val()));
-				form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
-				/*
-				if(inquiryType=='getShip') //배송 조회
-				{
-					form.setAttribute('action', "/englander/detail?token=" + token + "&sabangNo="+data.sabangNo);
-				}
-				else if(inquiryType=='changeShip') //배송지 변경요청
-				{
-					form.setAttribute('action', "/englander/changeaddr?token=" + token + "&sabangNo="+data.sabangNo);
-				}
-				else if(inquiryType =='ShipDate'){
-					form.setAttribute('action', "/englander/changedate?token=" + token + "&sabangNo="+data.sabangNo);
-				}
-				*/
-				form.setAttribute('action', "/englander/detail?token=" + token + "&sabangNo="+data.sabangNo);
+				form.setAttribute('action', "/englander/detail?token=" + token);
+				form.appendChild(addHiddenField('ordName', 		$("#ordName").val()));
+				form.appendChild(addHiddenField('ordPhone', 	$("#ordPhone").val()));
+				form.appendChild(addHiddenField('recvAddr', 	$("#recvAddr").val()));
+				form.appendChild(addHiddenField('inquiryType',	$("#inquiryType").val()));
+				form.appendChild(addHiddenField('sabangNo',		data.sabangNo));
+				
 				document.body.appendChild(form);
 				form.submit();			
 			} else {
-
+				//없다면 그냥 1대1 문의하기
 				var form = document.createElement('form');
 				form.setAttribute('method', 'post');
 				form.setAttribute('action', "/englander/noorder?token=" + token);
-
-				var hiddenField = document.createElement('input');
-				hiddenField.setAttribute('type', 'hidden');
-				hiddenField.setAttribute('name', 'ordererName');
-				hiddenField.setAttribute('value', $("#ordererName").val());
-				form.appendChild(hiddenField);
-
-				var hiddenField = document.createElement('input');
-				hiddenField.setAttribute('type', 'hidden');
-				hiddenField.setAttribute('name', 'ordererPhone1');
-				hiddenField.setAttribute('value', $("#ordererPhone1").val());
-				form.appendChild(hiddenField);
-
-				var hiddenField = document.createElement('input');
-				hiddenField.setAttribute('type', 'hidden');
-				hiddenField.setAttribute('name', 'receiverAddress');
-				hiddenField.setAttribute('value', $("#receiverAddress").val());
-
-				form.appendChild(hiddenField);
+				form.appendChild(addHiddenField('ordName', 		$("#ordName").val()));
+				form.appendChild(addHiddenField('ordPhone', 	$("#ordPhone").val()));
+				form.appendChild(addHiddenField('recvAddr', 	$("#recvAddr").val()));
 				document.body.appendChild(form);
 				form.submit();
 			}
 
 		});
-	}
-
-	function addressIns() {
-		new daum.Postcode({
-			oncomplete: function (data) { //선택시 입력값 세팅
-				document.getElementById("address").value = data.address; // 주소 넣기
-				document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
-			}
-		}).open();
 	}
 
 

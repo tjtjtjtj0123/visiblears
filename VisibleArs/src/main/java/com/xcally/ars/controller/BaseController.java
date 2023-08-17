@@ -85,14 +85,14 @@ public abstract class BaseController {
 
 	@RequestMapping("changeShip") //배송지 변경 
 	public String changeaddr(Model model, 
-			@RequestParam(name= "ordererName",required = false,defaultValue = "") String ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "") String ordererPhone1, 
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "") String receiverAddress,
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
 			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
 			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1);
-		model.addAttribute("receiverAddress", 	receiverAddress);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 	recvAddr);
 		model.addAttribute("sabangNo", sabangNo);
 		model.addAttribute("inquiryType",inquiryType);
 		return getPartner()+"/changeShip";
@@ -100,14 +100,14 @@ public abstract class BaseController {
 
 	@RequestMapping("ShipDate") //배송희망일 요청
 	public String changedate(Model model, 
-			@RequestParam(name= "ordererName",required = false,defaultValue = "") String ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "") String ordererPhone1, 
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "") String receiverAddress,
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
 			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
 			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1);
-		model.addAttribute("receiverAddress", 	receiverAddress);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 	recvAddr);
 		model.addAttribute("sabangNo", sabangNo);
 		model.addAttribute("inquiryType",inquiryType);
 		return getPartner()+"/ShipDate";
@@ -115,14 +115,14 @@ public abstract class BaseController {
 
 	@RequestMapping("requestExRe") //교환 반품 요청
 	public String requestExRe(Model model, 
-			@RequestParam(name= "ordererName",required = false,defaultValue = "") String ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "") String ordererPhone1, 
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "") String receiverAddress,
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
 			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
 			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1);
-		model.addAttribute("receiverAddress", 	receiverAddress);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 	recvAddr);
 		model.addAttribute("sabangNo", sabangNo);
 		model.addAttribute("inquiryType",inquiryType);
 		return getPartner()+"/requestExRe";
@@ -130,14 +130,14 @@ public abstract class BaseController {
 	
 	@RequestMapping("cancelOrder") //주문 취소
 	public String cancelOrder(Model model, 
-			@RequestParam(name= "ordererName",required = false,defaultValue = "") String ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "") String ordererPhone1, 
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "") String receiverAddress,
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
 			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
 			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1);
-		model.addAttribute("receiverAddress", 	receiverAddress);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 	recvAddr);
 		model.addAttribute("sabangNo", sabangNo);
 		model.addAttribute("inquiryType",inquiryType);
 		return getPartner()+"/cancelOrder";
@@ -151,20 +151,20 @@ public abstract class BaseController {
 
 	@RequestMapping("auth") // 인증페이지
 	public String auth(Model model,
-		@RequestParam(name= "inquiryType",required = false,defaultValue = "0") String inquiryType) {
+		@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
 		model.addAttribute("inquiryType", inquiryType);
 		return getPartner()+"/auth";
 	}
 
 	@RequestMapping("noorder")//주문정보없음
 	public String order(Model model, 
-			@RequestParam(name= "ordererName",required = false,defaultValue = "0") String ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "0") String ordererPhone1, 
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "0") String receiverAddress) {
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr) {
 		
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1);
-		model.addAttribute("receiverAddress", 	receiverAddress);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 	recvAddr);
 		return getPartner()+"/noorder";
 	}
 	
@@ -172,15 +172,15 @@ public abstract class BaseController {
 	@RequestMapping("inquiry") // 기타 문의
 	public String inquiry(Model model, 
 			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String  sabangNo,
-			@RequestParam(name= "ordererName",required = false,defaultValue = "") String  ordererName,
-			@RequestParam(name= "ordererPhone1",required = false,defaultValue = "") String  ordererPhone1,
-			@RequestParam(name= "receiverAddress",required = false,defaultValue = "") String  receiverAddress,
+			@RequestParam(name= "ordName",required = false,defaultValue = "") String  ordName,
+			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String  ordPhone,
+			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String  recvAddr,
 			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
 		
 		model.addAttribute("sabangNo", 			sabangNo);
-		model.addAttribute("ordererName", 		ordererName);
-		model.addAttribute("ordererPhone1",		ordererPhone1.replace(("-"), ""));
-		model.addAttribute("receiverAddress",	receiverAddress);		
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone.replace(("-"), ""));
+		model.addAttribute("recvAddr",	recvAddr);		
 		model.addAttribute("inquiryType", 		inquiryType);
 		return getPartner()+"/inquiry";		
 	}
@@ -192,11 +192,11 @@ public abstract class BaseController {
 
 	@RequestMapping("detail") // 주문상세
 	public String detail(Model model, int sabangNo, 
-			@RequestParam(name= "ordererName",    required = false,	defaultValue = "") String  ordererName,
-			@RequestParam(name= "ordererPhone1",  required = false,	defaultValue = "") String  ordererPhone1,
-			@RequestParam(name= "receiverAddress",required = false,	defaultValue = "") String  receiverAddress,
+			@RequestParam(name= "ordName",    required = false,	defaultValue = "") String  ordName,
+			@RequestParam(name= "ordPhone",  required = false,	defaultValue = "") String  ordPhone,
+			@RequestParam(name= "recvAddr",required = false,	defaultValue = "") String  recvAddr,
 			@RequestParam(name= "inquiryType",	  required = false,	defaultValue = "") String  inquiryType) {
-
+   
 		List<Order> orderlist     			 = null;
 		List<Order> destOrderlist            = new ArrayList<Order>();
 		HashMap<String, Integer> quantityMap = new HashMap<>();		
@@ -204,9 +204,9 @@ public abstract class BaseController {
 		try {
 
 			model.addAttribute("sabangNo", 			sabangNo);
-			model.addAttribute("ordererName", 		ordererName);
-			model.addAttribute("ordererPhone1", 	ordererPhone1);
-			model.addAttribute("receiverAddress", 	receiverAddress);
+			model.addAttribute("ordName", 		ordName);
+			model.addAttribute("ordPhone", 	ordPhone);
+			model.addAttribute("recvAddr", 	recvAddr);
 			model.addAttribute("inquiryType", 		inquiryType);
 			
 			orderlist = orderservice.findOrderBySabangNo(sabangNo);
@@ -277,8 +277,8 @@ public abstract class BaseController {
 			@RequestParam(name = "file",	 	 required = false, 	defaultValue = "") List<MultipartFile> multipartFileList,
 			@RequestParam(name = "title", 	     required = true, 	defaultValue = "") String title,
 			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordererName",  required = true, 	defaultValue = "") String ordererName,
-			@RequestParam(name = "ordererPhone1",required = true, 	defaultValue = "") String ordererPhone1, 
+			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
 			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
 			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo) throws IOException	
 	{
@@ -310,14 +310,14 @@ public abstract class BaseController {
 			title = "[제목]:" + title;
 			Long boardSeq = seqService.getSeq();
 			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, title, sb.toString(), ordererName, ordererPhone1);
+			regBoard(boardSeq,sabangNo, inquiryType, title, sb.toString(), ordName, ordPhone);
 				
 			//2. 첨부파일 등록
 			fileNameList = regAttach(boardSeq, sabangNo, multipartFileList);			
 
 			
 			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, title, sb.toString(), ordererName, ordererPhone1, fileNameList);
+			callCRMApi(boardSeq, sabangNo, inquiryType, title, sb.toString(), ordName, ordPhone, fileNameList);
 
 			rstl = 1;
 		} catch (Exception e) {
@@ -331,8 +331,8 @@ public abstract class BaseController {
 	@ResponseBody
 	public int changeAddrAjax(		
 			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordererName",  required = true, 	defaultValue = "") String ordererName,
-			@RequestParam(name = "ordererPhone1",required = true, 	defaultValue = "") String ordererPhone1, 
+			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
 			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
 			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo,
 			@RequestParam(name = "recvAddr",	 required = false,	defaultValue = "") String recvAddr,
@@ -353,10 +353,10 @@ public abstract class BaseController {
 			
 			Long boardSeq = seqService.getSeq();
 			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordererName, ordererPhone1);				
+			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone);				
 			
 			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordererName, ordererPhone1, fileNameList);
+			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone, fileNameList);
 
 			rstl = 1;
 		} catch (Exception e) {
@@ -370,8 +370,8 @@ public abstract class BaseController {
 	@ResponseBody
 	public int changeDateAjax(		
 			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordererName",  required = true, 	defaultValue = "") String ordererName,
-			@RequestParam(name = "ordererPhone1",required = true, 	defaultValue = "") String ordererPhone1, 
+			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
 			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
 			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo,
 			@RequestParam(name = "datepicker",	 required = false,	defaultValue = "") String datepicker) throws IOException	
@@ -389,12 +389,12 @@ public abstract class BaseController {
 			
 			Long boardSeq = seqService.getSeq();
 			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordererName, ordererPhone1);
+			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone);
 				
 
 			
 			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordererName, ordererPhone1, fileNameList);
+			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone, fileNameList);
 
 			rstl = 1;
 		} catch (Exception e) {
@@ -404,13 +404,13 @@ public abstract class BaseController {
 	}
 	//게시글 등록
 	public void regBoard(	
-			@RequestParam(name= "ordererName",	required = true,	defaultValue = "")	Long boardSeq,
+			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
 			@RequestParam(name= "sabangNo",		required = false,	defaultValue = "")	String sabangNo,
 			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "")	String inquiryType,
 			@RequestParam(name= "title",		required = false,	defaultValue = "")	String title,
 			@RequestParam(name= "content",		required = false,	defaultValue = "") 	String content,			
-			@RequestParam(name= "ordererName",	required = true,	defaultValue = "")	String ordererName,
-			@RequestParam(name= "ordererPhone1",required = true,	defaultValue = "")	String ordererPhone1) 
+			@RequestParam(name= "ordName",	required = true,	defaultValue = "")	String ordName,
+			@RequestParam(name= "ordPhone",required = true,	defaultValue = "")	String ordPhone) 
 		{
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -421,8 +421,8 @@ public abstract class BaseController {
 					.partner(getPartner())
 					.title(title)
 					.content(content)
-					.inquiryName(ordererName)
-					.inquiryPhone(ordererPhone1)
+					.inquiryName(ordName)
+					.inquiryPhone(ordPhone)
 					.inquiryType(inquiryType)
 					.build();
 			int rstl = boardService.WriteBoard(board);						
@@ -454,7 +454,7 @@ public abstract class BaseController {
 	public ArrayList<String> regAttach(
 			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
 			@RequestParam(name= "sabangNo",	required = false,	defaultValue = "")	String sabangNo,
-			@RequestParam(name = "file",	required = false) List<MultipartFile> multipartFileList) 
+			@RequestParam(name = "file",	required = false) 	List<MultipartFile> multipartFileList) 
 	{
 		ObjectMapper 	objectMapper   = new ObjectMapper();
 		ArrayList<String> fileNameList = new ArrayList<String>();
@@ -530,14 +530,15 @@ public abstract class BaseController {
 	}
 	
 	//CRM API 호출
+	//이름 넣어야함 쇼핑몰 주문번호도넣어야함
 	public void callCRMApi(
-			@RequestParam(name= "ordererName",	required = true,	defaultValue = "")	Long boardSeq,
+			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
 			@RequestParam(name= "sabangNo",		required = false,	defaultValue = "")	String sabangNo,
 			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "")	String inquiryType,
 			@RequestParam(name= "title",		required = false,	defaultValue = "")	String title,
 			@RequestParam(name= "content",		required = false,	defaultValue = "") 	String content,			
-			@RequestParam(name= "ordererName",	required = true,	defaultValue = "")	String ordererName,
-			@RequestParam(name= "ordererPhone1",required = true,	defaultValue = "")	String ordererPhone1,
+			@RequestParam(name= "ordName",	required = true,	defaultValue = "")	String ordName,
+			@RequestParam(name= "ordPhone",required = true,	defaultValue = "")	String ordPhone,
 			@RequestParam(name= "fileNameList", required = true,	defaultValue = "")	ArrayList<String> fileNameList)
 	{
 		
@@ -552,7 +553,7 @@ public abstract class BaseController {
 	        						.partner(getPartner())
 	        						.comid(Partner.getCommid())
 	        						.keycode(Partner.getKeycode())
-	        						.hp(ordererPhone1)
+	        						.hp(ordPhone)
 	        						.title(title)
 	        						.msg(content)
 	        						.proctime(formattedDate)
@@ -599,6 +600,5 @@ public abstract class BaseController {
 		}catch (Exception e) {
 			logger.error("BaseController -> callCRMApi -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
-
 	}
 }

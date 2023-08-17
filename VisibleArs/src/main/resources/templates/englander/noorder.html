@@ -20,7 +20,7 @@
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome()">
+		<div class="button" onclick="handleClickHome('englander')">
 			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
@@ -32,9 +32,9 @@
 			</div>
 		</div>
 		<div class="content">
-			<input type="hidden" id="ordererName" th:value="${ordererName}"/>
-			<input type="hidden" id="ordererPhone1" th:value="${ordererPhone1}"/>
-			<input type="hidden" id="receiverAddress" th:value="${receiverAddress}"/>
+			<input type="hidden" id="ordName" th:value="${ordName}"/>
+			<input type="hidden" id="ordPhone" th:value="${ordPhone}"/>
+			<input type="hidden" id="recvAddr" th:value="${recvAddr}"/>
 			<div class="orders">
 				<img src="/englander/assets/ico_cart.svg" alt="cart" class="icon" />
 				<p class="message">주문하신 상품이 없습니다.</p>
@@ -123,25 +123,9 @@
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
 		form.setAttribute('action', "/englander/inquiry?token=" + token);
-
-		var hiddenField = document.createElement('input');
-		hiddenField.setAttribute('type', 'hidden');
-		hiddenField.setAttribute('name', 'ordererName');
-		hiddenField.setAttribute('value', $("#ordererName").val());
-		form.appendChild(hiddenField);
-
-		var hiddenField = document.createElement('input');
-		hiddenField.setAttribute('type', 'hidden');
-		hiddenField.setAttribute('name', 'ordererPhone1');
-		hiddenField.setAttribute('value', $("#ordererPhone1").val());
-		form.appendChild(hiddenField);
-
-		var hiddenField = document.createElement('input');
-		hiddenField.setAttribute('type', 'hidden');
-		hiddenField.setAttribute('name', 'receiverAddress');
-		hiddenField.setAttribute('value', $("#receiverAddress").val());
-
-		form.appendChild(hiddenField);
+		form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+		form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+		form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
 		document.body.appendChild(form);
 		form.submit();
 

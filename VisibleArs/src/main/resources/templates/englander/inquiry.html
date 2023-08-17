@@ -20,7 +20,7 @@
 		<div class="button" onclick="handleClickBackward()">
 			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome()">
+		<div class="button" onclick="handleClickHome('englander')">
 			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 							<th>이 름</th>
 							<td>
 								<div class="ui-text-field">														
-									<input type="text" id="ordererName" th:value="${ordererName}" placeholder="예 : 홍길동" />
+									<input type="text" id="ordName" th:value="${ordName}" placeholder="예 : 홍길동" />
 								</div>
 							</td>
 						</tr>
@@ -52,7 +52,7 @@
 							<th>전 화 번 호</th>
 							<td>
 								<div class="ui-text-field">
-									<input id="ordererPhone1" type="text"  th:value="${ordererPhone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+									<input id="ordPhone" type="text"  th:value="${ordPhone}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 								</div>
 							</td>
 						</tr>
@@ -158,20 +158,8 @@
 <script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-	function handleClickHome()
-	{
-		location.href = "/englander/menu";
-	}
-	function modalOpen() {
-		const modal = document.getElementById("modal");
-		modal.classList.add("visible");
-	}
 
-	function modalInfoOpen() {
-		const modal = document.getElementById("modal_info");
-		modal.classList.add("visible");
-	}
-	
+
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
 		fnArsCall("service04");
@@ -183,14 +171,7 @@
 		}
 	});
 
-	function modalClose(element) {
-		while(true) {
-			if (!element) return;
-			if (element.classList.contains("ui-modal")) break;
-			element = element.parentNode;
-		}
-		element.classList.remove("visible");
-	}
+
 	// 이미지 정보들을 담을 배열
 	var sel_files = [];
 	
@@ -207,7 +188,7 @@
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
 		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true 
-		|| special_pattern.test($("#ordererPhone1").val()) == true ||special_pattern.test($("#ordererName").val()) == true) {
+		|| special_pattern.test($("#ordPhone").val()) == true ||special_pattern.test($("#ordName").val()) == true) {
 			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
 			modalInfoOpen();
 			return false;
@@ -225,13 +206,13 @@
 			return false;
 		}
 		
-		if($("#ordererPhone1").val().length === 0 ){
+		if($("#ordPhone").val().length === 0 ){
 			$("#modal_msg").text("전화번호를 입력해 주세요.");
 			modalInfoOpen();	
 			return false;
 		}
 		
-		if($("#ordererPhone1").val().length === 0 ){
+		if($("#ordPhone").val().length === 0 ){
 			$("#modal_msg").text("이름을 입력해 주세요.");
 			modalInfoOpen();	
 			return false;
@@ -267,8 +248,8 @@
 		formData.append("title", $("#title").val());
 		formData.append("content",$("#content").val());
 		
-		formData.append("ordererPhone1",$("#ordererPhone1").val());
-		formData.append("ordererName", $("#ordererName").val());
+		formData.append("ordPhone",$("#ordPhone").val());
+		formData.append("ordName", $("#ordName").val());
 		formData.append("inquiryType", $("#inquiry_type_sel").val());
 		
 		$.ajax({
