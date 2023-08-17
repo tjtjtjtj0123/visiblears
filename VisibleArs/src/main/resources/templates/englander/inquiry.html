@@ -16,18 +16,14 @@
 </head>
 
 <body>
-	<header class="page-header">
-		<div class="left-area">
-			<img src="/englander/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
-			<span class="title">보이는 ARS</span>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="right-area">
-			<div class="button" onclick="handleClickClose()">
-				<img src="/englander/assets/ico_close_w.svg" alt="headphone" class="icon" />
-				<span class="title">닫기</span>
-			</div>
+		<div class="button" onclick="handleClickHome()">
+			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
-	</header>
+	</div>
 	<div class="page-container">
 		<div class="content">
 			<div class="header">
@@ -36,9 +32,8 @@
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
 			<div class="ui-data-table">
-				<input type="hidden" id="mall_order_dt" th:value="${mall_order_dt}"/>
-				<input type="hidden" id="orderno" />
-				<input type="hidden" id="userid" />
+				<input type="hidden" id="sabangNo" th:value="${sabangNo}"/>
+				<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 				<table>
 					<colgroup>
 						<col width="65px" />
@@ -49,7 +44,7 @@
 							<th>이 름</th>
 							<td>
 								<div class="ui-text-field">														
-									<input type="text" id="orderer_name" th:value="${orderer_name}" placeholder="예 : 홍길동" />
+									<input type="text" id="ordererName" th:value="${ordererName}" placeholder="예 : 홍길동" />
 								</div>
 							</td>
 						</tr>
@@ -57,18 +52,20 @@
 							<th>전 화 번 호</th>
 							<td>
 								<div class="ui-text-field">
-									<input id="orderer_phone1" type="text"  th:value="${orderer_phone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+									<input id="ordererPhone1" type="text"  th:value="${ordererPhone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>문의 구분</th>
 							<td>
-								<div class="ui-select-field">
-									<select id="inquiry_type">
-										<option value="delivery">배송</option>
-										<option value="exchange">교환</option>
-										<option value="return">반품</option>
+								<div class="ui-select-field" id="seldiv">
+									<select id="inquiry_type_sel">
+										<option value="getShip">배송 조회</option>
+										<option value="changeShip">배송지 변경</option>
+										<option value="ShipDate">배송 희망일 요청</option>
+										<option value="cancelOrder">교환 반품 요청</option>
+										<option value="ASRequest">AS 요청</option>
 										<option value="etc">기타문의</option>
 									</select>
 								</div>
@@ -106,7 +103,7 @@
 					<label for="files">
 						<div class="ui-button default">
 							<span class="title">파일등록하기</span>
-							<input type="file" multiple id="files" name="files" />
+							<input type="file" accept="image/*" multiple id="files" name="files" />
 							<img src="/englander/assets/ico_upload.svg" alt="upload" />
 						</div>
 					</label>
@@ -122,12 +119,11 @@
 		</div>
 	</div>
 	<div>
-
-		<!-- notice -->
+		<!-- notice 
 		<div class="notice" id="notice">
 			<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
 			<img src="/englander/assets/ico_smart_cti.svg" alt="smart_cti" />
-		</div>
+		</div>-->
 		<!-- modal -->
 		<div class="ui-modal" id="modal">
 			<div class="content">
@@ -137,6 +133,20 @@
 				<div class="message">
 					<p><b>1:1 문의가 접수되었습니다.</b></p>
 					<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
+				</div>
+				<div onclick="modalClose(this);fnArsEnd();" class="ui-button blue">
+					<span class="title">닫기</span>
+				</div> 
+			</div>
+		</div>
+		<!-- modal -->
+		<div class="ui-modal" id="modal_info">
+			<div class="content">
+				<div class="icon">
+					<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				</div>
+				<div class="message">
+					<p id="modal_msg"></p>
 				</div>
 				<div onclick="modalClose(this)" class="ui-button blue">
 					<span class="title">닫기</span>
@@ -148,15 +158,29 @@
 <script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-		
+	function handleClickHome()
+	{
+		location.href = "/englander/menu";
+	}
 	function modalOpen() {
 		const modal = document.getElementById("modal");
 		modal.classList.add("visible");
 	}
 
+	function modalInfoOpen() {
+		const modal = document.getElementById("modal_info");
+		modal.classList.add("visible");
+	}
+	
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
 		fnArsCall("service04");
+		fnOnLoad();
+		
+		if($("#inquiryType").val()!=""){
+			$("#inquiry_type_sel").val($("#inquiryType").val()).prop("selected", true);
+			$("#inquiry_type_sel").attr("disabled",'true');			
+		}
 	});
 
 	function modalClose(element) {
@@ -176,47 +200,58 @@
 		// file upload logic.
 	};
 
-	window.onload = function () {
-		fnOnLoad();
-	};
-
-
 	//업로드 여러개 하기
 	function uploadimg() {
 	
 		
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true 
+		|| special_pattern.test($("#ordererPhone1").val()) == true ||special_pattern.test($("#ordererName").val()) == true) {
+			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalInfoOpen();
+			return false;
+		}
+		
 		if($("#title").val().length === 0 ){
-			alert('제목을 입력해 주세요.');
+			$("#modal_msg").text("제목을 입력해 주세요.");
+			modalInfoOpen();			
 			return false;
 		}
 		
 		if($("#content").val().length === 0 ){
-			alert('내용을 입력해 주세요.');
+			$("#modal_msg").text("내용을 입력해 주세요.");
+			modalInfoOpen();			
 			return false;
 		}
 		
-		if($("#orderer_phone1").val().length === 0 ){
-			alert('전화번호를 입력해 주세요.');
+		if($("#ordererPhone1").val().length === 0 ){
+			$("#modal_msg").text("전화번호를 입력해 주세요.");
+			modalInfoOpen();	
 			return false;
 		}
 		
-		if($("#orderer_name").val().length === 0 ){
-			alert('이름을 입력해 주세요.');
+		if($("#ordererPhone1").val().length === 0 ){
+			$("#modal_msg").text("이름을 입력해 주세요.");
+			modalInfoOpen();	
 			return false;
 		}
 
 		//파일개수 체크
 		if (sel_files.length > 5) {
-			alert("이미지는 5개까지 업로드가 가능합니다.");
+			$("#modal_msg").text("이미지는 5개까지 업로드가 가능합니다.");
+			modalInfoOpen();				
 			sel_files = [];
 			$("#imglistul").empty();
 			return;
 		}
+		
 		//확장자 검사
 		for (var i = 0; i < sel_files.length; i++) {
 			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
 			if(!(fileDot =="jpg" || fileDot =="png" )){
-				alert("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				$("#modal_msg").text("jpg 혹은 png 파일만 업로드가 가능합니다!");
+				modalInfoOpen();					
 				sel_files = [];
 				$("#imglistul").empty();
 				return false;
@@ -228,13 +263,13 @@
 		for (var i = 0; i < sel_files.length; i++) {
 			formData.append("file", sel_files[i]);
 		}
-		formData.append("mall_order_dt",$("#mall_order_dt").val());
+		formData.append("sabangNo",$("#sabangNo").val());
 		formData.append("title", $("#title").val());
 		formData.append("content",$("#content").val());
 		
-		formData.append("orderer_phone1",$("#orderer_phone1").val());
-		formData.append("orderer_name", $("#orderer_name").val());
-		formData.append("inquiry_type", $("#inquiry_type").val());
+		formData.append("ordererPhone1",$("#ordererPhone1").val());
+		formData.append("ordererName", $("#ordererName").val());
+		formData.append("inquiryType", $("#inquiry_type_sel").val());
 		
 		$.ajax({
 			type: 'POST',
@@ -244,12 +279,14 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
-		}).done(function (data) {
+		})
+		.always(function (data) {
+			modalOpen();			
+		})
+		.done(function (data) {
 			$('#result-image').attr("src", data);
-			modalOpen();
+			//modalOpen();
 			$("#uploadBtn").attr("onclick","modalOpen()");
-		}).fail(function (error) {
-			console.log(error);
 		})
 	}
 
