@@ -34,6 +34,7 @@
 		</div>
 		<div class="content">
 			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
+			<input type="hidden" id="shopNo" th:value="${shopNo}"/>
 			<!-- text fields -->
 			<div class="ui-text-field">
 				<label for="name">
@@ -58,19 +59,19 @@
 			</div>
 			<div class="ui-text-field">
 			<div class="files">
-				<div class="header">
+				<div class="header" style="margin-bottom:15px; ">
 					<span class="title">파일첨부</span>
 					<span class="description">* 5개까지 업로드가 가능합니다.</span>
 				</div>
 				<div class="preview">
-					<ul id="imglistul">
+					<ul id="imglistul" style="display: flex; align-items: center; justify-content: flex-end;">
 					</ul>
 				</div>
 				<div class="controller">
 					<label for="files">
 						<div class="ui-button default">
-							<span class="title">파일등록하기</span>
-							<input type="file" accept="image/*" multiple id="files" name="files" />
+							<span class="title" style="margin: 0;">파일등록하기</span>
+							<input type="file" accept="image/*" multiple id="files" name="files" style="display: none;"/>
 							<img src="/englander/assets/ico_upload.svg" alt="upload" />
 						</div>
 					</label>
@@ -80,7 +81,7 @@
 			<!-- terms -->
 			<div class="terms">
 				<div class="terms-content">
-					<div th:onclick="dataSend()" class="ui-button primary">
+					<div id="uploadBtn" th:onclick="dataSend()" class="ui-button primary">
 						<span class="title">변경 요청하기</span>
 					</div>
 				</div>
@@ -97,7 +98,7 @@
 				</div>
 			</div>
 			<div class="right-area">
-				<div class="button" onclick="fnArsCall('service00')">
+				<div class="button" onclick="fnArsEnd();">
 					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
@@ -111,7 +112,7 @@
 					<img src="/englander/assets/ico_inquiry_2.svg" alt="info">
 				</div>
 				<div class="message">
-					<p><b>배송지 변경요청이 접수되었습니다.</b></p>
+					<p><b>교환/반품 요청이 접수되었습니다.</b></p>
 					<p>빠른 처리를 위해 최선을 다하겠습니다.</p>
 					<p>감사합니다.</p>
 				</div>
@@ -145,10 +146,20 @@
 	const token = urlParams.get('token');
 
 	window.onload = function () {
+		$("#files").on("change", SelectImg);
 		fnOnLoad();
 		fnArsCall("service01");
 	};
 
+
+	// 이미지 정보들을 담을 배열
+	var sel_files = [];
+	
+
+	const fileElement = document.querySelector('#files');
+	fileElement.onchange = function () {
+		// file upload logic.
+	};
 
 	function dataSend() {	
 		
@@ -178,16 +189,18 @@
 
 		const formData = new FormData();
 
-		formData.append("sabang_no",	$("#sabangNo").val());
+		formData.append("shopNo",		$("#shopNo").val());
 		formData.append("content",		$("#content").val());
-		
-		formData.append("ordPhone",$("#ordPhone").val());
-		formData.append("ordName", 	$("#ordName").val());
+		formData.append("ordPhone",		$("#ordPhone").val());
+		formData.append("ordName", 		$("#ordName").val());
 		formData.append("inquiryType", 	$("#inquiryType").val());
+		for (var i = 0; i < sel_files.length; i++) {
+			formData.append("file", sel_files[i]);
+		}
 		
 		$.ajax({
 			type: 'POST',
-			url: "/englander/uploadimglist",
+			url: "/englander/requestExReAjax",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -203,7 +216,49 @@
 			$("#uploadBtn").attr("onclick","modalOpen()");
 		})
 	}
+	function SelectImg(e) {
 
+		// 이미지 정보들을 초기화
+		sel_files = [];
+		$("#imglistul").empty();
+
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		var index = 0;
+		filesArr.forEach(function (f) {
+			sel_files.push(f);
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var html = '<li class="image" id="img_id_'
+						  + index 
+						  +'"'
+				          +'style="  position: relative;  background: #393939;  border-radius: 5px; width: 45px;  height: 45px;  margin-right: 20px;"'
+						  + '"><img src="' 
+						  +  e.target.result 
+						  + '" style="width: 45px; height: 45px; margin-right: 20px;">'
+						  + '<img src="/englander/assets/ico_cancel.svg" alt="cancel" class="cancel"'
+						  +' style = "position: absolute;  top: 0;  right: -8px;  width: 5px;  height: auto;"onclick="deleteImageAction(' 
+						  + index 
+						  + ')"></li>';
+				
+				$("#imglistul").append(html);
+				index++;
+			}
+			reader.readAsDataURL(f);
+
+		});
+	}
+
+	function deleteImageAction(index) {
+		console.log("index : " + index);
+		sel_files.splice(index, 1);
+
+		var img_id = "#img_id_" + index;
+		$(img_id).remove();
+
+		console.log(sel_files);
+	}   
 </script>
 
 </html>

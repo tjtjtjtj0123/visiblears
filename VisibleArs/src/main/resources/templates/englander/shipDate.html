@@ -39,6 +39,7 @@
 		</div>
 		<div class="content">
 			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
+			<input type="hidden" id="shopNo" th:value="${shopNo}"/>
 			<!-- text fields -->
 			<div class="ui-text-field">
 				<label for="name">
@@ -72,7 +73,7 @@
 			<!-- terms -->
 			<div class="terms">
 				<div class="terms-content">
-					<div th:onclick="dataSend()" class="ui-button primary">
+					<div  id="uploadBtn" th:onclick="dataSend()" class="ui-button primary">
 						<span class="title">변경 요청하기</span>
 					</div>
 				</div>
@@ -89,7 +90,7 @@
 				</div>
 			</div>
 			<div class="right-area">
-				<div class="button" onclick="fnArsCall('service00')">
+				<div class="button" onclick="fnArsEnd();">
 					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
@@ -103,7 +104,7 @@
 					<img src="/englander/assets/ico_inquiry_2.svg" alt="info">
 				</div>
 				<div class="message">
-					<p><b>배송지 변경요청이 접수되었습니다.</b></p>
+					<p><b>배송 희망일이 접수되었습니다.</b></p>
 					<p>빠른 처리를 위해 최선을 다하겠습니다.</p>
 					<p>감사합니다.</p>
 				</div>
@@ -143,7 +144,7 @@
 	$("#datepicker").datepicker({
         dateFormat: "yyyy-mm-dd",
         autoClose: true,
-         language: 'en',
+        language: 'en',
         minDate: new Date() // 현재일자 이후만 선택 가능하도록 설정
     });
 
@@ -181,17 +182,16 @@
 		}
 		const formData = new FormData();
 
-		formData.append("sabang_no",	$("#sabangNo").val());
-		formData.append("content",		$("#content").val());
-		
-		formData.append("ordPhone",$("#ordPhone").val());
-		formData.append("ordName", 	$("#ordName").val());
-		formData.append("inquiryType", 	$("#inquiryType").val());
+		formData.append("shopNo",		$("#shopNo").val());
+		formData.append("content",		$("#content").val());		
+		formData.append("ordPhone",		$("#ordPhone").val());
+		formData.append("ordName", 		$("#ordName").val());
+		formData.append("inquiryType",	$("#inquiryType").val());
 		formData.append("datepicker", 	$("#datepicker").val());
 		
 		$.ajax({
 			type: 'POST',
-			url: "/englander/changeDateAjax",
+			url: "/englander/shipDateAjax",
 			data: formData,
 			cache: false,
 			contentType: false,

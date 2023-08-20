@@ -24,6 +24,7 @@ public class Order {
     private int payAmt; // 결제금액    
     private int quantity; // 수량
     private String productName; // 주문 상품명
+    private String optionName;  // 옵션 명
     private String ordererName; // 주문자명
     
     private String ordererPhone1; // 주문자 연락처1
@@ -34,5 +35,6 @@ public class Order {
     
     private String receiverAddress; // 수취인 주소
     private String ordererEmail; // 주문자 이메일 주소
+    private String ordField2;
     private LocalDateTime regDt; // 등록일자
 }

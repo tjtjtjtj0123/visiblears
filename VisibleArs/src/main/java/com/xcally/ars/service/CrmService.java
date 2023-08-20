@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xcally.ars.domain.Attach;
-import com.xcally.ars.domain.CRMApiRequest;
+import com.xcally.ars.domain.CRMApiMsgRequest;
 import com.xcally.ars.domain.Partner;
 
 public interface CrmService {
-	public ResponseEntity<String> RegMsg(CRMApiRequest crmApiRequest);
+	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiRequest);
 }

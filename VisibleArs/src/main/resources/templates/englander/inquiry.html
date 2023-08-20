@@ -32,7 +32,7 @@
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
 			<div class="ui-data-table">
-				<input type="hidden" id="sabangNo" th:value="${sabangNo}"/>
+				<input type="hidden" id="shopNo" th:value="${shopNo}"/>
 				<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 				<table>
 					<colgroup>
@@ -60,10 +60,10 @@
 							<th>문의 구분</th>
 							<td>
 								<div class="ui-select-field" id="seldiv">
-									<select id="inquiry_type_sel">
+									<select id="inquiryTypeSel">
 										<option value="getShip">배송 조회</option>
 										<option value="changeShip">배송지 변경</option>
-										<option value="ShipDate">배송 희망일 요청</option>
+										<option value="shipDate">배송 희망일 요청</option>
 										<option value="cancelOrder">교환 반품 요청</option>
 										<option value="ASRequest">AS 요청</option>
 										<option value="etc">기타문의</option>
@@ -166,8 +166,8 @@
 		fnOnLoad();
 		
 		if($("#inquiryType").val()!=""){
-			$("#inquiry_type_sel").val($("#inquiryType").val()).prop("selected", true);
-			$("#inquiry_type_sel").attr("disabled",'true');			
+			$("#inquiryTypeSel").val($("#inquiryType").val()).prop("selected", true);
+			$("#inquiryTypeSel").attr("disabled",'true');			
 		}
 	});
 
@@ -244,13 +244,12 @@
 		for (var i = 0; i < sel_files.length; i++) {
 			formData.append("file", sel_files[i]);
 		}
-		formData.append("sabangNo",$("#sabangNo").val());
-		formData.append("title", $("#title").val());
-		formData.append("content",$("#content").val());
-		
-		formData.append("ordPhone",$("#ordPhone").val());
-		formData.append("ordName", $("#ordName").val());
-		formData.append("inquiryType", $("#inquiry_type_sel").val());
+		formData.append("shopNo",		$("#shopNo").val());
+		formData.append("title", 		$("#title").val());
+		formData.append("content",		$("#content").val());
+		formData.append("ordPhone",		$("#ordPhone").val());
+		formData.append("ordName", 		$("#ordName").val());
+		formData.append("inquiryType",	$("#inquiryTypeSel").val());
 		
 		$.ajax({
 			type: 'POST',
@@ -265,7 +264,7 @@
 			modalOpen();			
 		})
 		.done(function (data) {
-			$('#result-image').attr("src", data);
+			$('#result-image').attr("src", data); 
 			//modalOpen();
 			$("#uploadBtn").attr("onclick","modalOpen()");
 		})
@@ -274,18 +273,19 @@
 	function SelectImg(e) {
 
 		// 이미지 정보들을 초기화
-		sel_files = [];
-		$("#imglistul").empty();
-
-		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
+		sel_files = []; ray.prototype.slice.call(files);
 
 		var index = 0;
 		filesArr.forEach(function (f) {
 			sel_files.push(f);
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				var html = '<li class="image" id="img_id_' + index + '"><img src="' + e.target.result + '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/englander/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' + index + ')"></li>';
+				var html = '<li class="image" id="img_id_' 
+							+ index 
+							+ '"><img src="' 
+							+ e.target.result 
+							+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/englander/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' 
+							+ index + ')"></li>';
 				$("#imglistul").append(html);
 				index++;
 			}

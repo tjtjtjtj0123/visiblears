@@ -14,6 +14,7 @@
 				pay_amt, 			
 				quantity, 				
 				product_name, 		
+				option_name,
 				orderer_name, 					
 				orderer_phone1, 				
 				orderer_phone2, 				
@@ -21,32 +22,34 @@
 				receiver_phone1, 		
 				receiver_phone2, 	
 				receiver_address, 				
-				orderer_email, 				
+				orderer_email, 			
+				ord_field2,	
 				reg_dt
 	</sql>
 
     
     <select id="findOrder" parameterType="order" resultType="order">
-		CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{receiverAddress}, #{partner});
+		<!--CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{ordererName}, #{ordererPhone1}, #{ordererPhone1}, #{receiverAddress}, #{partner});-->
+		CALL GET_ORDER(#{ordererName}, #{ordererPhone1}, #{receiverAddress}, #{partner});
 	</select>
     
-	<select id="findOrderBySabangNo" parameterType="int" resultType="order">
+	<select id="findOrderByshopNo" parameterType="String" resultType="order">
         SELECT 	<include refid="orderColumns" />
         FROM  orders
-        WHERE shop_no IN (SELECT  shop_no 
-  						  FROM  orders 
-						  WHERE sabang_no = #{sabangNo})
+        WHERE shop_no = #{shopNo}
+        AND   (ord_field2 = 'AA0' OR ord_field2 = 'BA0' OR ord_field2 = 'CA0' OR ord_field2 = '' )
+        
 	</select>
 
     <insert  id="InsOrder" useGeneratedKeys="true" keyProperty="seqNo" parameterType="order" >
         INSERT INTO orders(seq_no, partner, sabang_no, shop_no, pay_amt, quantity, 
         				   product_name, orderer_name, orderer_phone1, orderer_phone2, receiver_name,  
         				   receiver_phone1, receiver_phone2, receiver_address, orderer_email, reg_dt,
-        				   mall_order_dt, mall, order_dt)
+        				   mall_order_dt, mall, order_dt,ord_field2, option_name)
          VALUES(#{seqNo}, #{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
          		#{productName}, #{ordererName}, #{ordererPhone1}, #{ordererPhone2}, #{receiverName},
         		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
-        		#{mallOrderDt}, #{mall}, #{orderDt});
+        		#{mallOrderDt}, #{mall}, #{orderDt},#{ordField2},#{optionName});
     </insert >    
 
 </mapper>

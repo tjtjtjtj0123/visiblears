@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xcally.ars.repository.AttachMapper">
     <insert  id="InsAttach" parameterType="attach">
-        INSERT INTO attach(attach_seq,partner ,board_seq,sabang_no, s3_addr,cloud_front_addr,reg_dt)
-         VALUES(#{attachSeq}, #{partner},#{boardSeq},#{sabangNo}, #{s3Addr},#{cloudFrontAddr},NOW());
+        INSERT INTO attach(attach_seq,partner ,board_seq,shop_no, s3_addr,cloud_front_addr,reg_dt)
+         VALUES(#{attachSeq}, #{partner},#{boardSeq},#{shopNo}, #{s3Addr},#{cloudFrontAddr},NOW());
     </insert >    
 </mapper>

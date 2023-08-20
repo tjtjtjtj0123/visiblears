@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Board {
     private Long boardSeq; // 문의글번호
-    private String sabangNo; // 사방넷 주문번호
+    private String shopNo; // 쇼핑몰 주문번호
     private String partner; // 파트너사
     private String title; // 제목
     private String content; // 내용

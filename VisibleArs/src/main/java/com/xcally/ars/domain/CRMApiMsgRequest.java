@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CRMApiRequest {
+public class CRMApiMsgRequest {
 	private String partner;
     private String comid;
     private String keycode;

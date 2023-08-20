@@ -83,11 +83,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public List<Order> findOrderBySabangNo(int OrderNo) {
+	public List<Order> findOrderByshopNo(String shopNo) {
 		List<Order> objOrderList = null;
 		
 		try {
-			objOrderList = ordermapper.findOrderBySabangNo(OrderNo);
+			objOrderList = ordermapper.findOrderByshopNo(shopNo);
 		}catch (Exception e) {
 			logger.error("OrderServiceImpl -> findOrderBySabangNo -> "+ExceptionUtils.getPrintStackTrace(e));
 		}

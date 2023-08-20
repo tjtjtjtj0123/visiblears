@@ -13,7 +13,7 @@ public interface OrderService {
 	
 	public int InsOrderEncode(Order order);
 	
-	public List<Order> findOrderBySabangNo(int OrderNo);
+	public List<Order> findOrderByshopNo(String shopNo);
 	
 
 }

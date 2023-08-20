@@ -35,7 +35,7 @@
 			<input type="hidden" id="ordName" th:value="${ordName}"/>
 			<input type="hidden" id="ordPhone" th:value="${ordPhone}"/>
 			<input type="hidden" id="recvAddr" th:value="${recvAddr}"/>
-			<input type="hidden" id="sabangNo" th:value="${sabangNo}"/>
+			<input type="hidden" id="shopNo" th:value="${shopNo}"/>
 			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 			<div class="ui-data-table">
 				<table>
@@ -55,7 +55,7 @@
 						<tr>
 						<tr>
 							<th>배 송 지</th>
-							<td th:text="${order.recvAddr}"></td>
+							<td th:text="${order.receiverAddress}"></td>
 						</tr>
 						<tr>
 							<td style="text-align: center;" colspan="2"><br></td>
@@ -86,7 +86,7 @@
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
-			<div class="right-area" onclick="fnArsCall('service00')">
+			<div class="right-area" onclick="fnArsEnd();">
 				<div class="button">
 					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
@@ -114,7 +114,7 @@
 		form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
 		form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
 		form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
-		form.appendChild(addHiddenField('sabangNo', $("#sabangNo").val()));
+		form.appendChild(addHiddenField('shopNo', $("#shopNo").val()));
 				
 		if(inquiryType=='getShip') //배송 조회
 		{
@@ -122,15 +122,15 @@
 		}
 		else if(inquiryType=='changeShip') //배송지 변경요청
 		{
-			form.setAttribute('action', "/englander/changeaddr?token=" + token);
+			form.setAttribute('action', "/englander/changeShip?token=" + token);
 		}
-		else if(inquiryType =='ShipDate'){ //배송희망일자요청
-			form.setAttribute('action', "/englander/changedate?token=" + token);
+		else if(inquiryType =='shipDate'){ //배송희망일자요청
+			form.setAttribute('action', "/englander/shipDate?token=" + token);
 		}
 		else if(inquiryType == 'requestExRe'){//교환반품요청
 			form.setAttribute('action', "/englander/requestExRe?token=" + token);
 		}
-		else if(inquiryType == 'cancelOrder'){
+		else if(inquiryType == 'cancelOrder'){//주문취소요청
 			form.setAttribute('action', "/englander/cancelOrder?token=" + token);
 		}
 				

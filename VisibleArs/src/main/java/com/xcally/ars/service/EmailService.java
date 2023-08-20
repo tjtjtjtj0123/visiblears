@@ -11,8 +11,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
-import com.xcally.ars.domain.CRMApiRequest;
-import com.xcally.ars.domain.CRMApiResponse;
+import com.xcally.ars.domain.CRMApiMsgRequest;
+import com.xcally.ars.domain.CRMApiMsgResponse;
 import com.xcally.ars.domain.EmailMessage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -26,8 +26,8 @@ public interface EmailService {
 	public void sendAttachdMail(EmailMessage emailMessage, String type, Attach attach);
     public String setAttachContext(Attach attach, String type);
     
-	public void sendCrmMail(EmailMessage emailMessage, String type, CRMApiRequest crmApiRequest, CRMApiResponse crmApiResponse);
-    public String setCrmContext(CRMApiRequest crmApiRequest,CRMApiResponse crmApiResponse, String type);
+	public void sendCrmMail(EmailMessage emailMessage, String type, CRMApiMsgRequest crmApiRequest, CRMApiMsgResponse crmApiResponse);
+    public String setCrmContext(CRMApiMsgRequest crmApiRequest,CRMApiMsgResponse crmApiResponse, String type);
     
     public void sendS3Mail(EmailMessage emailMessage, String type, Long boardSeq, String file, String partner);
     public String setS3Context(String type, Long boardSeq, String file, String partner);

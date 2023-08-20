@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CRMApiResponse {
+public class CRMApiCusResponse {
     private String state;
     private String code;
     private String message;

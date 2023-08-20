@@ -16,8 +16,7 @@ import org.slf4j.LoggerFactory;
 public class AttachServiceImpl implements AttachService{
 	@Autowired
 	private AttachMapper attachMmapper;
-	@Autowired
-	private EmailService emailService;
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	//첨부 문서 등록

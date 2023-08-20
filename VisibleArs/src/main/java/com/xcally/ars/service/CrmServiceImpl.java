@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xcally.ars.domain.ApiLog;
-import com.xcally.ars.domain.CRMApiRequest;
-import com.xcally.ars.domain.CRMApiResponse;
+import com.xcally.ars.domain.CRMApiMsgRequest;
+import com.xcally.ars.domain.CRMApiMsgResponse;
 import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.ExceptionUtils;
@@ -43,7 +43,7 @@ public class CrmServiceImpl implements CrmService{
 	private EmailService emailService;
 	//문자 등록
 	@Override
-	public ResponseEntity<String> RegMsg(CRMApiRequest crmApiRequest) {
+	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiRequest) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -98,7 +98,7 @@ public class CrmServiceImpl implements CrmService{
 	}
 	
 	//content 만들기
-	public String makeContent(CRMApiRequest crmApiRequest) {
+	public String makeContent(CRMApiMsgRequest crmApiRequest) {
 		/*
 		getShip     : 배송 조회
 		changeShip : 배송지 변경

@@ -9,6 +9,6 @@ import com.xcally.ars.domain.Order;
 @Mapper
 public interface OrderMapper {
 	public Order findOrder(Order order);
-	public List<Order> findOrderBySabangNo(int OrderNo);
+	public List<Order> findOrderByshopNo(String shopNo);
 	public int InsOrder(Order order);
 }

@@ -11,8 +11,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
-import com.xcally.ars.domain.CRMApiRequest;
-import com.xcally.ars.domain.CRMApiResponse;
+import com.xcally.ars.domain.CRMApiMsgRequest;
+import com.xcally.ars.domain.CRMApiMsgResponse;
 import com.xcally.ars.domain.EmailMessage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -51,7 +51,7 @@ public class EmailServiceImpl implements EmailService{
         context.setVariable("content", 		board.getContent());
         context.setVariable("inquiryName", 	board.getInquiryName());
         context.setVariable("inquiryPhone", board.getInquiryPhone());
-        context.setVariable("mallOrderDt", 	board.getMallOrderDt());
+        context.setVariable("shopNo", 		board.getShopNo());
         context.setVariable("inquiryType", 	board.getInquiryType());
         context.setVariable("regDt", 		board.getRegDt());
         return templateEngine.process(type, context);
@@ -85,7 +85,7 @@ public class EmailServiceImpl implements EmailService{
     }
     
 	//CRM API 호출
-    public void sendCrmMail(EmailMessage emailMessage, String type, CRMApiRequest crmApiRequest, CRMApiResponse crmApiResponse) {
+    public void sendCrmMail(EmailMessage emailMessage, String type, CRMApiMsgRequest crmApiRequest, CRMApiMsgResponse crmApiResponse) {
         
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -101,7 +101,7 @@ public class EmailServiceImpl implements EmailService{
         }
     }
 
-    public String setCrmContext(CRMApiRequest crmApiRequest, CRMApiResponse crmApiResponse, String type) {
+    public String setCrmContext(CRMApiMsgRequest crmApiRequest, CRMApiMsgResponse crmApiResponse, String type) {
         Context context = new Context();
         //요청 crmApiRequest
         context.setVariable("partner", 		crmApiRequest.getPartner());
