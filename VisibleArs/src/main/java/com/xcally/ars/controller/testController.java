@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,9 @@ import com.xcally.ars.domain.ExcelSampleData;
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.common.EncryptionService;
 import com.xcally.ars.domain.common.NaverShortenUrlApi;
+import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgRequest;
+import com.xcally.ars.service.CrmServiceImpl;
 import com.xcally.ars.service.EmailService;
 import com.xcally.ars.service.OrderService;
 import com.xcally.ars.service.SeqService;
@@ -55,6 +59,9 @@ public class testController {
 	
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private CrmServiceImpl crmServiceImpl;
 	
 	@Value("${naver.shortenUrl.client.id}")
     private String YOUR_CLIENT_ID;
@@ -219,7 +226,27 @@ public class testController {
         int varcharLength = decodedLength + 20;
 
         logger.error("VARCHAR 컬럼 길이: " + varcharLength);
-		return;
+		return;		
+	}
+	
+	@GetMapping("/custest")
+	public void custest() {
+		
+		CRMApiCusRequest asd = CRMApiCusRequest.builder()
+						.comid("xcally")
+						.keycode("0bs6h0h3jybk75cv7xwxq7oxg6a5x9uh")
+						.hp("01080077293")
+						.name("김단태")
+						.memo("여기에주문정보?")
+						.zipcode("12354")
+						.address("창동")
+						.seq(seqService.getSeq().toString())
+						.partner("englander")
+						.build();
+						
+		ResponseEntity<String> dd= crmServiceImpl.RegCus(asd);
 		
 	}
+	
+	
 }

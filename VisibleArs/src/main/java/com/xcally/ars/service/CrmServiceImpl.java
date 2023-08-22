@@ -22,11 +22,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xcally.ars.domain.ApiLog;
-import com.xcally.ars.domain.CRMApiMsgRequest;
-import com.xcally.ars.domain.CRMApiMsgResponse;
 import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.ExceptionUtils;
+import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgResponse;
 
 @Service
 public class CrmServiceImpl implements CrmService{
@@ -39,11 +40,9 @@ public class CrmServiceImpl implements CrmService{
 	@Autowired
 	private LogService logService; 
 
-	@Autowired
-	private EmailService emailService;
 	//문자 등록
 	@Override
-	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiRequest) {
+	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiMsgRequest) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -58,17 +57,17 @@ public class CrmServiceImpl implements CrmService{
 	        // form 데이터 설정
 	        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 
-	        formData.add("comid", 		crmApiRequest.getComid());
-	        formData.add("keycode", 	crmApiRequest.getKeycode());
-	        formData.add("hp", 			crmApiRequest.getHp());     
-	        formData.add("title", 		crmApiRequest.getTitle());
-	        formData.add("msg", 		crmApiRequest.getMsg());
-	        formData.add("proctime",  	crmApiRequest.getProctime());
-	        formData.add("seq", 		crmApiRequest.getSeq());
+	        formData.add("comid", 		crmApiMsgRequest.getComid());
+	        formData.add("keycode", 	crmApiMsgRequest.getKeycode());
+	        formData.add("hp", 			crmApiMsgRequest.getHp());     
+	        formData.add("title", 		crmApiMsgRequest.getTitle());
+	        formData.add("msg", 		crmApiMsgRequest.getMsg());
+	        formData.add("proctime",  	crmApiMsgRequest.getProctime());
+	        formData.add("seq", 		crmApiMsgRequest.getSeq());
         
-	        if(crmApiRequest.getFileNameList().size() > 0 ) {
-	        	for(int i = 0;i<crmApiRequest.getFileNameList().size();i++) {
-	        		formData.add("imglink"+(i+1), crmApiRequest.getFileNameList().get(i));
+	        if(crmApiMsgRequest.getFileNameList().size() > 0 ) {
+	        	for(int i = 0;i<crmApiMsgRequest.getFileNameList().size();i++) {
+	        		formData.add("imglink"+(i+1), crmApiMsgRequest.getFileNameList().get(i));
 	        	}
 	        }
 	        
@@ -76,8 +75,8 @@ public class CrmServiceImpl implements CrmService{
 	        
 	        //REQ 데이터 LOGGING
 	        ApiLog Request = ApiLog.builder()
-	        				.apiLogSeq(Long.parseLong(crmApiRequest.getSeq()))
-	        				.partner(crmApiRequest.getPartner())
+	        				.apiLogSeq(Long.parseLong(crmApiMsgRequest.getSeq()))
+	        				.partner(crmApiMsgRequest.getPartner())
 	        				.endPoint(url)
 	        				.request(apiRequest)
 	        				.build();
@@ -90,26 +89,64 @@ public class CrmServiceImpl implements CrmService{
 	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 	                
 		}catch (Exception e) {
-			logger.error("PartnerServiceImpl -> Contact -> "+ExceptionUtils.getPrintStackTrace(e));
+			logger.error("CrmServiceImpl -> RegMsg -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
         // API 호출 결과 반환
         return responseEntity;
 	}
 	
-	//content 만들기
-	public String makeContent(CRMApiMsgRequest crmApiRequest) {
-		/*
-		getShip     : 배송 조회
-		changeShip : 배송지 변경
-		ShipDate : 배송 희망일 요청
-		cancelOrder 주문 취소
-		requestExRe 교환 반품 요청	
-		*/
+	//고객 등록
+	@Override
+	public ResponseEntity<String> RegCus(CRMApiCusRequest crmApiCusRequest) {
+
+		ResponseEntity<String> responseEntity = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			// API URL 및 데이터 준비
+	        String url     = apiUrl  + "/ServiceAPI/CustomerEdit/";
+
+	        // HttpHeaders 설정
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+	        // form 데이터 설정
+	        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
+	        formData.add("comid", 		crmApiCusRequest.getComid());
+	        formData.add("keycode", 	crmApiCusRequest.getKeycode());	        
+	        formData.add("proc", 		"UI");     
+	        formData.add("name", 		crmApiCusRequest.getName());
+	        formData.add("hp", 			crmApiCusRequest.getHp());
+	        formData.add("comname", 	crmApiCusRequest.getComname());
+	        formData.add("zipcode", 	crmApiCusRequest.getZipcode());
+	        formData.add("address", 	crmApiCusRequest.getAddress());
+	        formData.add("memo", 		crmApiCusRequest.getMemo());
+
+	        
+	        String apiRequest = objectMapper.writeValueAsString(formData);
+	        
+	        //REQ 데이터 LOGGING
+	        ApiLog Request = ApiLog.builder()
+	        				.apiLogSeq(Long.parseLong(crmApiCusRequest.getSeq()))
+	        				.partner(crmApiCusRequest.getPartner())
+	        				.endPoint(url)
+	        				.request(apiRequest)
+	        				.build();
+	        logService.InsApiLog(Request);
+
+
+	        // RestTemplate을 사용하여 API 호출
+	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+	        RestTemplate restTemplate = new RestTemplate();
+	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+	                
+		}catch (Exception e) {
+			logger.error("CrmServiceImpl -> RegCus -> "+ExceptionUtils.getPrintStackTrace(e));
+		}
 		
-		
-		
-		return"";
+        // API 호출 결과 반환
+        return responseEntity;
 	}
 	
 }

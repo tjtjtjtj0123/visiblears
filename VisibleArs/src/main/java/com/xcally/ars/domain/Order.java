@@ -36,5 +36,6 @@ public class Order {
     private String receiverAddress; // 수취인 주소
     private String ordererEmail; // 주문자 이메일 주소
     private String ordField2;
+    private String receiveZipcode;
     private LocalDateTime regDt; // 등록일자
 }

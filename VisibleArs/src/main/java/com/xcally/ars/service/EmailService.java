@@ -11,9 +11,10 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
-import com.xcally.ars.domain.CRMApiMsgRequest;
-import com.xcally.ars.domain.CRMApiMsgResponse;
 import com.xcally.ars.domain.EmailMessage;
+import com.xcally.ars.domain.crm.CRMApiMsgRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgResponse;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 

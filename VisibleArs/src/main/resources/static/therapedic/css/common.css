@@ -1,0 +1,151 @@
+@import "../_custom/colors.css";
+
+/*
+  page header styles.
+*/
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 20px;
+  background: #393939;
+  z-index: 99;
+}
+.page-header .left-area, 
+.page-header .right-area {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.page-header .left-area .icon,
+.page-header .right-area .icon {
+  width: 15px;
+  height: auto;
+  margin-right: 10px;
+}
+.page-header .left-area .title,
+.page-header .right-area .title {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+.page-header .right-area {
+  justify-content: flex-end;
+}
+
+/*
+  page navigation styles.
+*/
+.page-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  padding: 0 30px;
+  /*margin-top: 40px;*/
+}
+.page-navigation .icon {
+  width: 22px;
+  height: auto;
+}
+
+/*
+  page container styles.
+*/
+.page-container .content {
+  margin-bottom: 30px;
+}
+.page-container .menu-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  height: 110px;
+  background: var(--brand-color);
+}
+.page-container .menu-header .title {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #393939;
+  margin-bottom: 10px;
+}
+.page-container .menu-header .description {
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: #6b6b6b;
+  line-height: 1.2;
+}
+
+/*
+  page footer navigation
+*/
+.page-footer-navigation {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid #ccc;
+  z-index: 99;
+}
+.page-footer-navigation .icon {
+  width: 20px;
+  height: auto;
+  margin-right: 10px;
+}
+.page-footer-navigation .title {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.page-footer-navigation .controller {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: inherit;
+}
+.page-footer-navigation .controller .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-footer-navigation .controller .left-area,
+.page-footer-navigation .controller .right-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+}
+.page-footer-navigation .controller .left-area {
+  background-color: #fff;
+}
+.page-footer-navigation .controller .right-area {
+  background: #c41e20;
+  color: #fff;
+}
+
+.notice {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 65px;
+}
+.notice p {
+  font-size: 1.3rem;
+  color: #a3a3a3;
+  text-align: center; 
+}
+
+.files .preview ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+

@@ -79,6 +79,11 @@ function modalInfoOpen() {
 	modal.classList.add("visible");
 }
 
+function modalConfirmOpen() {
+	const modal = document.getElementById("modal_confirm");
+	modal.classList.add("visible");
+}
+
 //모달 끄기
 function modalClose(element) {
 	while(true) {

@@ -138,5 +138,14 @@
 .notice p {
   font-size: 1.3rem;
   color: #a3a3a3;
-  text-align: center;
+  text-align: center; 
 }
+
+.files .preview ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+

@@ -73,7 +73,7 @@ public class XmlController {
         		+ "	<DATA>\r\n"
         		+ "		<ORD_ST_DATE>"+yesterDay+"</ORD_ST_DATE>\r\n"
         		+ "		<ORD_ED_DATE>"+yesterDay+"</ORD_ED_DATE>\r\n"
-        		+ "		<ORD_FIELD><![CDATA[ORDER_DATE|IDX|ORDER_ID|PAY_COST|SALE_CNT|PRODUCT_NAME|SKU_VALUE|USER_NAME|USER_TEL|USER_CEL|USER_EMAIL|RECEIVE_NAME|RECEIVE_TEL|RECEIVE_CEL|RECEIVE_ADDR|MALL_ID|ord_field2]]></ORD_FIELD>\r\n"
+        		+ "		<ORD_FIELD><![CDATA[ORDER_DATE|IDX|ORDER_ID|PAY_COST|SALE_CNT|PRODUCT_NAME|SKU_VALUE|USER_NAME|USER_TEL|USER_CEL|USER_EMAIL|RECEIVE_NAME|RECEIVE_TEL|RECEIVE_CEL|RECEIVE_ADDR|RECEIVE_ZIPCODE|MALL_ID|ord_field2]]></ORD_FIELD>\r\n"
         		+ "	</DATA>\r\n"
         		+ "</SABANG_ORDER_LIST>";
         
@@ -147,6 +147,7 @@ public class XmlController {
     	            				.orderDt(data.getChildText("ORDER_DATE"))
     	            				.ordField2(data.getChildText("ord_field2"))
     	            				.optionName(data.getChildText("SKU_VALUE"))
+    	            				.receiveZipcode(data.getChildText("RECEIVE_ZIPCODE"))
     	            				.build();
             	            
             	            int rstl = orderservice.InsOrder(order);
@@ -166,5 +167,50 @@ public class XmlController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    
+    @GetMapping(value="/chkbodyxml")
+    public String chkbodyxml(@RequestParam(name= "partner",required = false,defaultValue = "0") String  partner) {
+    	
+    	if(partner.equals("0"))
+    	{
+    		return"";
+    	}
+
+		//사용기한 제크
+    	boolean useDtFlag = false;
+		useDtFlag = partnerservice.findPartnerUseDt(partner);
+		if(!useDtFlag) {
+			return"";
+		}   	
+    	
+		//url세팅
+        String apiUrl = sabangUrl 
+        				+ "?xml_url="
+        				+ request.getRequestURL().substring(0, request.getRequestURL().indexOf("/", 8))
+        				+ "/getxml/" +partner;
+        
+        //오늘 날짜
+        LocalDate 		  currentDate = LocalDate.now();
+    	DateTimeFormatter formatter   = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String 			  nowDay      = currentDate.format(formatter);
+        
+        
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpPost httpPost 	  = new HttpPost(apiUrl);
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity 	  = response.getEntity();
+
+            if (entity != null) {
+            	try (InputStream inputStream = entity.getContent(); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "EUC-KR"))) 
+            	{
+            		return inputStream.toString();
+            	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return "";
     }
 }

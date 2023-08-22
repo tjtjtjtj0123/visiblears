@@ -18,10 +18,10 @@
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome()">
-			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
+		<div class="button" onclick="handleClickHome('sornia')">
+			<img src="/sornia/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
@@ -32,9 +32,8 @@
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
 			<div class="ui-data-table">
-				<input type="hidden" id="sabang_no" th:value="${sabang_no}"/>
-				<input type="hidden" id="orderno" />
-				<input type="hidden" id="userid" />
+				<input type="hidden" id="shopNo" th:value="${shopNo}"/>
+				<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
 				<table>
 					<colgroup>
 						<col width="65px" />
@@ -45,7 +44,7 @@
 							<th>이 름</th>
 							<td>
 								<div class="ui-text-field">														
-									<input type="text" id="orderer_name" th:value="${orderer_name}" placeholder="예 : 홍길동" />
+									<input type="text" id="ordName" th:value="${ordName}" placeholder="예 : 홍길동" />
 								</div>
 							</td>
 						</tr>
@@ -53,18 +52,20 @@
 							<th>전 화 번 호</th>
 							<td>
 								<div class="ui-text-field">
-									<input id="orderer_phone1" type="text"  th:value="${orderer_phone1}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+									<input id="ordPhone" type="text"  th:value="${ordPhone}" placeholder="-제외하고 번호만 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>문의 구분</th>
 							<td>
-								<div class="ui-select-field">
-									<select id="inquiry_type">
-										<option value="delivery">배송</option>
-										<option value="exchange">교환</option>
-										<option value="return">반품</option>
+								<div class="ui-select-field" id="seldiv">
+									<select id="inquiryTypeSel">
+										<option value="getShip">배송 조회</option>
+										<option value="changeShip">배송지 변경</option>
+										<option value="shipDate">배송 희망일 요청</option>
+										<option value="cancelOrder">교환 반품 요청</option>
+										<option value="ASRequest">AS 요청</option>
 										<option value="etc">기타문의</option>
 									</select>
 								</div>
@@ -110,7 +111,7 @@
 			</div>
 			<div class="inquiry">
 				<a href="#">
-					<div id="uploadBtn" onclick="uploadimg()" class="ui-button blue">
+					<div id="uploadBtn" onclick="modalConfirmOpen()" class="ui-button blue">
 						<span class="title">등록하기</span>
 					</div>
 				</a>
@@ -118,12 +119,6 @@
 		</div>
 	</div>
 	<div>
-
-		<!-- notice
-		<div class="notice" id="notice">
-			<p>3G, LTE, 5G 환경에서는 데이터 요금이 발생합니다.</p>
-			<img src="/sornia/assets/ico_smart_cti.svg" alt="smart_cti" />
-		</div> -->
 		<!-- modal -->
 		<div class="ui-modal" id="modal">
 			<div class="content">
@@ -143,47 +138,55 @@
 		<div class="ui-modal" id="modal_info">
 			<div class="content">
 				<div class="icon">
-					<img src="/englander/assets/ico_uncheck.svg" alt="info">
+					<img src="/sornia/assets/ico_uncheck.svg" alt="info">
 				</div>
 				<div class="message">
-					<!--<p><b id="modal_msg">1:1 문의가 접수되었습니다.</b></p>-->
 					<p id="modal_msg"></p>
 				</div>
 				<div onclick="modalClose(this)" class="ui-button blue">
 					<span class="title">닫기</span>
 				</div> 
 			</div>
-		</div>		
+		</div>
+		<!--confirm-->
+		<div class="ui-modal" id="modal_confirm">
+			<div class="content" style="min-height: 100px;">
+
+					<div class="message">
+						<p id="modal_msg">문의를 남기시겠습니까?</p>
+						<p></p>
+					</div>
+					<div style="display: flex; 
+								gap: 10px; 
+								margin-top: 20px;">
+					<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+						<span class="title">등록</span>
+					</div> 
+					<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+						<span class="title">닫기</span>
+					</div> 
+				</div>
+			</div>
+		</div>
 </body>
 
 <script>
 	const urlParams = new URL(location.href).searchParams;
 	const token = urlParams.get('token');
-	function handleClickHome()
-	{
-		location.href = "/sornia/menu";
-	}		
-	function modalOpen() {
-		const modal = document.getElementById("modal");
-		modal.classList.add("visible");
-	}
-	function modalInfoOpen() {
-		const modal = document.getElementById("modal_info");
-		modal.classList.add("visible");
-	}
+
+
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
 		fnArsCall("service04");
+		fnOnLoad();
+		
+		if($("#inquiryType").val()!=""){
+			$("#inquiryTypeSel").val($("#inquiryType").val()).prop("selected", true);
+			$("#inquiryTypeSel").attr("disabled",'true');			
+		}
 	});
 
-	function modalClose(element) {
-		while(true) {
-			if (!element) return;
-			if (element.classList.contains("ui-modal")) break;
-			element = element.parentNode;
-		}
-		element.classList.remove("visible");
-	}
+
 	// 이미지 정보들을 담을 배열
 	var sel_files = [];
 	
@@ -193,11 +196,6 @@
 		// file upload logic.
 	};
 
-	window.onload = function () {
-		fnOnLoad();
-	};
-
-
 	//업로드 여러개 하기
 	function uploadimg() {
 	
@@ -205,7 +203,7 @@
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
 		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true 
-		|| special_pattern.test($("#orderer_phone1").val()) == true ||special_pattern.test($("#orderer_name").val()) == true) {
+		|| special_pattern.test($("#ordPhone").val()) == true ||special_pattern.test($("#ordName").val()) == true) {
 			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
 			modalInfoOpen();
 			return false;
@@ -223,13 +221,13 @@
 			return false;
 		}
 		
-		if($("#orderer_phone1").val().length === 0 ){
+		if($("#ordPhone").val().length === 0 ){
 			$("#modal_msg").text("전화번호를 입력해 주세요.");
 			modalInfoOpen();	
 			return false;
 		}
 		
-		if($("#orderer_phone1").val().length === 0 ){
+		if($("#ordPhone").val().length === 0 ){
 			$("#modal_msg").text("이름을 입력해 주세요.");
 			modalInfoOpen();	
 			return false;
@@ -254,20 +252,19 @@
 				$("#imglistul").empty();
 				return false;
 			}
-		}			
+		}		
 
 		const formData = new FormData();
 
 		for (var i = 0; i < sel_files.length; i++) {
 			formData.append("file", sel_files[i]);
 		}
-		formData.append("sabang_no",$("#sabang_no").val());
-		formData.append("title", $("#title").val());
-		formData.append("content",$("#content").val());
-		
-		formData.append("orderer_phone1",$("#orderer_phone1").val());
-		formData.append("orderer_name", $("#orderer_name").val());
-		formData.append("inquiry_type", $("#inquiry_type").val());
+		formData.append("shopNo",		$("#shopNo").val());
+		formData.append("title", 		$("#title").val());
+		formData.append("content",		$("#content").val());
+		formData.append("ordPhone",		$("#ordPhone").val());
+		formData.append("ordName", 		$("#ordName").val());
+		formData.append("inquiryType",	$("#inquiryTypeSel").val());
 		
 		$.ajax({
 			type: 'POST',
@@ -282,7 +279,7 @@
 			modalOpen();			
 		})
 		.done(function (data) {
-			$('#result-image').attr("src", data);
+			$('#result-image').attr("src", data); 
 			//modalOpen();
 			$("#uploadBtn").attr("onclick","modalOpen()");
 		})
@@ -302,7 +299,12 @@
 			sel_files.push(f);
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				var html = '<li class="image" id="img_id_' + index + '"><img src="' + e.target.result + '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' + index + ')"></li>';
+				var html = '<li class="image" id="img_id_' 
+							+ index 
+							+ '"><img src="' 
+							+ e.target.result 
+							+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction(' 
+							+ index + ')"></li>';
 				$("#imglistul").append(html);
 				index++;
 			}

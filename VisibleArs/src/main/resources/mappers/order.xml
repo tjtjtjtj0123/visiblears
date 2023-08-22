@@ -24,6 +24,7 @@
 				receiver_address, 				
 				orderer_email, 			
 				ord_field2,	
+				receiver_zipcode,
 				reg_dt
 	</sql>
 
@@ -45,11 +46,11 @@
         INSERT INTO orders(seq_no, partner, sabang_no, shop_no, pay_amt, quantity, 
         				   product_name, orderer_name, orderer_phone1, orderer_phone2, receiver_name,  
         				   receiver_phone1, receiver_phone2, receiver_address, orderer_email, reg_dt,
-        				   mall_order_dt, mall, order_dt,ord_field2, option_name)
+        				   mall_order_dt, mall, order_dt,ord_field2, option_name, receiver_zipcode)
          VALUES(#{seqNo}, #{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
          		#{productName}, #{ordererName}, #{ordererPhone1}, #{ordererPhone2}, #{receiverName},
         		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
-        		#{mallOrderDt}, #{mall}, #{orderDt},#{ordField2},#{optionName});
+        		#{mallOrderDt}, #{mall}, #{orderDt},#{ordField2},#{optionName} ,#{receiveZipcode});
     </insert >    
 
 </mapper>
