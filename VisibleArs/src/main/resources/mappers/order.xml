@@ -50,7 +50,7 @@
          VALUES(#{seqNo}, #{partner}, #{sabangNo}, #{shopNo}, #{payAmt}, #{quantity},
          		#{productName}, #{ordererName}, #{ordererPhone1}, #{ordererPhone2}, #{receiverName},
         		#{receiverPhone1}, #{receiverPhone2}, #{receiverAddress}, #{ordererEmail}, NOW(),
-        		#{mallOrderDt}, #{mall}, #{orderDt},#{ordField2},#{optionName} ,#{receiveZipcode});
+        		#{mallOrderDt}, #{mall}, #{orderDt},#{ordField2},#{optionName} ,#{receiverZipcode});
     </insert >    
 
 </mapper>

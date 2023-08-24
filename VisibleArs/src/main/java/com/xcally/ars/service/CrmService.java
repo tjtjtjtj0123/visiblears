@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiCusResponse;
 import com.xcally.ars.domain.crm.CRMApiMsgRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgResponse;
 
 public interface CrmService {
-	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiMsgRequest);
-	public ResponseEntity<String> RegCus(CRMApiCusRequest crmApiCusRequest);
+	public CRMApiMsgResponse RegMsg(CRMApiMsgRequest crmApiMsgRequest);
+	public CRMApiCusResponse RegCus(CRMApiCusRequest crmApiCusRequest);
 }

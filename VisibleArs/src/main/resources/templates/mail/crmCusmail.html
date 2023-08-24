@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <h1>CRM API 요청 실패</h1>
+    <br>
+    <h1>요청</h1>
+    <table border="1">
+		<tr>
+			<td>파트너사</td>
+		    <td><span th:text="${partner}"></span></td>
+		</tr>
+		<tr>
+			<td>comid</td>
+		    <td><span th:text="${comid}"></span></td>
+		</tr>		
+		<tr>
+			<td>keycode</td>
+		    <td><span th:text="${keycode}"></span></td>
+		</tr>
+		<tr>
+			<td>proc</td>
+		    <td><span th:text="${proc}"></span></td>
+		</tr>
+		<tr>
+			<td>title</td>
+		    <td><span th:text="${title}"></span></td>
+		</tr>
+		<tr>
+			<td>name</td>
+		    <td><span th:text="${name}"></span></td>
+		</tr>
+		<tr>
+			<td>hp</td>
+		    <td><span th:text="${hp}"></span></td>
+		</tr>
+		<tr>
+			<td>comname</td>
+		    <td><span th:text="${comname}"></span></td>
+		</tr>
+		<tr>
+			<td>zipcode</td>
+		    <td><span th:text="${zipcode}"></span></td>
+		</tr>
+		<tr>
+			<td>address</td>
+		    <td><span th:text="${address}"></span></td>
+		</tr>
+		<tr>
+			<td>memo</td>
+		    <td><span th:text="${memo}"></span></td>
+		</tr>
+		<tr>
+			<td>seq</td>
+		    <td><span th:text="${seq}"></span></td>
+		</tr>
+			
+    </table>
+    <br/>
+    <h1>응답</h1>
+    <table border="1">
+		<tr>
+			<td>state</td>
+		    <td><span th:text="${state}"></span></td>
+		</tr>
+		<tr>
+			<td>code</td>
+		    <td><span th:text="${code}"></span></td>
+		</tr>
+		<tr>
+			<td>message</td>
+		    <td><span th:text="${message}"></span></td>
+		</tr>	
+		<tr>
+			<td>custcode</td>
+		    <td><span th:text="${custcode}"></span></td>
+		</tr>	
+		<tr>
+			<td>name</td>
+		    <td><span th:text="${name}"></span></td>
+		</tr>	
+		<tr>
+			<td>hp</td>
+		    <td><span th:text="${hp}"></span></td>
+		</tr>								
+    </table>
+</div>
+
+</body>
+</html>

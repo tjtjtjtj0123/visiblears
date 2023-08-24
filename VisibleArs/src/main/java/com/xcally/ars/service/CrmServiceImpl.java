@@ -26,6 +26,7 @@ import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiCusResponse;
 import com.xcally.ars.domain.crm.CRMApiMsgRequest;
 import com.xcally.ars.domain.crm.CRMApiMsgResponse;
 
@@ -42,10 +43,15 @@ public class CrmServiceImpl implements CrmService{
 
 	//문자 등록
 	@Override
-	public ResponseEntity<String> RegMsg(CRMApiMsgRequest crmApiMsgRequest) {
+	public CRMApiMsgResponse RegMsg(CRMApiMsgRequest crmApiMsgRequest) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
+		CRMApiMsgResponse response = CRMApiMsgResponse.builder()
+									.state("fail")
+									.code("999")
+									.message("")
+									.build();
 		try {
 			// API URL 및 데이터 준비
 	        String url     = apiUrl  + "/ServiceAPI/MsgRegister/";
@@ -87,21 +93,50 @@ public class CrmServiceImpl implements CrmService{
 	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
 	        RestTemplate restTemplate = new RestTemplate();
 	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-	                
+	        
+	        response  = objectMapper.readValue(responseEntity.getBody(), CRMApiMsgResponse.class);
+	        
+	        String 		     jsonString = objectMapper.writeValueAsString(response);	 
+	        
+	        //성공 시
+	        if(response.getState().equals("success") && responseEntity.getStatusCode().is2xxSuccessful()) {
+	        	ApiLog Response = ApiLog.builder()
+		        				.partner(crmApiMsgRequest.getPartner())
+		        				.errorMessage("")
+		        				.success(true)
+		        				.response(jsonString)
+		        				.apiLogSeq(Long.parseLong(crmApiMsgRequest.getSeq()))
+		        				.build();
+	        	logService.UpdApiLog(Response);
+	        	
+	        }else {
+	        	ApiLog Response = ApiLog.builder()
+		        				.partner(crmApiMsgRequest.getPartner())
+		        				.errorMessage("")
+		        				.success(false)
+		        				.response(jsonString)
+		        				.apiLogSeq(Long.parseLong(crmApiMsgRequest.getSeq()))
+		        				.build();
+	        	logService.UpdApiLog(Response);
+	        }	        
 		}catch (Exception e) {
 			logger.error("CrmServiceImpl -> RegMsg -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
         // API 호출 결과 반환
-        return responseEntity;
+        return response;
 	}
 	
 	//고객 등록
 	@Override
-	public ResponseEntity<String> RegCus(CRMApiCusRequest crmApiCusRequest) {
+	public CRMApiCusResponse RegCus(CRMApiCusRequest crmApiCusRequest) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
+		CRMApiCusResponse response = CRMApiCusResponse.builder()
+									.state("fail")
+									.code("999")
+									.build();
 		try {
 			// API URL 및 데이터 준비
 	        String url     = apiUrl  + "/ServiceAPI/CustomerEdit/";
@@ -122,7 +157,7 @@ public class CrmServiceImpl implements CrmService{
 	        formData.add("zipcode", 	crmApiCusRequest.getZipcode());
 	        formData.add("address", 	crmApiCusRequest.getAddress());
 	        formData.add("memo", 		crmApiCusRequest.getMemo());
-
+        
 	        
 	        String apiRequest = objectMapper.writeValueAsString(formData);
 	        
@@ -140,13 +175,38 @@ public class CrmServiceImpl implements CrmService{
 	        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
 	        RestTemplate restTemplate = new RestTemplate();
 	        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-	                
+	        
+	        response  = objectMapper.readValue(responseEntity.getBody(), CRMApiCusResponse.class);
+	        
+	        String 		     jsonString = objectMapper.writeValueAsString(response);	 
+	        
+	        //성공 시
+	        if(response.getState().equals("success") && responseEntity.getStatusCode().is2xxSuccessful()) {
+	        	ApiLog Response = ApiLog.builder()
+		        				.partner(crmApiCusRequest.getPartner())
+		        				.errorMessage("")
+		        				.success(true)
+		        				.response(jsonString)
+		        				.apiLogSeq(Long.parseLong(crmApiCusRequest.getSeq()))
+		        				.build();
+	        	logService.UpdApiLog(Response);
+	        	
+	        }else {
+	        	ApiLog Response = ApiLog.builder()
+		        				.partner(crmApiCusRequest.getPartner())
+		        				.errorMessage("")
+		        				.success(false)
+		        				.response(jsonString)
+		        				.apiLogSeq(Long.parseLong(crmApiCusRequest.getSeq()))
+		        				.build();
+	        	logService.UpdApiLog(Response);
+	        }	        
 		}catch (Exception e) {
 			logger.error("CrmServiceImpl -> RegCus -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		
         // API 호출 결과 반환
-        return responseEntity;
+        return response;
 	}
 	
 }

@@ -59,7 +59,7 @@ public class XmlController {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String nowDay = currentDate.format(formatter);
 
-        LocalDate previousDay = currentDate.minusDays(4);
+        LocalDate previousDay = currentDate.minusDays(1);
         String yesterDay = previousDay.format(formatter);
         
         String xmlData = 
@@ -147,11 +147,17 @@ public class XmlController {
     	            				.orderDt(data.getChildText("ORDER_DATE"))
     	            				.ordField2(data.getChildText("ord_field2"))
     	            				.optionName(data.getChildText("SKU_VALUE"))
-    	            				.receiveZipcode(data.getChildText("RECEIVE_ZIPCODE"))
+    	            				.receiverZipcode(data.getChildText("RECEIVE_ZIPCODE"))
     	            				.build();
             	            
-            	            int rstl = orderservice.InsOrder(order);
-            	            sucCnt+=rstl;
+            	            if(order.getOptionName().equals("null")) {
+            	            	order.setOptionName("");
+            	            }
+            	            
+            	            if(order.getOrdField2().equals("AA0") || order.getOrdField2().equals("BA0") || order.getOrdField2().equals("CA0") || order.getOrdField2().equals("")) {
+            	            	int rstl = orderservice.InsOrder(order);            	            
+            	            	sucCnt+=rstl;
+            	            }
         		    }
             		    
         		    OrderLog orderLog = OrderLog.builder()
@@ -161,7 +167,7 @@ public class XmlController {
         		    					.sucCnt(Integer.toString(sucCnt))
         		    					.build();
         		    		
-        		    int rstl = logService.InsOrderLog(orderLog);
+        		    int rstl2 = logService.InsOrderLog(orderLog);
             	}
             }
         } catch (Exception e) {

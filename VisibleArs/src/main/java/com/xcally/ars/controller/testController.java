@@ -244,7 +244,7 @@ public class testController {
 						.partner("englander")
 						.build();
 						
-		ResponseEntity<String> dd= crmServiceImpl.RegCus(asd);
+		//ResponseEntity<String> dd= crmServiceImpl.RegCus(asd);
 		
 	}
 	

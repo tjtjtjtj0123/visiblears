@@ -12,6 +12,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
 import com.xcally.ars.domain.EmailMessage;
+import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiCusResponse;
 import com.xcally.ars.domain.crm.CRMApiMsgRequest;
 import com.xcally.ars.domain.crm.CRMApiMsgResponse;
 
@@ -85,8 +87,8 @@ public class EmailServiceImpl implements EmailService{
         return templateEngine.process(type, context);
     }
     
-	//CRM API 호출
-    public void sendCrmMail(EmailMessage emailMessage, String type, CRMApiMsgRequest crmApiRequest, CRMApiMsgResponse crmApiResponse) {
+	//CRM MSG API 호출
+    public void sendCrmMsgMail(EmailMessage emailMessage, String type, CRMApiMsgRequest crmApiMsgRequest, CRMApiMsgResponse crmApiMsgResponse) {
         
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -94,7 +96,7 @@ public class EmailServiceImpl implements EmailService{
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessage.getTo()); 
             mimeMessageHelper.setSubject(emailMessage.getSubject()); 
-            mimeMessageHelper.setText(setCrmContext(crmApiRequest,crmApiResponse, type), true); 
+            mimeMessageHelper.setText(setCrmMsgContext(crmApiMsgRequest,crmApiMsgResponse, type), true); 
             javaMailSender.send(mimeMessage);   
 
         } catch (MessagingException e) {
@@ -102,28 +104,74 @@ public class EmailServiceImpl implements EmailService{
         }
     }
 
-    public String setCrmContext(CRMApiMsgRequest crmApiRequest, CRMApiMsgResponse crmApiResponse, String type) {
+    public String setCrmMsgContext(CRMApiMsgRequest crmApiMsgRequest, CRMApiMsgResponse crmApiMsgResponse, String type) {
         Context context = new Context();
         //요청 crmApiRequest
-        context.setVariable("partner", 		crmApiRequest.getPartner());
-        context.setVariable("comid", 		crmApiRequest.getComid());
-        context.setVariable("keycode", 		crmApiRequest.getKeycode());
-        context.setVariable("hp", 			crmApiRequest.getHp());
-        context.setVariable("title", 		crmApiRequest.getTitle());
+        context.setVariable("partner", 		crmApiMsgRequest.getPartner());
+        context.setVariable("comid", 		crmApiMsgRequest.getComid());
+        context.setVariable("keycode", 		crmApiMsgRequest.getKeycode());
+        context.setVariable("hp", 			crmApiMsgRequest.getHp());
+        context.setVariable("title", 		crmApiMsgRequest.getTitle());
         
-        context.setVariable("msg", 			crmApiRequest.getMsg());
-        context.setVariable("proctime", 	crmApiRequest.getProctime());
-        context.setVariable("seq", 			crmApiRequest.getSeq());
-        context.setVariable("fileNameList",	crmApiRequest.getFileNameList());
+        context.setVariable("msg", 			crmApiMsgRequest.getMsg());
+        context.setVariable("proctime", 	crmApiMsgRequest.getProctime());
+        context.setVariable("seq", 			crmApiMsgRequest.getSeq());
+        context.setVariable("fileNameList",	crmApiMsgRequest.getFileNameList());
         
         //응답 crmApiResponse
-        context.setVariable("state", 		crmApiResponse.getState());
-        context.setVariable("code",			crmApiResponse.getCode());
-        context.setVariable("message",		crmApiResponse.getMessage());
+        context.setVariable("state", 		crmApiMsgResponse.getState());
+        context.setVariable("code",			crmApiMsgResponse.getCode());
+        context.setVariable("message",		crmApiMsgResponse.getMessage());
 
         return templateEngine.process(type, context);
     }
 
+    
+	//CRM CUS API 호출
+    public void sendCrmCusMail(EmailMessage emailMessage, String type, CRMApiCusRequest crmApiCusRequest, CRMApiCusResponse crmApiCusResponse) {
+        
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(emailMessage.getTo()); 
+            mimeMessageHelper.setSubject(emailMessage.getSubject()); 
+            mimeMessageHelper.setText(setCrmCusContext(crmApiCusRequest,crmApiCusResponse, type), true); 
+            javaMailSender.send(mimeMessage);   
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String setCrmCusContext(CRMApiCusRequest crmApiCusRequest,CRMApiCusResponse crmApiCusResponse, String type) {
+        Context context = new Context();
+        //요청 crmApiRequest
+        context.setVariable("partner", 		crmApiCusRequest.getPartner());
+        context.setVariable("comid", 		crmApiCusRequest.getComid());
+        context.setVariable("keycode", 		crmApiCusRequest.getKeycode());
+        context.setVariable("proc", 		crmApiCusRequest.getProc());
+        context.setVariable("name", 		crmApiCusRequest.getName());
+        
+        context.setVariable("hp", 			crmApiCusRequest.getHp());
+        context.setVariable("comname", 		crmApiCusRequest.getComname());
+        context.setVariable("zipcode", 		crmApiCusRequest.getZipcode());
+        context.setVariable("address",		crmApiCusRequest.getAddress());
+        context.setVariable("memo",			crmApiCusRequest.getMemo());
+        context.setVariable("seq",			crmApiCusRequest.getSeq());
+        
+        //응답 crmApiResponse
+        context.setVariable("state", 		crmApiCusResponse.getState());
+        context.setVariable("code",			crmApiCusResponse.getCode());
+        context.setVariable("message",		crmApiCusResponse.getMessage());
+        context.setVariable("custcode", 	crmApiCusResponse.getCustcode());
+        context.setVariable("name", 		crmApiCusResponse.getName());
+        context.setVariable("hp", 			crmApiCusResponse.getHp());
+        return templateEngine.process(type, context);
+    }
+
+    
+    
     //s3 등록 실패
 	@Override
 	public void sendS3Mail(EmailMessage emailMessage, String type, Long boardSeq, String file, String partner) {
