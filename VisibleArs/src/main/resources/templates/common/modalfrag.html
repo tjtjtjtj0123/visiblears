@@ -1,0 +1,52 @@
+<!--통화종료모달-->
+<div class="ui-modal" id="modal_endcall">
+	<div class="content" style="min-height: 100px;">
+
+		<div class="message">
+			<p id="modal_msg">통화를 종료하시겠습니까?</p>
+			<p></p>
+		</div>
+		<div style="display: flex; gap: 10px; margin-top: 20px;">
+			<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+				<span class="title">통화종료</span>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+				<span class="title">취소</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--상담원 연결 모달-->
+<div class="ui-modal" id="modal_csr">
+	<div class="content" style="min-height: 100px;">
+
+		<div class="message">
+			<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+			<p></p>
+		</div>
+		<div style="display: flex; gap: 10px; margin-top: 20px;">
+			<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+				<span class="title">연결</span>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+				<span class="title">취소</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 커스텀 메세지 모달 -->
+<div class="ui-modal" id="modal_custom">
+	<div class="content">
+		<div class="icon">
+			<img src="/sornia/assets/ico_uncheck.svg" alt="info">
+		</div>
+		<div class="message">
+			<p id="modal_custom_msg"></p>
+		</div>
+		<div onclick="modalClose(this)" class="ui-button blue">
+			<span class="title">닫기</span>
+		</div>
+	</div>
+</div>

@@ -13,8 +13,7 @@ import com.xcally.ars.domain.crm.CRMApiCusResponse;
 import com.xcally.ars.domain.crm.CRMApiMsgRequest;
 import com.xcally.ars.domain.crm.CRMApiMsgResponse;
 
-public interface CrmService {
-	public CRMApiMsgResponse RegMsg(CRMApiMsgRequest crmApiMsgRequest, Long board_seq);
-	public CRMApiCusResponse RegCus(CRMApiCusRequest crmApiCusRequest, Long board_seq);
-	//public CRMApiCusResponse GetCus(CRMApiCusRequest crmApiCusRequest);
+public interface ArsService {
+	public void CallArs(String token,String proc, Partner partner);
+	public void EndArs(String token, Partner partner);
 }

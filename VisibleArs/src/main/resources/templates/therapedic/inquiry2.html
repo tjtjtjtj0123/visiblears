@@ -7,11 +7,11 @@
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>주문조회</title>
-	<link rel="stylesheet" th:href="@{/sornia/css/font.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/reset.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/inquiry.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/inquiry.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
@@ -19,16 +19,16 @@
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/therapedic/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
-		<div class="button" onclick="handleClickHome('sornia')">
-			<img src="/sornia/assets/ico_home.svg" alt="backward" class="icon" />
+		<div class="button" onclick="handleClickHome('therapedic')">
+			<img src="/therapedic/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
 		<div class="content">
 			<div class="header">
-				<img src="/sornia/assets/ico_inquiry_2.svg" alt="inquiry" />
+				<img src="/therapedic/assets/ico_inquiry_2.svg" alt="inquiry" />
 				<p class="title">1:1 문의하기</p>
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
@@ -107,7 +107,7 @@
 						<div class="ui-button default">
 							<span class="title">파일등록하기</span>
 							<input type="file" accept="image/*" multiple id="files" name="files" />
-							<img src="/sornia/assets/ico_upload.svg" alt="upload" />
+							<img src="/therapedic/assets/ico_upload.svg" alt="upload" />
 						</div>
 					</label>
 				</div>
@@ -144,7 +144,7 @@
 	<div class="ui-modal" id="modal_11_complete">
 		<div class="content">
 			<div class="icon">
-				<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
+				<img src="/therapedic/assets/ico_inquiry_2.svg" alt="info">
 			</div>
 			<div class="message">
 				<p><b>1:1 문의가 접수되었습니다.</b></p>
@@ -194,7 +194,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "/sornia/endArsAjax",
+			url: "/therapedic/endArsAjax",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -213,7 +213,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "/sornia/csrAjax",
+			url: "/therapedic/csrAjax",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -323,7 +323,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "/sornia/uploadimglist",
+			url: "/therapedic/uploadimglist",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -355,7 +355,7 @@
 					+ index
 					+ '"><img src="'
 					+ e.target.result
-					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
+					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/therapedic/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
 					+ index + ')"></li>';
 				$("#imglistul").append(html);
 				index++;

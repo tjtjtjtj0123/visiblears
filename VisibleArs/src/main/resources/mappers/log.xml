@@ -11,10 +11,10 @@
     <!-- Insert for apilog table -->
 	<insert id="InsApiLog" parameterType="apiLog">
 	    INSERT INTO apilog (
-	        api_log_seq, partner, end_point, request, reg_dt
+	        api_log_seq, partner, board_seq, end_point, request, reg_dt
 	    )
 	    VALUES (
-	        #{apiLogSeq}, #{partner}, #{endPoint}, #{request}, NOW()
+	        #{apiLogSeq}, #{partner}, #{boardSeq}, #{endPoint}, #{request}, NOW()
 	    )
 	</insert>
 		

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>메뉴</title>
 	<link rel="stylesheet" th:href="@{/therapedic/css/font.css}" />
@@ -21,7 +22,7 @@
 		<div class="menu">
 			<div class="menu-header">
 				<img src="/therapedic/_custom/ico_logo.svg" alt="logo" class="logo" />
-				<p class="title">안녕하세요. 쎄라패딕 입니다.<br />원하시는 서비스를 선택해주세요.</p>
+				<p class="title">안녕하세요. 쎄라페딕 입니다.<br />원하시는 서비스를 선택해주세요.</p>
 			</div>
 		</div>
 		<div class="content">
@@ -64,29 +65,30 @@
 						</div>
 					</div>
 				</div>
-				<div class="ui-box-sub-button"th:onclick="|javascript:fnMoveMenu('requestExRe')|">
+				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('requestExRe')|">
 					<img src="/therapedic/assets/ico_menu_3.svg" alt="return" class="icon" />
 					<div class="menu-name">
 						<p class="name">교환 반품 요청</p>
 						<img src="/therapedic/assets/ico_more.svg" alt="more" class="icon" />
 					</div>
-					</div>
 				</div>
-				<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
-					<img src="/therapedic/assets/ico_menu_4.svg" alt="exchange" class="icon" />
-					<div class="menu-name">
-						<p class="name">AS 요청</p>
-						<img src="/therapedic/assets/ico_more.svg" alt="more" class="icon" />
-					</div>
+			</div>
+			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
+				<img src="/therapedic/assets/ico_menu_4.svg" alt="exchange" class="icon" />
+				<div class="menu-name">
+					<p class="name">AS 요청</p>
+					<img src="/therapedic/assets/ico_more.svg" alt="more" class="icon" />
 				</div>
-				<br><br><br>
-				<br><br><br>
-
-				<div  th:onclick="|javascript:fnGoInquiry()|" class="ui-button primary" style="width: 75%;margin: 0 auto">
-					<span class="title">기타문의</span>
+			</div>
+			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry()|">
+				<img src="/therapedic/assets/ico_menu_5.svg" alt="exchange" class="icon" />
+				<div class="menu-name">
+					<p class="name">1:1문의</p>
+					<img src="/therapedic/assets/ico_more.svg" alt="more" class="icon" />
 				</div>
 			</div>
 		</div>
+	</div>
 
 	</div>
 	<!-- notice -->
@@ -95,19 +97,73 @@
 	<div class="page-footer-navigation">
 		<div class="controller">
 			<div class="left-area">
-				<div class="button" onclick="fnCallCRS()">
+				<div class="button" onclick="modalcsrOpen()">
 					<img src="/therapedic/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
 			<div class="right-area">
-				<div class="button">
+				<div class="button" onclick="modalCallEndOpen();">
 					<img src="/therapedic/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/therapedic/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
 </body>
 <script>
 	const urlParams = new URL(location.href).searchParams;
@@ -115,11 +171,48 @@
 
 	window.onload = function () {
 		fnOnLoad();
-		fnArsCall("index");
 	};
 
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/therapedic/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			window.close();
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/therapedic/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+
 	function fnMoveMenu(inquiryType) {
-		
+
 		/*
 			getShip     : 배송 조회
 			changeShip : 배송지 변경
@@ -128,24 +221,31 @@
 			requestExRe 교환 반품 요청	
 			ASRequest : AS요청
 		*/
+		
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
 		form.setAttribute('action', "/therapedic/auth?token=" + token);
 		form.appendChild(addHiddenField('inquiryType', inquiryType));
 		document.body.appendChild(form);
 		form.submit();
+		
+		/*window.location.href ="/therapedic/auth?token=" + token + "&inquiryType=" + inquiryType;*/
 	}
-	
-	function fnGoInquiry(inquiryType){
+
+	function fnGoInquiry(inquiryType) {
+		
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
 		form.setAttribute('action', "/therapedic/inquiry?token=" + token);
-		if(inquiryType != null){
-			form.appendChild(addHiddenField('inquiryType', inquiryType));	
-		}		
+		if (inquiryType != null) {
+			form.appendChild(addHiddenField('inquiryType', inquiryType));
+		}
 		document.body.appendChild(form);
 		form.submit();
-	} 
+		
+		
+		/*window.location.href ="/therapedic/inquiry?token=" + token + "&inquiryType=" + inquiryType;*/
+	}
 
 	function handleToggleSubMenu(event, target) {
 		event.stopPropagation();

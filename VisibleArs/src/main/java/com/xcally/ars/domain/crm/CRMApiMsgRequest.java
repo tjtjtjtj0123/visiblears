@@ -24,5 +24,6 @@ public class CRMApiMsgRequest {
     private String msg;
     private String proctime;
     private String seq;
+    
     private ArrayList<String> fileNameList;
 }

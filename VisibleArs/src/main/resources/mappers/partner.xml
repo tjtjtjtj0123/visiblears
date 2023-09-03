@@ -31,8 +31,10 @@
     <select id="getPartnerInfo" parameterType="String" resultType="partner">
 	    SELECT partner_seq,
 	    	   partner_id,
-	    	   commid,
-	    	   keycode,
+	    	   crm_commid,
+	    	   crm_keycode,
+	    	   ars_keycode,
+	    	   ars_url,
 	    	   recv_number
 	    FROM   partner
 	    WHERE  partner_id = #{value}

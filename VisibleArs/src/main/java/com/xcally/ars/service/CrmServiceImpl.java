@@ -43,7 +43,7 @@ public class CrmServiceImpl implements CrmService{
 
 	//문자 등록
 	@Override
-	public CRMApiMsgResponse RegMsg(CRMApiMsgRequest crmApiMsgRequest) {
+	public CRMApiMsgResponse RegMsg(CRMApiMsgRequest crmApiMsgRequest, Long board_seq) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -85,6 +85,7 @@ public class CrmServiceImpl implements CrmService{
 	        				.partner(crmApiMsgRequest.getPartner())
 	        				.endPoint(url)
 	        				.request(apiRequest)
+	        				.boardSeq(board_seq)
 	        				.build();
 	        logService.InsApiLog(Request);
 
@@ -129,7 +130,7 @@ public class CrmServiceImpl implements CrmService{
 	
 	//고객 등록
 	@Override
-	public CRMApiCusResponse RegCus(CRMApiCusRequest crmApiCusRequest) {
+	public CRMApiCusResponse RegCus(CRMApiCusRequest crmApiCusRequest, Long board_seq) {
 
 		ResponseEntity<String> responseEntity = null;
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -139,7 +140,7 @@ public class CrmServiceImpl implements CrmService{
 									.build();
 		try {
 			// API URL 및 데이터 준비
-	        String url     = apiUrl  + "/ServiceAPI/CustomerEdit/";
+	        String url = apiUrl  + "/ServiceAPI/CustomerEdit/";
 
 	        // HttpHeaders 설정
 	        HttpHeaders headers = new HttpHeaders();
@@ -167,6 +168,7 @@ public class CrmServiceImpl implements CrmService{
 	        				.partner(crmApiCusRequest.getPartner())
 	        				.endPoint(url)
 	        				.request(apiRequest)
+	        				.boardSeq(board_seq)
 	        				.build();
 	        logService.InsApiLog(Request);
 

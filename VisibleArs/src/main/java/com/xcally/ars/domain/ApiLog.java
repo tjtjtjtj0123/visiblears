@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApiLog {
     private Long apiLogSeq;
+    private Long boardSeq; // 문의글번호
     private String partner;
     private String endPoint;
     private String request;

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>주문 취소</title>
 	<link rel="stylesheet" th:href="@{/sornia/css/font.css}" />
@@ -33,19 +34,20 @@
 			</div>
 		</div>
 		<div class="content">
-			<input type="hidden" id="inquiryType" th:value="${inquiryType}"/>
-			<input type="hidden" id="shopNo" th:value="${shopNo}"/>
+			<input type="hidden" id="inquiryType" th:value="${inquiryType}" />
+			<input type="hidden" id="shopNo" th:value="${shopNo}" />
 			<!-- text fields -->
 			<div class="ui-text-field">
 				<label for="name">
 					<p class="title">* 이름</p>
-					<input id="ordName" th:value="${ordName}" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
+					<input id="ordName" th:value="${ordName}" onkeyup="noSpaceForm(this);" type="text"
+						placeholder="이름을 입력해주세요" />
 				</label>
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
 					<p class="title">* 전화번호</p>
-					<input id="ordPhone" th:value="${ordPhone}" type="text" placeholder="-제외하고 번호만 입력하세요"
+					<input id="ordPhone" th:value="${ordPhone}" type="number" placeholder="-제외하고 번호만 입력하세요"
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
 			</div>
@@ -55,21 +57,22 @@
 					<input type="text" maxlength="30" id="title" placeholder="제목을 입력해주세요." />
 				</label>
 			</div>
-			
+
 			<br>
 			<div class="ui-text-field">
 				<label for="address">
 					<p class="title">* 취소 사유</p>
 					<div class="ui-textarea">
-						<textarea name="content" id="content" maxlength="200" placeholder="취소사유를 200자 이내로 써주세요."></textarea>
+						<textarea name="content" id="content" maxlength="200"
+							placeholder="취소사유를 200자 이내로 써주세요."></textarea>
 					</div>
 				</label>
 			</div>
-			
+
 			<!-- terms -->
 			<div class="terms">
 				<div class="terms-content">
-					<div id="uploadBtn" th:onclick="modalConfirmOpen()" class="ui-button primary">
+					<div id="uploadBtn" th:onclick="modalCancelConfirmOpen()" class="ui-button primary">
 						<span class="title">취소 요청하기</span>
 					</div>
 				</div>
@@ -79,70 +82,109 @@
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
-			<div class="left-area" onclick="fnArsCall('service00')">
-				<div class="button">
+			<div class="left-area">
+				<div class="button" onclick="modalcsrOpen()">
 					<img src="/sornia/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
 			<div class="right-area">
-				<div class="button" onclick="fnArsEnd();">
+				<div class="button" onclick="modalCallEndOpen();">
 					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- modal -->
-		<div class="ui-modal" id="modal">
-			<div class="content">
-				<div class="icon">
-					<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
-				</div>
-				<div class="message">
-					<p><b>주문취소가 접수되었습니다.</b></p>
-					<p>빠른 처리를 위해 최선을 다하겠습니다.</p>
-					<p>감사합니다.</p>
-				</div>
-				<div onclick="modalClose(this);fnArsEnd();" class="ui-button blue">
-					<span class="title">닫기</span>
-				</div> 
-			</div>
-		</div>
-		<!-- modal -->
-		<div class="ui-modal" id="modal_info">
-			<div class="content">
-				<div class="icon">
-					<img src="/sornia/assets/ico_uncheck.svg" alt="info">
-				</div>
-				<div class="message">
-					<p id="modal_msg"></p>
-				</div>
-				<div onclick="modalClose(this)" class="ui-button blue">
-					<span class="title">닫기</span>
-				</div> 
-			</div>
-		</div>
-		<!--confirm-->
-		<div class="ui-modal" id="modal_confirm">
-			<div class="content" style="min-height: 100px;">
 
-					<div class="message">
-						<p id="modal_msg">문의를 남기시겠습니까?</p>
-						<p></p>
-					</div>
-					<div style="display: flex; 
-								gap: 10px; 
-								margin-top: 20px;">
-					<div onclick="dataSend();modalClose(this)" class="ui-button blue">
-						<span class="title">등록</span>
-					</div> 
-					<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
-						<span class="title">닫기</span>
-					</div> 
+	<!--주문 취소 접수 모달-->
+	<div class="ui-modal" id="modal_cancel_order">
+		<div class="content">
+			<div class="icon">
+				<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
+			</div>
+			<div class="message">
+				<p><b>주문취소가 접수되었습니다.</b></p>
+				<p>빠른 처리를 위해 최선을 다하겠습니다.</p>
+				<p>감사합니다.</p>
+			</div>
+			<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<!--주문 취소 접수 모달 confirm-->
+	<div class="ui-modal" id="modal_cancel_confirm">
+		<div class="content" style="min-height: 100px;">
+			<div class="message">
+				<p id="modal_custom_msg">주문 취소를 요청하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="fnOrderCancel();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">닫기</span>
 				</div>
 			</div>
-		</div>		
+		</div>
+	</div>
+
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/sornia/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
 	<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
 			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
@@ -155,42 +197,101 @@
 
 	window.onload = function () {
 		fnOnLoad();
-		fnArsCall("service01");
 	};
 
-	function dataSend() {	
-		
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/sornia/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			window.close();
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/sornia/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+
+	//취소 요청 모달
+	function modalCancelConfirmOpen() {
+		const modal = document.getElementById("modal_cancel_confirm");
+		modal.classList.add("visible");
+	}
+	//취소 완료 모달
+	function modalCancelOpen() {
+		const modal = document.getElementById("modal_cancel_order");
+		modal.classList.add("visible");
+	}
+
+
+	function fnOrderCancel() {
+
 		//특수문자가 있는 경우
 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-		if (special_pattern.test($("#content").val()) == true || 
-		    special_pattern.test($("#ordPhone").val()) == true || 
-		    special_pattern.test($("#ordName").val()) == true) 
-		{
-			$("#modal_msg").text("특수 문자는 입력 할 수 없습니다.");
-			modalInfoOpen();
+		if (special_pattern.test($("#content").val()) == true ||
+			special_pattern.test($("#ordPhone").val()) == true ||
+			special_pattern.test($("#ordName").val()) == true) {
+			$("#modal_custom_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalCustomOpen();
 			return false;
 		}
 
-		if($("#ordPhone").val().length === 0 ){
-			$("#modal_msg").text("이름을 입력해 주세요.");
-			modalInfoOpen();	
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("이름을 입력해 주세요.");
+			modalCustomOpen();
 			return false;
 		}
 
-		if($("#ordPhone").val().length === 0 ){
-			$("#modal_msg").text("전화번호를 입력해 주세요.");
-			modalInfoOpen();	
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("전화번호를 입력해 주세요.");
+			modalCustomOpen();
 			return false;
 		}
 
+		if ($("#title").val().length === 0) {
+			$("#modal_custom_msg").text("제목을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#content").val().length === 0) {
+			$("#modal_custom_msg").text("취소사유를 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
 		const formData = new FormData();
-		formData.append("shopNo",		$("#shopNo").val());
-		formData.append("title",		$("#title").val());
-		formData.append("content",		$("#content").val());		
-		formData.append("ordPhone",		$("#ordPhone").val());
-		formData.append("ordName", 		$("#ordName").val());
-		formData.append("inquiryType",	$("#inquiryType").val());
-		
+		formData.append("shopNo", $("#shopNo").val());
+		formData.append("title", $("#title").val());
+		formData.append("content", $("#content").val());
+		formData.append("ordPhone", $("#ordPhone").val());
+		formData.append("ordName", $("#ordName").val());
+		formData.append("inquiryType", $("#inquiryType").val());
+
 		$.ajax({
 			type: 'POST',
 			url: "/sornia/cancelOrderAjax",
@@ -199,13 +300,11 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
-		})
-		.always(function (data) {
-			modalOpen();			
-		})
-		.done(function (data) {
+		}).always(function (data) {
+			modalCancelOpen();
+		}).done(function (data) {
 			$('#result-image').attr("src", data);
-			$("#uploadBtn").attr("onclick","modalOpen()");
+			$("#uploadBtn").attr("onclick", "modalCancelOpen()");
 		})
 	}
 </script>
