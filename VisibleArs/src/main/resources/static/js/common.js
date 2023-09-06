@@ -67,7 +67,19 @@ function handleClickHome(partner) {
 }
 
 
+function showLoading() {
+  var loadingElement = document.getElementById("loading");
+  if (loadingElement) {
+    loadingElement.style.display = "block";
+  }
+}
 
+function hideLoading() {
+  var loadingElement = document.getElementById("loading");
+  if (loadingElement) {
+    loadingElement.style.display = "none";
+  }
+}
 
 /*
 function fnArsCall(proc) {

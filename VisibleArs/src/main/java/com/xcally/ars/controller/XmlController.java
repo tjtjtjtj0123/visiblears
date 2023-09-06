@@ -170,6 +170,9 @@ public class XmlController {
         		    int rstl2 = logService.InsOrderLog(orderLog);
             	}
             }
+            else {
+            	System.out.println("fail call sabang api");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

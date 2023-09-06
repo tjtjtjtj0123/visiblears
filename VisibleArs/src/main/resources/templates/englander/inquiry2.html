@@ -10,10 +10,10 @@
 	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/englander/css/inquiry.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th>전 화 번 호</th>
+							<th>휴 대 전 화</th>
 							<td>
 								<div class="ui-text-field">
 									<input id="ordPhone" type="number" th:value="${ordPhone}"
@@ -93,71 +93,73 @@
 					</tbody>
 				</table>
 			</div>
-			
+
 			<!--체크박스 start-->
 			<div class="ui-checkbox">
-						<input type="checkbox" id="checkbox1" />
-						<label for="checkbox1">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
-								<g>
-									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
-								<g>
-									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
-								</g>
-							</svg>
-							<p>서비스 이용을 위한 개인정보 이용 동의</p>
-						</label>
-						<img src="/englander/assets/ico_more.svg" class="icon"
+				<input type="checkbox" id="checkbox1" />
+				<label for="checkbox1">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
+						<g>
+							<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
+						</g>
+					</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
+						<g>
+							<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
+						</g>
+					</svg>
+					<p>서비스 이용을 위한 개인정보 이용 동의</p>
+				</label>
+				<img src="/englander/assets/ico_more.svg" class="icon" onclick="handleToggleTermsModal(event, this)" />
+				<div class="terms-modal">
+					<div class="terms-content">
+						<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
 							onclick="handleToggleTermsModal(event, this)" />
-						<div class="terms-modal">
-							<div class="terms-content">
-								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
-									onclick="handleToggleTermsModal(event, this)" />
-								<div class="terms-script">
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-								</div>
-								<div class="terms-footer">
-									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 0)">
-										<span>동의</span>
-									</div>
-									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
-										<span>취소</span>
-									</div>
-								</div>
+						<div class="terms-script">
+							<p>개인정보 수집 및 이용</p>
+							<br>
+							<p>회사는 회원가입, 민원 등 고객상담 처리, 본인확인(14세 미만</p>
+							<p>아동 확인) 등 의사소통을 위한 정보 활용 및 이벤트 등과 같은</p>
+							<p>마케팅용도 활용, 회원의 서비스 이용에 대한 통계, 이용자들의</p>
+							<p>개인정보를 통한 서비스 개발을 위해 아래와 같은 개인정보를</p>
+							<p>수집하고 있습니다.</p>
+							<br>
+							<p>1. </p>
+							<p>- 목적 : 이용자 식별 및 본인여부 확인</p>
+							<p>- 항목 : 이름, 아이디, 비밀번호, </p>
+							<p>닉네임, 이메일, 휴대폰번호, 주소, 전화번호 등</p>
+							<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+							<br>
+							<p>2. </p>
+							<p>– 목적 : 민원 등 고객 고충처리</p>
+							<p>- 항목 : 이름, 아이디, 이메일, 휴대폰번호, 전화번호, </p>
+							<p>주소, 구매자정보,결제정보,</p>
+							<p>상품 구매/취소/교환/반품/환불 정보, 수령인정보</p>
+							<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+							<br>
+							<p>3. </p>
+							<p>– 목적 : 만 14세 미만 아동 확인</p>
+							<p>- 항목 : 법정 생년월일</p>
+							<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+							<br>
+							<p>이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적 </p>
+							<p>달성 시 지체없이 파기합니다. 다만 다른 법령에서 별도의 기간을</p>
+							<p>정하고 있는 경우나 이용자의 요청에 따라 기간을 달리 정한 경우</p>
+							<p>에는 그 기간이 경과한 후 파기 등의 필요한 조치를 취합니다.</p>
+						</div>
+						<div class="terms-footer">
+							<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 0)">
+								<span>동의</span>
+							</div>
+							<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
+								<span>취소</span>
 							</div>
 						</div>
 					</div>
-					<!--체크박스 end-->
-					
+				</div>
+			</div>
+			<!--체크박스 end-->
+
 			<div class="files">
 				<div class="header">
 					<span class="title">파일첨부</span>
@@ -195,11 +197,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
-					<span class="title">등록</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">닫기</span>
+				</div>
+				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
 				</div>
 			</div>
 		</div>
@@ -234,6 +236,11 @@
 				<span class="title">닫기</span>
 			</div>
 		</div>
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
 	</div>
 </body>
 
@@ -353,6 +360,12 @@
 			return false;
 		}
 
+		if (!($("input:checkbox[id='checkbox1']").is(":checked"))) {
+			$("#modal_custom_msg").text("이용약관에 동의해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
 		//파일개수 체크
 		if (sel_files.length > 5) {
 			$("#modal_custom_msg").text("이미지는 5개까지 업로드가 가능합니다.");
@@ -386,6 +399,8 @@
 		formData.append("ordName", $("#ordName").val());
 		formData.append("inquiryType", $("#inquiryTypeSel").val());
 
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
 		$.ajax({
 			type: 'POST',
 			url: "/englander/uploadimglist",
@@ -395,6 +410,8 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
 			modalCompleteOpen();
 		}).done(function (data) {
 			$('#result-image').attr("src", data);
@@ -440,6 +457,42 @@
 		console.log(sel_files);
 	}
 
+	function closeTermsModal() {
+		const element = document.querySelector('.terms-modal.visible');
+		element.classList.remove('visible');
+	}
+
+	function handleClickAgreeTerms(event, target, termsId) {
+		if (event) event.stopPropagation();
+		const checkboxItems = document.querySelectorAll(
+			'.ui-checkbox input[type="checkbox"]'
+		);
+		if (/[0-4]/.test(termsId)) {
+			checkboxItems[termsId].checked = true;
+			closeTermsModal();
+		} else {
+			for (let i = 0, length = checkboxItems.length; i < length; ++i)
+				checkboxItems[i].checked = target.checked;
+		}
+		//detectAllTermsAgreed();
+	}
+
+	function handleToggleTermsModal(event, target) {
+		event.stopPropagation();
+
+		if (target.className === 'icon' && String(target.getAttribute('src')).includes('ico_more')) {
+			for (
+				let i = 0, elements = target.parentElement.children, length = elements.length;
+				i < length;
+				++i
+			) {
+				if (elements[i].className === 'terms-modal') {
+					elements[i].classList.add('visible');
+					break;
+				}
+			}
+		} else closeTermsModal();
+	}
 </script>
 
 </html>

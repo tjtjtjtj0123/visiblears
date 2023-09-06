@@ -10,10 +10,10 @@
 	<link rel="stylesheet" th:href="@{/therapedic/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/inquiry.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th>전 화 번 호</th>
+							<th>휴 대 전 화</th>
 							<td>
 								<div class="ui-text-field">
 									<input id="ordPhone" type="number" th:value="${ordPhone}"
@@ -130,11 +130,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
-					<span class="title">등록</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">닫기</span>
+				</div>
+				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
 				</div>
 			</div>
 		</div>
@@ -160,7 +160,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				<img src="/therapedic/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -169,6 +169,11 @@
 				<span class="title">닫기</span>
 			</div>
 		</div>
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
 	</div>
 </body>
 
@@ -204,7 +209,6 @@
 			window.close();
 		})
 	}
-
 
 	//상담원연결
 	function fnCsr() {
@@ -321,6 +325,8 @@
 		formData.append("ordName", $("#ordName").val());
 		formData.append("inquiryType", $("#inquiryTypeSel").val());
 
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
 		$.ajax({
 			type: 'POST',
 			url: "/therapedic/uploadimglist",
@@ -329,12 +335,18 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
+
 		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
 			modalCompleteOpen();
 		}).done(function (data) {
 			$('#result-image').attr("src", data);
 			$("#uploadBtn").attr("onclick", "modalCompleteOpen()");
-		})
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			// 에러 메시지 표시
+			alert("파일 업로드 실패: " + errorThrown);
+		});
 	}
 
 	function SelectImg(e) {

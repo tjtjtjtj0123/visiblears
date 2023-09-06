@@ -10,10 +10,10 @@
 	<link rel="stylesheet" th:href="@{/therapedic/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/order_detail.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
@@ -81,12 +81,13 @@
 
 	<div class="page-footer-navigation">
 		<div class="controller">
+			<!--
 			<div class="left-area">
 				<div class="button" onclick="modalcsrOpen()">
 					<img src="/therapedic/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
-			</div>
+			</div>-->
 			<div class="right-area">
 				<div class="button" onclick="modalCallEndOpen();">
 					<img src="/therapedic/assets/ico_phone.svg" alt="cancel" class="icon" />
@@ -105,11 +106,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
-					<span class="title">통화종료</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
@@ -124,11 +125,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
-					<span class="title">연결</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
 				</div>
 			</div>
 		</div>

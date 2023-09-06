@@ -10,11 +10,11 @@
 	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/englander/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/englander/css/authentication.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
-					<p class="title">전화번호</p>
+					<p class="title">휴대전화</p>
 					<input id="ordPhone" type="number" placeholder="-제외하고 번호만 입력하세요"
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
@@ -88,33 +88,36 @@
 								<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
 									onclick="handleToggleTermsModal(event, this)" />
 								<div class="terms-script">
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
-									<p>서비스 이용을 위한 개인정보 이용 동의</p>
+									<p>개인정보 수집 및 이용</p>
+									<br>
+									<p>회사는 회원가입, 민원 등 고객상담 처리, 본인확인(14세 미만</p> 
+									<p>아동 확인) 등 의사소통을 위한 정보 활용 및 이벤트 등과 같은</p> 
+									<p>마케팅용도 활용, 회원의 서비스 이용에 대한 통계, 이용자들의</p>
+									<p>개인정보를 통한 서비스 개발을 위해 아래와 같은 개인정보를</p> 
+									<p>수집하고 있습니다.</p>
+									<br>
+									<p>1. </p>
+									<p>- 목적 : 이용자 식별 및 본인여부 확인</p>
+									<p>- 항목 : 이름, 아이디, 비밀번호, </p>
+									<p>닉네임, 이메일, 휴대폰번호, 주소, 전화번호 등</p>
+									<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+									<br>
+									<p>2. </p>
+									<p>– 목적 : 민원 등 고객 고충처리</p>
+									<p>- 항목 : 이름, 아이디, 이메일, 휴대폰번호, 전화번호, </p>
+									<p>주소, 구매자정보,결제정보,</p>
+									<p>상품 구매/취소/교환/반품/환불 정보, 수령인정보</p>
+									<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+									<br>
+									<p>3. </p>
+									<p>– 목적 : 만 14세 미만 아동 확인</p>
+									<p>- 항목 : 법정 생년월일</p>
+									<p>- 보유 및 이용기간 : 회원탈퇴 후 5일까지</p>
+									<br>
+									<p>이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적 </p>
+									<p>달성 시 지체없이 파기합니다. 다만 다른 법령에서 별도의 기간을</p> 
+									<p>정하고 있는 경우나 이용자의 요청에 따라 기간을 달리 정한 경우</p>
+									<p>에는 그 기간이 경과한 후 파기 등의 필요한 조치를 취합니다.</p>
 								</div>
 								<div class="terms-footer">
 									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 0)">
@@ -137,6 +140,7 @@
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
+			
 			<div class="left-area">
 				<div class="button" onclick="modalcsrOpen()">
 					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
@@ -160,11 +164,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
-					<span class="title">통화종료</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
@@ -179,11 +183,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
-					<span class="title">연결</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
 				</div>
 			</div>
 		</div>
@@ -208,6 +212,11 @@
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
 			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
 			alt="닫기 버튼">
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
 	</div>
 </body>
 <script>
@@ -273,7 +282,7 @@
 			for (let i = 0, length = checkboxItems.length; i < length; ++i)
 				checkboxItems[i].checked = target.checked;
 		}
-		detectAllTermsAgreed();
+		//detectAllTermsAgreed();
 	}
 
 	function handleToggleTermsModal(event, target) {
@@ -343,11 +352,17 @@
 			quantity: 0,
 			payAmt: 0
 		}
+
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
+
 		$.ajax({
 			url: "/englander/get",
 			data: order,
 			type: 'POST',
 		}).done(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
 
 			if (!!data.shopNo) {
 				//sabangNo가 있다면 detail로
@@ -367,9 +382,9 @@
 				var form = document.createElement('form');
 				form.setAttribute('method', 'post');
 				form.setAttribute('action', "/englander/noorder?token=" + token);
-				form.appendChild(addHiddenField('ordererName', $("#ordName").val()));
-				form.appendChild(addHiddenField('ordererPhone1', $("#ordPhone").val()));
-				form.appendChild(addHiddenField('receiverAddress', $("#recvAddr").val()));
+				form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+				form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+				form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
 				document.body.appendChild(form);
 				form.submit();
 			}

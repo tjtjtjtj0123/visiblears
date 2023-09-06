@@ -10,11 +10,11 @@
 	<link rel="stylesheet" th:href="@{/therapedic/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/authentication.css}" />
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
-					<p class="title">* 전화번호</p>
+					<p class="title">* 휴대전화</p>
 					<input id="ordPhone" th:value="${ordPhone}" type="number" placeholder="-제외하고 번호만 입력하세요"
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
@@ -95,12 +95,13 @@
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
+			<!--
 			<div class="left-area">
 				<div class="button" onclick="modalcsrOpen()">
 					<img src="/therapedic/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
-			</div>
+			</div>-->
 			<div class="right-area">
 				<div class="button" onclick="modalCallEndOpen();">
 					<img src="/therapedic/assets/ico_phone.svg" alt="cancel" class="icon" />
@@ -119,11 +120,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
-					<span class="title">통화종료</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
@@ -138,11 +139,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
-					<span class="title">연결</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
 				</div>
 			</div>
 		</div>
@@ -162,6 +163,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- modal -->
 	<div class="ui-modal" id="modal_ExRe_complete">
 		<div class="content">
@@ -178,6 +180,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!--confirm-->
 	<div class="ui-modal" id="modal_ExRe_confirm">
 		<div class="content" style="min-height: 100px;">
@@ -187,11 +190,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="dataSend();modalClose(this)" class="ui-button blue">
-					<span class="title">등록</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">닫기</span>
+				</div>
+				<div onclick="dataSend();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
 				</div>
 			</div>
 		</div>
@@ -200,6 +203,11 @@
 		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
 			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
 			alt="닫기 버튼">
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
 	</div>
 </body>
 <script>
@@ -307,6 +315,8 @@
 			formData.append("file", sel_files[i]);
 		}
 
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
 		$.ajax({
 			type: 'POST',
 			url: "/therapedic/requestExReAjax",
@@ -315,14 +325,14 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
+		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
+			modal_ExRe_complete();
+		}).done(function (data) {
+			$('#result-image').attr("src", data);
+			$("#uploadBtn").attr("onclick", "modal_ExRe_complete()");
 		})
-			.always(function (data) {
-				modal_ExRe_complete();
-			})
-			.done(function (data) {
-				$('#result-image').attr("src", data);
-				$("#uploadBtn").attr("onclick", "modal_ExRe_complete()");
-			})
 	}
 	function SelectImg(e) {
 
