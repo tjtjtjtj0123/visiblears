@@ -25,14 +25,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xcally.ars.domain.ApiLog;
 import com.xcally.ars.domain.Attach;
 import com.xcally.ars.domain.Board;
-import com.xcally.ars.domain.CRMApiRequest;
-import com.xcally.ars.domain.CRMApiResponse;
 import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.ExceptionLog;
 import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.domain.common.S3Uploader;
+import com.xcally.ars.domain.crm.CRMApiCusRequest;
+import com.xcally.ars.domain.crm.CRMApiCusResponse;
+import com.xcally.ars.domain.crm.CRMApiMsgRequest;
+import com.xcally.ars.domain.crm.CRMApiMsgResponse;
+import com.xcally.ars.service.ArsService;
 import com.xcally.ars.service.AttachService;
 import com.xcally.ars.service.BoardService;
 import com.xcally.ars.service.CrmService;
@@ -70,180 +73,291 @@ public abstract class BaseController {
 	private EmailService emailService;
 	
 	@Autowired
+	private ArsService arsService;
+	
+	@Autowired
 	private  S3Uploader s3Uploader;
 	
 	protected abstract String getPartner();
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@RequestMapping("menu") // 메인메뉴
-	public String menu(Model model)
+	// 메인메뉴
+	@RequestMapping("menu") 
+	public String menu(Model model,	@RequestParam(name= "token", required = false, defaultValue = "")String token)
 	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "index", partner);			
+		}
+				
 		model.addAttribute("partner", getPartner());
 		return getPartner()+"/menu";
 	}
 
-	@RequestMapping("changeShip") //배송지 변경 
-	public String changeaddr(Model model, 
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
-			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
-			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordName", 		ordName);
-		model.addAttribute("ordPhone",		ordPhone);
-		model.addAttribute("recvAddr", 	recvAddr);
-		model.addAttribute("sabangNo", sabangNo);
-		model.addAttribute("inquiryType",inquiryType);
-		return getPartner()+"/changeShip";
-	}
-
-	@RequestMapping("ShipDate") //배송희망일 요청
-	public String changedate(Model model, 
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
-			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
-			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordName", 		ordName);
-		model.addAttribute("ordPhone",		ordPhone);
-		model.addAttribute("recvAddr", 	recvAddr);
-		model.addAttribute("sabangNo", sabangNo);
-		model.addAttribute("inquiryType",inquiryType);
-		return getPartner()+"/ShipDate";
-	}
-
-	@RequestMapping("requestExRe") //교환 반품 요청
-	public String requestExRe(Model model, 
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
-			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
-			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordName", 		ordName);
-		model.addAttribute("ordPhone",		ordPhone);
-		model.addAttribute("recvAddr", 	recvAddr);
-		model.addAttribute("sabangNo", sabangNo);
-		model.addAttribute("inquiryType",inquiryType);
-		return getPartner()+"/requestExRe";
-	}	
-	
-	@RequestMapping("cancelOrder") //주문 취소
-	public String cancelOrder(Model model, 
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr,
-			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String sabangNo, 
-			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("ordName", 		ordName);
-		model.addAttribute("ordPhone",		ordPhone);
-		model.addAttribute("recvAddr", 	recvAddr);
-		model.addAttribute("sabangNo", sabangNo);
-		model.addAttribute("inquiryType",inquiryType);
-		return getPartner()+"/cancelOrder";
-	}	
-	
-	@RequestMapping("sub") // 서브메뉴
-	public String sub(Model model, String sabangNo) {
-		model.addAttribute("sabangNo", sabangNo);
-		return getPartner()+"/sub";
-	}
-
-	@RequestMapping("auth") // 인증페이지
+	//인증페이지 메뉴
+	@RequestMapping("auth") 
 	public String auth(Model model,
-		@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
-		model.addAttribute("inquiryType", inquiryType);
+		@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+		@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service01", partner);			
+		}
+		
+		model.addAttribute("inquiryType", inquiryType);		
 		return getPartner()+"/auth";
 	}
-
-	@RequestMapping("noorder")//주문정보없음
+	
+	//주문정보없음 메뉴
+	@RequestMapping("noorder")
 	public String order(Model model, 
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String ordPhone, 
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String recvAddr) {
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service02", partner);			
+		}
 		
 		model.addAttribute("ordName", 		ordName);
 		model.addAttribute("ordPhone",		ordPhone);
-		model.addAttribute("recvAddr", 	recvAddr);
+		model.addAttribute("recvAddr",		recvAddr);
+		
 		return getPartner()+"/noorder";
 	}
 	
-
-	@RequestMapping("inquiry") // 기타 문의
-	public String inquiry(Model model, 
-			@RequestParam(name= "sabangNo",required = false,defaultValue = "") String  sabangNo,
-			@RequestParam(name= "ordName",required = false,defaultValue = "") String  ordName,
-			@RequestParam(name= "ordPhone",required = false,defaultValue = "") String  ordPhone,
-			@RequestParam(name= "recvAddr",required = false,defaultValue = "") String  recvAddr,
-			@RequestParam(name= "inquiryType",required = false,defaultValue = "") String inquiryType) {
+	//배송지변경 메뉴 
+	@RequestMapping("changeShip") 
+	public String changeShip(Model model, 
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "shopNo",   	required = false,	defaultValue = "") String shopNo, 
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service01", partner);			
+		}
 		
-		model.addAttribute("sabangNo", 			sabangNo);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 		recvAddr);
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/changeShip";
+	}
+
+	//배송희망일요청 메뉴
+	@RequestMapping("shipDate") 
+	public String shipDate(Model model, 
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo, 
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service01", partner);			
+		}
+		
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 		recvAddr);
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/shipDate";
+	}
+
+	//교환반품요청 메뉴
+	@RequestMapping("requestExRe") 
+	public String requestExRe(Model model, 
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo, 
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service01", partner);			
+		}
+		
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 		recvAddr);
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/requestExRe";
+	}	
+	
+	//주문취소 메뉴
+	@RequestMapping("cancelOrder") 
+	public String cancelOrder(Model model, 
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone, 
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo, 
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service01", partner);			
+		}
+		
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone);
+		model.addAttribute("recvAddr", 		recvAddr);
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/cancelOrder";
+	}	
+
+	
+	//범용문의 페이지
+	@RequestMapping("inquiry") 
+	public String inquiry(Model model, 
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone,
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{		
+		
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service04", partner);			
+		}
+		
+		model.addAttribute("shopNo", 		shopNo);
 		model.addAttribute("ordName", 		ordName);
 		model.addAttribute("ordPhone",		ordPhone.replace(("-"), ""));
-		model.addAttribute("recvAddr",	recvAddr);		
-		model.addAttribute("inquiryType", 		inquiryType);
+		model.addAttribute("recvAddr",		recvAddr);		
+		model.addAttribute("inquiryType",	inquiryType);
+		
 		return getPartner()+"/inquiry";		
 	}
 	
-	@RequestMapping("call") // 기타 문의
-	public String call() {		
-		return getPartner()+"/call";
+	//범용문의 페이지
+	@RequestMapping("inquiry2") 
+	public String inquiry2(Model model, 
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone,
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{		
+		
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service04", partner);			
+		}
+		
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone.replace(("-"), ""));
+		model.addAttribute("recvAddr",		recvAddr);		
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/inquiry2";		
 	}
 
-	@RequestMapping("detail") // 주문상세
-	public String detail(Model model, int sabangNo, 
-			@RequestParam(name= "ordName",    required = false,	defaultValue = "") String  ordName,
-			@RequestParam(name= "ordPhone",  required = false,	defaultValue = "") String  ordPhone,
-			@RequestParam(name= "recvAddr",required = false,	defaultValue = "") String  recvAddr,
-			@RequestParam(name= "inquiryType",	  required = false,	defaultValue = "") String  inquiryType) {
+	//주문상세 페이지
+	@RequestMapping("detail") 
+	public String detail(Model model, 
+			String shopNo, 
+			@RequestParam(name= "ordererName",    	required = false,	defaultValue = "") String  ordererName,
+			@RequestParam(name= "ordererPhone1",  	required = false,	defaultValue = "") String  ordererPhone1,
+			@RequestParam(name= "receiverAddress",	required = false,	defaultValue = "") String  receiverAddress,
+			@RequestParam(name= "inquiryType",	  	required = false,	defaultValue = "") String  inquiryType,
+			@RequestParam(name= "token", 			required = false, 	defaultValue = "") String  token) 
+	{
    
-		List<Order> orderlist     			 = null;
-		List<Order> destOrderlist            = new ArrayList<Order>();
-		HashMap<String, Integer> quantityMap = new HashMap<>();		
-		
+		List<Order> orderlist = null;		
 		try {
-
-			model.addAttribute("sabangNo", 			sabangNo);
-			model.addAttribute("ordName", 		ordName);
-			model.addAttribute("ordPhone", 	ordPhone);
-			model.addAttribute("recvAddr", 	recvAddr);
-			model.addAttribute("inquiryType", 		inquiryType);
-			
-			orderlist = orderservice.findOrderBySabangNo(sabangNo);
-			
-			for (int i = 0; i < orderlist.size(); i++) {
-				//상품명과 주소를 키값으로
-				String tmp = orderlist.get(i).getProductName()+"::::"+orderlist.get(i).getReceiverAddress();
-				if(!quantityMap.containsKey(tmp)) {
-					quantityMap.put(tmp, orderlist.get(i).getQuantity());
-
-				}else {
-					int tmpQuantity = quantityMap.get(tmp);
-					quantityMap.replace(tmp, orderlist.get(i).getQuantity()+tmpQuantity);
-				}				
-			}
-
-			for(String key:quantityMap.keySet()) {
-				Order tmpOrder = Order.builder()
-									.quantity(quantityMap.get(key))
-									.productName(key.split("::::")[0])
-									.receiverAddress(key.split("::::")[1])									
-									.build();
-																	
-				destOrderlist.add(tmpOrder);		
+			//ARS호출
+			if(token != null && !token.isEmpty() && !token.equals("null")) {
+				Partner partner = partnerService.getPartnerInfo(getPartner());
+				arsService.CallArs(token, "service03", partner);			
 			}
 			
-			model.addAttribute("orderlist", destOrderlist);
-
+			orderlist = orderservice.findOrderByshopNo(shopNo);
+			
+			model.addAttribute("orderlist", orderlist);
+			model.addAttribute("shopNo", 		shopNo);
+			model.addAttribute("ordName", 		ordererName);
+			model.addAttribute("ordPhone", 		ordererPhone1);
+			model.addAttribute("recvAddr", 		receiverAddress);
+			model.addAttribute("inquiryType",	inquiryType);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return getPartner()+"/detail";
 	}
-
 	
-	@PostMapping(value = "get") // 인증페이지 ajax
+	
+	//통화종료 ajax
+	@PostMapping(value = "endArsAjax")
+	@ResponseBody
+	public int endArsAjax(@RequestParam(name = "token", required = false, defaultValue = "") String token) {
+
+		try {
+			if(token != null && !token.isEmpty() && !token.equals("null")){
+				Partner partner = partnerService.getPartnerInfo(getPartner());
+				arsService.EndArs(token, partner);	
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
+	}
+	
+	//상담원연결 ajax
+	@PostMapping(value = "csrAjax")
+	@ResponseBody
+	public int csrAjax(@RequestParam(name = "token", required = false, defaultValue = "") String token) 
+	{
+
+		try {
+			if(token != null && !token.isEmpty() && !token.equals("null")){
+				Partner partner = partnerService.getPartnerInfo(getPartner());
+				arsService.CallArs(token, "service00", partner);	
+			}				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
+	}	
+
+	 //인증페이지 ajax
+	@PostMapping(value = "get")
 	@ResponseBody
 	public Order getOrder(Order order) {
 		Order rstl 		  = null;
@@ -251,18 +365,16 @@ public abstract class BaseController {
 		String addr_tmp[] = null;
 		try {
 
-			// 1.주소 맨 앞자 제거(서울특별시, 인천광역시 등)
+			//주소 맨 앞자 제거(서울특별시, 인천광역시 등)
 			addr_tmp = order.getReceiverAddress().split(" ");
-			for (int i = 1; i < addr_tmp.length; i++) {
-				
+			for (int i = 1; i < addr_tmp.length; i++) {				
 				addr += addr_tmp[i];
 				if(i != addr_tmp.length-1)
 					addr +=  " ";
 			}
 			
 			order.setReceiverAddress(addr);
-			order.setPartner(getPartner());
-			
+			order.setPartner(getPartner());			
 			rstl = orderservice.getOrder(order);	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,51 +386,68 @@ public abstract class BaseController {
 	@PostMapping("uploadimglist")
 	@ResponseBody
 	public int uploadlist(
-			@RequestParam(name = "file",	 	 required = false, 	defaultValue = "") List<MultipartFile> multipartFileList,
-			@RequestParam(name = "title", 	     required = true, 	defaultValue = "") String title,
-			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
-			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
-			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
-			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo) throws IOException	
+			@RequestParam(name = "file",	 	 	required = false) List<MultipartFile> multipartFileList,
+			@RequestParam(name = "title", 	     	required = true, 	defaultValue = "") String title,
+			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
+			@RequestParam(name = "ordName",			required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
+			@RequestParam(name = "inquiryType",		required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo)
 	{
-		int rstl 	  = 0;
+		int rstl 	  				   = 0;
 		ArrayList<String> fileNameList = new ArrayList<String>();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder     titleSb 	   = new StringBuilder();
+		Long 			  boardSeq     = seqService.getSeq();
+		
 		try {
 			
-			//3. msg 내용 만들기
 			if(inquiryType.equals("getShip")) {
-				sb.append("[배송조회]");
+				titleSb.append("[배송조회]");
 			}
 			else if(inquiryType.equals("changeShip")) {
-				sb.append("[배송지변경]");
+				titleSb.append("[배송지변경]");
 			}
-			else if(inquiryType.equals("ShipDate")) {
-				sb.append("[배송희망일요청]");
+			else if(inquiryType.equals("shipDate")) {
+				titleSb.append("[배송희망일요청]");
 			}
 			else if(inquiryType.equals("cancelOrder")) {
-				sb.append("[주문취소]");
+				titleSb.append("[주문취소]");
 			}
 			else if(inquiryType.equals("requestExRe")) {
-				sb.append("[교환반품요청]");
+				titleSb.append("[교환반품요청]");
 			}
 			else if(inquiryType.equals("ASRequest")) {
-				sb.append("[AS요청]");
+				titleSb.append("[AS요청]");
 			}
-			sb.append(content);
-			title = "[제목]:" + title;
-			Long boardSeq = seqService.getSeq();
-			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, title, sb.toString(), ordName, ordPhone);
-				
-			//2. 첨부파일 등록
-			fileNameList = regAttach(boardSeq, sabangNo, multipartFileList);			
-
+			else if(inquiryType.equals("etc")) {
+				titleSb.append("[기타문의]");
+			}
+			else {
+				titleSb.append(inquiryType);
+			}
 			
-			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, title, sb.toString(), ordName, ordPhone, fileNameList);
+			
+			
+			if(!shopNo.equals("")) {			
+				titleSb.append("[쇼핑몰주문번호] "+shopNo +" ");
+			}
+			
+			titleSb.append(title);			
+			
+			
+			//게시글 등록
+			regBoard(boardSeq,shopNo, inquiryType, titleSb.toString(), content, ordName, ordPhone);
+				
+			//첨부파일 등록
+			fileNameList = regAttach(boardSeq, shopNo, multipartFileList);			
 
+			//CRM 고객등록
+			callRegCus(boardSeq, shopNo, ordName, ordPhone);
+			
+			//CRM 문자 전송
+			callRegMsg(boardSeq, shopNo, inquiryType, titleSb.toString(), content, ordName, ordPhone, fileNameList);
+
+      
 			rstl = 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,36 +456,43 @@ public abstract class BaseController {
 	}
 	
 	//배송지 변경 요청
-	@PostMapping("changeAddrAjax")
+	@PostMapping("changeShipAjax")
 	@ResponseBody
-	public int changeAddrAjax(		
-			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
-			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
-			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
-			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo,
-			@RequestParam(name = "recvAddr",	 required = false,	defaultValue = "") String recvAddr,
-			@RequestParam(name = "recvAddrDtl`", required = false,	defaultValue = "") String recvAddrDtl) throws IOException	
+	public int changeShipAjax(		
+			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
+			@RequestParam(name = "ordName",  		required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
+			@RequestParam(name = "inquiryType",  	required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name = "recvAddr",	 	required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name = "recvAddrDtl", 	required = false,	defaultValue = "") String recvAddrDtl)
 	{
 		int rstl 	  = 0;
 		ArrayList<String> fileNameList = new ArrayList<String>();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder     titleSb      = new StringBuilder();
+		StringBuilder     contentSb    = new StringBuilder();
+		Long 			  boardSeq     = seqService.getSeq();
+		
 		try {
-			//2. 첨부파일 등록		
 			
-			//3. msg 내용 만들기
-			sb.append("[배송지변경]");
-			sb.append("변경주소:");
-			sb.append(recvAddr+" ");
-			sb.append(recvAddrDtl);
-			sb.append("요청사항: "+content);
+			titleSb.append("[배송지변경]");
+			if(!shopNo.equals("")) {			
+				titleSb.append("[쇼핑몰주문번호] "+shopNo +" ");
+			}
 			
-			Long boardSeq = seqService.getSeq();
-			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone);				
+			contentSb.append("[변경주소] ");
+			contentSb.append(recvAddr+" ");
+			contentSb.append(recvAddrDtl+" ");
+			contentSb.append("[요청사항] "+content);
 			
-			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone, fileNameList);
+			//게시글 등록
+			regBoard(boardSeq,shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone);				
+			
+			//CRM 고객등록
+			callRegCus(boardSeq, shopNo, ordName, ordPhone);
+			
+			//CRM 문자 전송
+			callRegMsg(boardSeq, shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone, fileNameList);
 
 			rstl = 1;
 		} catch (Exception e) {
@@ -366,35 +502,127 @@ public abstract class BaseController {
 	}	
 	
 	//배송지 희망일 요청
-	@PostMapping("changeDateAjax")
+	@PostMapping("shipDateAjax")
 	@ResponseBody
-	public int changeDateAjax(		
-			@RequestParam(name = "content",      required = true, 	defaultValue = "") String content, 
-			@RequestParam(name = "ordName",  required = true, 	defaultValue = "") String ordName,
-			@RequestParam(name = "ordPhone",required = true, 	defaultValue = "") String ordPhone, 
-			@RequestParam(name = "inquiryType",  required = true, 	defaultValue = "") String inquiryType,
-			@RequestParam(name = "sabangNo",	 required = false,	defaultValue = "") String sabangNo,
-			@RequestParam(name = "datepicker",	 required = false,	defaultValue = "") String datepicker) throws IOException	
+	public int shipDateAjax(		
+			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
+			@RequestParam(name = "ordName",  		required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
+			@RequestParam(name = "inquiryType",		required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name = "datepicker",	 	required = false,	defaultValue = "") String datepicker)
+	{
+		int rstl 	  				   = 0;
+		ArrayList<String> fileNameList = new ArrayList<String>();
+		StringBuilder     titleSb      = new StringBuilder();
+		StringBuilder     contentSb    = new StringBuilder();
+		Long 			  boardSeq     = seqService.getSeq();
+				
+		try {
+			titleSb.append("[배송희망일요청] ");					
+			if(!shopNo.equals("")) {			
+				titleSb.append("[쇼핑몰주문번호] "+shopNo +" ");
+			}
+			
+			contentSb.append("[배송희망일자] " + datepicker + " ");
+			contentSb.append("[요청사항] " + content);			
+			
+			//게시글 등록
+			regBoard(boardSeq,shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone);
+						
+			//CRM 고객등록
+			callRegCus(boardSeq, shopNo, ordName, ordPhone);
+			
+			//CRM 문자 전송
+			callRegMsg(boardSeq, shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone, fileNameList);
+
+			rstl = 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rstl;
+	}
+	
+	//주문 취소 요청
+	@PostMapping("cancelOrderAjax")
+	@ResponseBody
+	public int cancelOrderAjax(		
+			@RequestParam(name = "title", 	     	required = true, 	defaultValue = "") String title,
+			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
+			@RequestParam(name = "ordName",  		required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
+			@RequestParam(name = "inquiryType",		required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo)
 	{
 		int rstl 	  = 0;
 		ArrayList<String> fileNameList = new ArrayList<String>();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder     titleSb   = new StringBuilder();
+		StringBuilder     contentSb = new StringBuilder();
+		Long 			  boardSeq  = seqService.getSeq();
+		
 		try {
-			//2. 첨부파일 등록		
+			titleSb.append("[주문취소요청]");
+			titleSb.append(title);
+			if(!shopNo.equals("")) {			
+				titleSb.append("[쇼핑몰주문번호] "+shopNo +" ");
+			}
 			
-			//3. msg 내용 만들기
-			sb.append("[배송희망일요청]");
-			sb.append("배송희망일자:" + datepicker + " ");
-			sb.append("요청사항: " + content);
+			contentSb.append("[사유] " + content);
+									
+			// 게시글 등록
+			regBoard(boardSeq,shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone);
+						
+			//CRM 고객등록
+			callRegCus(boardSeq, shopNo, ordName, ordPhone);
 			
-			Long boardSeq = seqService.getSeq();
-			//1. 게시글 등록
-			regBoard(boardSeq,sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone);
-				
+			// CRM 문자 전송
+			callRegMsg(boardSeq, shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone, fileNameList);
 
+			rstl = 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rstl;
+	}
+	
+	
+	//교환반품 요청
+	@PostMapping("requestExReAjax")
+	@ResponseBody
+	public int requestExReAjax(
+			@RequestParam(name = "file",	 	 	required = false) List<MultipartFile> multipartFileList,
+			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
+			@RequestParam(name = "ordName",			required = true, 	defaultValue = "") String ordName,
+			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
+			@RequestParam(name = "inquiryType",		required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo)
+	{
+		int rstl 	  				   = 0;
+		ArrayList<String> fileNameList = new ArrayList<String>();
+		StringBuilder     titleSb 	   = new StringBuilder();
+		StringBuilder     contentSb    = new StringBuilder();
+		Long 			  boardSeq     = seqService.getSeq();
+		
+		try {
 			
-			//4. CRM 문자 전송
-			callCRMApi(boardSeq, sabangNo, inquiryType, "", sb.toString(), ordName, ordPhone, fileNameList);
+			titleSb.append("[교환반품요청]");
+			if(!shopNo.equals("")) {			
+				titleSb.append("[쇼핑몰주문번호] "+shopNo +" ");
+			}
+			
+			contentSb.append("[사유] " + content);
+																	
+			//게시글 등록
+			regBoard(boardSeq,shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone);
+				
+			//첨부파일 등록
+			fileNameList = regAttach(boardSeq, shopNo, multipartFileList);			
+			
+			//CRM 고객등록
+			callRegCus(boardSeq, shopNo, ordName, ordPhone);
+			
+			//CRM 문자 전송
+			callRegMsg(boardSeq, shopNo, inquiryType, titleSb.toString(), contentSb.toString(), ordName, ordPhone, fileNameList);
 
 			rstl = 1;
 		} catch (Exception e) {
@@ -404,20 +632,20 @@ public abstract class BaseController {
 	}
 	//게시글 등록
 	public void regBoard(	
-			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
-			@RequestParam(name= "sabangNo",		required = false,	defaultValue = "")	String sabangNo,
-			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "")	String inquiryType,
-			@RequestParam(name= "title",		required = false,	defaultValue = "")	String title,
-			@RequestParam(name= "content",		required = false,	defaultValue = "") 	String content,			
-			@RequestParam(name= "ordName",	required = true,	defaultValue = "")	String ordName,
-			@RequestParam(name= "ordPhone",required = true,	defaultValue = "")	String ordPhone) 
+			@RequestParam(name= "boardSeq",			required = true,	defaultValue = "")	Long boardSeq,
+			@RequestParam(name= "shopNo",			required = false,	defaultValue = "")	String shopNo,
+			@RequestParam(name= "inquiryType",		required = false,	defaultValue = "")	String inquiryType,
+			@RequestParam(name= "title",			required = false,	defaultValue = "")	String title,
+			@RequestParam(name= "content",			required = false,	defaultValue = "") 	String content,			
+			@RequestParam(name= "ordName",			required = true,	defaultValue = "")	String ordName,
+			@RequestParam(name= "ordPhone",			required = true,	defaultValue = "")	String ordPhone) 
 		{
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			
 			Board board = Board.builder()
 					.boardSeq(boardSeq)
-					.sabangNo(sabangNo)
+					.shopNo(shopNo)
 					.partner(getPartner())
 					.title(title)
 					.content(content)
@@ -430,12 +658,12 @@ public abstract class BaseController {
 			//성공 1 실패 0 		//게시글 등록 실패시 로그등록 및 알림메일 발송
 			if(rstl != 1) {
 				
-		        String jsonString1 = objectMapper.writeValueAsString(board);
+		        String jsonString = objectMapper.writeValueAsString(board);
 		        
 				ExceptionLog ex = ExceptionLog.builder()
 									.partner(getPartner())
 									.exceptionMessage("Board Regist Fail")
-									.exceptionStackTrace(jsonString1)
+									.exceptionStackTrace(jsonString)
 									.build();
 				logService.InsExceptionLog(ex);
 				
@@ -446,15 +674,15 @@ public abstract class BaseController {
 		        emailService.sendBoardMail(emailMessage, "mail/boardmail", board);
 			}
 		}catch (Exception e) {
-			logger.error("BaseController -> regBoard -> "+ExceptionUtils.getPrintStackTrace(e));
+			logger.error(getPartner()+" -> regBoard -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 	}
 	
 	//첨부파일 등록
 	public ArrayList<String> regAttach(
-			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
-			@RequestParam(name= "sabangNo",	required = false,	defaultValue = "")	String sabangNo,
-			@RequestParam(name = "file",	required = false) 	List<MultipartFile> multipartFileList) 
+			@RequestParam(name = "boardSeq",	required = true,	defaultValue = "") Long boardSeq,
+			@RequestParam(name = "shopNo",		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name = "file",		required = false) 	List<MultipartFile> multipartFileList) 
 	{
 		ObjectMapper 	objectMapper   = new ObjectMapper();
 		ArrayList<String> fileNameList = new ArrayList<String>();
@@ -494,7 +722,7 @@ public abstract class BaseController {
 						Attach attach = Attach.builder()
 								.attachSeq(attach_seq)
 								.boardSeq(boardSeq)
-								.sabangNo(sabangNo)
+								.shopNo(shopNo)
 								.partner(getPartner())
 								.s3Addr(fileName)
 								.cloudFrontAddr(cloudFront)
@@ -524,70 +752,48 @@ public abstract class BaseController {
 				}
 			}
 		}catch (Exception e) {
-			logger.error("BaseController -> regAttach -> "+ExceptionUtils.getPrintStackTrace(e));
+			logger.error(getPartner()+" -> regAttach -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 		return fileNameList;
 	}
 	
-	//CRM API 호출
+	//CRM REG MSG API 호출
 	//이름 넣어야함 쇼핑몰 주문번호도넣어야함
-	public void callCRMApi(
-			@RequestParam(name= "boardSeq",	required = true,	defaultValue = "")	Long boardSeq,
-			@RequestParam(name= "sabangNo",		required = false,	defaultValue = "")	String sabangNo,
-			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "")	String inquiryType,
-			@RequestParam(name= "title",		required = false,	defaultValue = "")	String title,
-			@RequestParam(name= "content",		required = false,	defaultValue = "") 	String content,			
-			@RequestParam(name= "ordName",	required = true,	defaultValue = "")	String ordName,
-			@RequestParam(name= "ordPhone",required = true,	defaultValue = "")	String ordPhone,
-			@RequestParam(name= "fileNameList", required = true,	defaultValue = "")	ArrayList<String> fileNameList)
+	//boardseq 넣어야함
+	public void callRegMsg(
+			@RequestParam(name= "boardSeq",			required = true,	defaultValue = "")	Long boardSeq,
+			@RequestParam(name= "shopNo",			required = false,	defaultValue = "")	String shopNo,
+			@RequestParam(name= "inquiryType",		required = false,	defaultValue = "")	String inquiryType,
+			@RequestParam(name= "title",			required = false,	defaultValue = "")	String title,
+			@RequestParam(name= "content",			required = false,	defaultValue = "") 	String content,			
+			@RequestParam(name= "ordName",			required = true,	defaultValue = "")	String ordName,
+			@RequestParam(name= "ordPhone",			required = true,	defaultValue = "")	String ordPhone,
+			@RequestParam(name= "fileNameList",		required = true,	defaultValue = "")	ArrayList<String> fileNameList)
 	{
 		
 		try {
-			ObjectMapper 	objectMapper   = new ObjectMapper();
 			Partner 		 Partner 	   = partnerService.getPartnerInfo(getPartner());
 			Date 			 currentDate   = new Date();
 	        SimpleDateFormat sdf           = new SimpleDateFormat("yyyyMMddHHmmss");	        
 	        String           formattedDate = sdf.format(currentDate);
 
-	        CRMApiRequest crmApiRequest = CRMApiRequest.builder()
+	        CRMApiMsgRequest crmApiRequest = CRMApiMsgRequest.builder()
 	        						.partner(getPartner())
-	        						.comid(Partner.getCommid())
-	        						.keycode(Partner.getKeycode())
+	        						.comid(Partner.getCrmCommid())
+	        						.keycode(Partner.getCrmKeycode())
 	        						.hp(ordPhone)
 	        						.title(title)
 	        						.msg(content)
 	        						.proctime(formattedDate)
 	        						.inquiryType(inquiryType)
-	        						.seq(String.valueOf(boardSeq))
+	        						.seq(String.valueOf(seqService.getSeq()))
 	        						.fileNameList(fileNameList)
 	        						.build();
 	        	        
 	        //api 호출
-			ResponseEntity<String> apiResponse = contactService.RegMsg(crmApiRequest);
-			
-			//결과 업데이트
-	        CRMApiResponse response   = objectMapper.readValue(apiResponse.getBody(), CRMApiResponse.class);
-	        String 		   jsonString = objectMapper.writeValueAsString(response);	
+	        CRMApiMsgResponse response  = contactService.RegMsg(crmApiRequest, boardSeq);
 	        
-	        //성공 시
-	        if(response.getState().equals("success") && apiResponse.getStatusCode().is2xxSuccessful()) {
-	        	ApiLog Response = ApiLog.builder()
-		        				.partner(getPartner())
-		        				.errorMessage("")
-		        				.success(true)
-		        				.response(jsonString)
-		        				.apiLogSeq(Long.parseLong(crmApiRequest.getSeq()))
-		        				.build();
-	        	logService.UpdApiLog(Response);
-	        }else {
-	        	ApiLog Response = ApiLog.builder()
-		        				.partner(getPartner())
-		        				.errorMessage("")
-		        				.success(false)
-		        				.response(jsonString)
-		        				.apiLogSeq(Long.parseLong(crmApiRequest.getSeq()))
-		        				.build();
-	        	logService.UpdApiLog(Response);
+	        if(!response.getState().equals("success")) {
 	        	
 	        	//실패시에만 메일 발송
 				EmailMessage emailMessage = EmailMessage.builder()
@@ -595,10 +801,113 @@ public abstract class BaseController {
 		                .subject("CRM API 요청 실패")
 		                .build();
 
-		        emailService.sendCrmMail(emailMessage, "mail/crmmail", crmApiRequest, response);
-	        }	        
+		        emailService.sendCrmMsgMail(emailMessage, "mail/crmMsgmail", crmApiRequest, response);
+	        }
+
 		}catch (Exception e) {
-			logger.error("BaseController -> callCRMApi -> "+ExceptionUtils.getPrintStackTrace(e));
+			logger.error(getPartner()+" -> callRegMsg -> "+ExceptionUtils.getPrintStackTrace(e));
 		}
 	}
+	
+	//등록된 주문번호없을떄 예외처리 해야함 전부다
+	//CRM REG MSG API 호출
+	//이름 넣어야함 쇼핑몰 주문번호도넣어야함
+	public void callRegCus(
+			@RequestParam(name= "boardSeq",			required = true,	defaultValue = "")	Long boardSeq,
+			@RequestParam(name= "shopNo",			required = false,	defaultValue = "")	String shopNo,
+			@RequestParam(name= "ordName",			required = true,	defaultValue = "")	String ordName,
+			@RequestParam(name= "ordPhone",			required = true,	defaultValue = "")	String ordPhone)
+	{
+		
+		try {
+			Date 			 currentDate   = new Date();
+	        SimpleDateFormat sdf           = new SimpleDateFormat("yyyyMMddHHmmss");	        
+	        String           formattedDate = sdf.format(currentDate);
+			Partner Partner 	  		   = partnerService.getPartnerInfo(getPartner());
+			CRMApiCusRequest crmApiCusRequest = null;
+			
+			
+			if(shopNo.equals("")) {
+				StringBuilder memoSb = new StringBuilder();				
+				//memoSb.append("[문의일자]");
+				//memoSb.append(formattedDate);						
+				crmApiCusRequest = CRMApiCusRequest.builder()
+													.partner(getPartner())
+													.comid(Partner.getCrmCommid())
+													.keycode(Partner.getCrmKeycode())
+													.name(ordName)
+													.hp(ordPhone)
+													.seq(String.valueOf(seqService.getSeq()))
+													.comname("")
+													.zipcode("")
+													.address("")
+													.memo(memoSb.toString())
+													.build();
+			}
+			else {
+				List<Order> orderlist 		   = orderservice.findOrderByshopNo(shopNo);
+				StringBuilder memoSb = new StringBuilder();
+				
+				//memoSb.append("[문의일자]");
+				//memoSb.append(formattedDate);
+				for(Order or : orderlist) {
+					memoSb.append("[상품명]");
+					memoSb.append(or.getProductName());			
+					memoSb.append("[옵션]");
+					memoSb.append(or.getOptionName());				
+					memoSb.append("[수량]");
+					memoSb.append(or.getQuantity());
+					memoSb.append("[주문일자]");
+					memoSb.append(or.getOrderDt());
+					memoSb.append("    ");
+				}
+								
+				crmApiCusRequest = CRMApiCusRequest.builder()
+													.partner(getPartner())
+													.comid(Partner.getCrmCommid())
+													.keycode(Partner.getCrmKeycode())
+													.name(ordName)
+													.hp(ordPhone)
+													.seq(String.valueOf(seqService.getSeq()))
+													.comname(orderlist.get(0).getMall())
+													.zipcode(orderlist.get(0).getReceiverZipcode())
+													.address(orderlist.get(0).getReceiverAddress())
+													.memo(memoSb.toString())
+													.build();
+			}		
+			
+	        CRMApiCusResponse response  = contactService.RegCus(crmApiCusRequest, boardSeq);
+	        
+	        if(!response.getState().equals("success")) {
+	        	
+	        	//실패시에만 메일 발송
+				EmailMessage emailMessage = EmailMessage.builder()
+		                .to("eke6767@naver.com")
+		                .subject("CRM API 요청 실패")
+		                .build();
+
+		        emailService.sendCrmCusMail(emailMessage, "mail/crmCusmail", crmApiCusRequest, response);
+	        }
+
+		}catch (Exception e) {
+			logger.error(getPartner()+" -> RegCus -> "+ExceptionUtils.getPrintStackTrace(e));
+		}
+	}
+	/*
+	 * 안쓰는 메뉴 및 함수
+	 */
+	
+	/*
+	@RequestMapping("sub") // 서브메뉴
+	public String sub(Model model, String shopNo) {
+		model.addAttribute("shopNo", shopNo);
+		return getPartner()+"/sub";
+	}
+		
+	@RequestMapping("call") // 기타 문의
+	public String call() {		
+		return getPartner()+"/call";
+	}
+
+*/
 }

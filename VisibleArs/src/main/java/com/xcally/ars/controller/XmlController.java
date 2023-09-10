@@ -48,7 +48,7 @@ public class XmlController {
     private String sabangUrl;
 	
 	@Autowired
-    private HttpServletRequest request;
+    private HttpServletRequest request; 
 	
 	@Autowired
 	private SeqService seqService;
