@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>본인인증</title>
+	<link rel="stylesheet" th:href="@{/testsornia/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/testsornia/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/testsornia/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/testsornia/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/testsornia/css/authentication.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:src="@{/js/partner/noend_common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome('testsornia')">
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<p class="title">본인인증</p>
+				<p class="description">서비스를 이용하시기 전 본인인증을 해주세요.</p>
+			</div>
+		</div>
+		<div class="content">
+			<input type="hidden" id="inquiryType" th:value="${inquiryType}" />
+			<!-- text fields -->
+			<div class="ui-text-field">
+				<label for="name">
+					<p class="title">이름</p>
+					<input id="ordName" onkeyup="noSpaceForm(this);" type="text" placeholder="이름을 입력해주세요" />
+				</label>
+			</div>
+			<div class="ui-text-field">
+				<label for="phone">
+					<p class="title">휴대전화</p>
+					<input id="ordPhone" type="number" placeholder="-제외하고 번호만 입력하세요"
+						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+				</label>
+			</div>
+			<div class="ui-text-field">
+				<label for="address">
+					<p class="title">주소</p>
+					<input id="recvAddr" readonly type="text" placeholder="주소를 검색하여 입력해 주세요" />
+					<br><br>
+					<P style="font-size: 15px;">※도로명 주소까지만 입력해 주세요.</P>
+				</label>
+			</div>
+			<br><br><br>
+			<div onclick="sample2_execDaumPostcode()" class="ui-button default">
+				<span class="title">주소찾기</span>
+				<img src="/common/assets/ico_search_w.svg" class="icon" />
+			</div>
+			<br><br><br>
+			<!-- terms -->
+			<div class="terms">
+				<div class="terms-content">
+					<div class="ui-checkbox">
+						<input type="checkbox" id="checkbox1" />
+						<label for="checkbox1">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
+								<g>
+									<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
+								</g>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
+								<g>
+									<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
+								</g>
+							</svg>
+							<p>서비스 이용을 위한 개인정보 이용 동의</p>
+						</label>
+						<img src="/common/assets/ico_more.svg" class="icon"
+							onclick="handleToggleTermsModal(event, this)" />
+						<div class="terms-modal">
+							<div class="terms-content">
+								<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
+									onclick="handleToggleTermsModal(event, this)" />
+								<div class="terms-script">
+									<p>개인정보 수집 및 이용동의</p>
+									<br>
+									<p>1. 개인 정보 수집 및 이용 목적</p>
+									<br>
+									<p>(1) 서비스 제공에 관한 계약 이행</p>
+									<p>* 단말기 정보에 따라 서비스 제공여부 확인 및 제공</p>
+									<p>* 보이는 ARS 서비스 제공여부 확인 및 제공</p>
+									<br>
+									<p>(2) 회원 관리</p>
+									<p>* 서비스 이용, 제한적 본인확인 및 개인식별</p>
+									<p>* 분쟁 조정을 위한 기록보존</p>
+									<p>* 불만처리 등 민원처리 및 고지사항 전달</p>
+									<br>
+									<p>(3) 모니터링 및 통계</p>
+									<p>* 저작권 위반, 타인의 권리 침해, 음란물, 피싱 등 방지</p>
+									<p>* 서비스 및 회원 통계 분석</p>
+									<br>
+									<p>2. 개인정보 수집항목</p>
+									<br>
+									<p>(1) 단말기 정보 : 전화번호</p>
+									<br>
+									<p>(2) 회원정보 : 사진(메타정보 포함), 텍스트 멘트 등 업체 및</p>
+									<p>개인정보 일체</p>
+									<br>
+									<p>(3) 기타 : 서비스 이용기록, 접속로그, 접속 IP 정보, 장애 관련</p>
+									<p>정보 등</p>
+									<br>
+									<p>(4) 회원본인식별 : 이름, 주소, 전화번호 등의 본인식별 및 인증</p>
+									<p>관련 정보</p>
+									<br>
+									<p>3. 개인정보의 보유 및 이용기간</p>
+									<br>
+									<p>회원의 개인정보는 원칙적으로 개인정보의 수집 및 이용목적이</p>
+									<p>달성되면 지체 없이 파기합니다. 단, 다음의 정보에 대해서는</p>
+									<p>아래의 보존 이유를 위해 명시한 기간 동안 보존합니다.</p>
+									<br>
+									<p>(1) 회사 내부 방침에 의한 정보보유 사유</p>
+									<p>- 보존 항목 : 가입인증 휴대폰 번호, 서비스 이용기록</p>
+									<p>- 보존 이유 : 판매 제품에 대한 정보 제공, 클레임 처리를</p>
+									<p>위한 정보 보존</p>
+									<p>- 보존 기간 : 1년</p>
+									<br>
+									<p>(2) 관련법령에 의한 정보보유 사유</p>
+									<p>* 상법, 전자상거래 등에서의 소비자보호에 관한 법률 등</p> 
+									<p>관계법령의 규정에 의하여 보존할 필요가 있는 경우 회사는</p>
+									<p>관계법령에서 정한 일정한 기간 동안 회원정보를 보관합니다.</p>
+									<p>* 이 경우 회사는 보관하는 정보를 그 보관의 목적으로만 이용하며</p>
+									<p>보존기간은 아래와 같습니다.</p>
+									<p>- 계약 또는 청약철회 등에 관한 기록보존</p>
+									<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+									<p>보존 기간 : 5년</p>
+									<p>- 대금결제 및 재화 등의 공급에 관한 기록보존</p>
+									<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+									<p>보존 기간 : 5년</p>
+									<p>- 전자금융 거래에 관한 기록보존 이유 : 전자금융거래법</p>
+									<p>보존 기간 : 5년</p>
+									<p>- 소비자의 불만 또는 분쟁처리에 관한 기록보존</p>
+									<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+									<p>보존 기간 : 3년</p>
+									<p>- 관리자화면, 웹 방문기록보존</p>
+									<p>이유 : 통신비밀보호법</p>
+									<p>보존 기간 : 3개월</p>
+									<br>
+									<p>4. 개인정보 파기절차 및 방법</p>
+									<br>
+									<p>회원의 개인정보는 원칙적으로 개인정보의 수집 및 이용목적이</p>
+									<p>달성되면 지체 없이 파기합니다. 회사의 개인정보 파기절차 및</p>
+									<p>방법은 다음과 같습니다.</p>
+									<br>
+									<p>(1) 파기절차</p>
+									<p>* 회원이 회원가입 등을 위해 입력한 정보는 목적이 달성된 후</p> 
+									<p>별도의 DB로 옮겨져 (종이의 경우 별도의 서류함) 내부 방침</p> 
+									<p>및 기타 관련 법령에 의한 정보보호 사유에 따라(보유 및 이용기간</p>
+									<p>참조)일정 기간 저장된 후 파기됩니다.</p>
+									<p>* 동 개인정보는 법률에 의한 경우가 아니고서는 보유되는 이외의</p>
+									<p>다른 목적으로 이용되지 않습니다.</p>
+									<br>
+									<p>(2) 파기방법</p>
+									<p>* 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여</p>
+									<p>파기합니다.</p>
+									<p>* 전자적 파일 형태로 저장된 개인정보는 기록을 재생할 수 없는</p>
+									<p>기술적 방법을 사용하여 삭제합니다.</p>
+									<br>
+									<p>5. 회원 권리와 그 행사방법</p>
+									<br>
+									<p>회원이 개인정보의 오류에 대한 정정을 요청하신 경우에는 정정을</p> 
+									<p>완료하기 전까지 당해 개인정보를 이용 또는 제공하지 않습니다.</p> 
+									<p>회사는 회원 요청에 의해 해지 또는 삭제된 개인정보는</p> 
+									<p>"3. 개인정보의 보유 및 이용기간"에명시된 바에 따라 처리하고</p> 
+									<p>그 외의 용도로 열람 또는 이용할 수 없도록 처리하고 있습니다.</p>
+									<br>
+									<p>6. 동의 거부 권리 및 그에 따른 불이익</p>
+									<br>
+									<p>회원은 개인정보 이용동의를 거부할 수 있으며, 거부하는 경우</p> 
+									<p>본 서비스 이용이 제약을 받거나 본 서비스 이용이 불가능할</p>
+									<p>수 있습니다.</p>
+									<br>
+									<p>7. 개인정보 관리책임자 및 담당자</p>
+									<br>
+									<p>(1) 이름: 신수근</p>
+									<p>(2) 부서: 관리팀</p>
+									<p>(3) 연락처: 070-4554-9455</p>
+									<p>기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에는</p> 
+									<p>아래 기관에 문의하시기 바랍니다.</p>
+									<br>
+									<p>- 개인정보침해신고센터 (privacy.kisa.or.kr / 국번없이 118)</p>
+									<p>- 대검찰청 사이버수사과 (www.spo.go.kr / 국번없이 1301)</p>
+									<p>- 경찰청 사이버안전국 (www.ctrc.go.kr / 국번없이 182)</p>
+									<br>
+									<p>현 개인정보취급방침 내용 추가, 삭제 및 수정이 있을 시에는</p> 
+									<p>개정 최소 7일전부터 관리자화면의 '공지사항'을 통해 고지할 </p>
+									<p>것입니다. 다만, 개인정보의 수집 및 활용, 제3자 제공 등과</p> 
+									<p>같이 회원 권리의 중요한 변경이 있을 경우에는 최소 30일</p> 
+									<p>전에 고지합니다.</p>
+									<br>
+									<p>공고일자: 2023년 06월 01일 </p>
+									<p>시행일자: 2023년 08월 01일</p>
+								</div>
+								<div class="terms-footer">
+									<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 0)">
+										<span>동의</span>
+									</div>
+									<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
+										<span>취소</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:onclick="dataSend()" class="ui-button primary">
+						<span class="title">주문 조회하기</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div class="page-footer-navigation">
+		<div class="controller">
+
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+		<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
+			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+			alt="닫기 버튼">
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
+	</div>
+</body>
+<script>
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testsornia/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testsornia/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+
+	function closeTermsModal() {
+		const element = document.querySelector('.terms-modal.visible');
+		element.classList.remove('visible');
+	}
+
+	function handleClickAgreeTerms(event, target, termsId) {
+		if (event) event.stopPropagation();
+		const checkboxItems = document.querySelectorAll(
+			'.terms-content .ui-checkbox input[type="checkbox"]'
+		);
+		if (/[0-4]/.test(termsId)) {
+			checkboxItems[termsId].checked = true;
+			closeTermsModal();
+		} else {
+			for (let i = 0, length = checkboxItems.length; i < length; ++i)
+				checkboxItems[i].checked = target.checked;
+		}
+		//detectAllTermsAgreed();
+	}
+
+	function handleToggleTermsModal(event, target) {
+		event.stopPropagation();
+
+		if (target.className === 'icon' && String(target.getAttribute('src')).includes('ico_more')) {
+			for (
+				let i = 0, elements = target.parentElement.children, length = elements.length;
+				i < length;
+				++i
+			) {
+				if (elements[i].className === 'terms-modal') {
+					elements[i].classList.add('visible');
+					break;
+				}
+			}
+		} else closeTermsModal();
+	}
+
+	function dataSend() {
+
+		var name = $("#ordName").val();
+		var phone = $("#ordPhone").val();
+		var inquiryType = $("#inquiryType").val();
+
+		if (name.length == 0) {
+			$("#modal_custom_msg").text("이름을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if (phone.length == 0) {
+			$("#modal_custom_msg").text("전화번호를 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		//문자열에 공백이 있는 경우
+		var blank_pattern = /[\s]/g;
+		if (blank_pattern.test(name) == true ||
+			blank_pattern.test(phone) == true) {
+			$("#modal_custom_msg").text("공백은 입력 할 수 업습니다.");
+			modalCustomOpen();
+			return false;
+		}
+
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test(name) == true ||
+			special_pattern.test(phone) == true) {
+			$("#modal_custom_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if (!($("input:checkbox[id='checkbox1']").is(":checked"))) {
+			$("#modal_custom_msg").text("이용약관에 동의해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		const order = {
+			seqNo: 0,
+			ordererName: $("#ordName").val(),
+			ordererPhone1: $("#ordPhone").val(),
+			receiverAddress: $("#recvAddr").val(),
+			quantity: 0,
+			payAmt: 0
+		}
+
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
+
+		$.ajax({
+			url: "/testsornia/get",
+			data: order,
+			type: 'POST',
+		}).done(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
+
+			if (!!data.shopNo) {
+				//sabangNo가 있다면 detail로
+				var form = document.createElement('form');
+				form.setAttribute('method', 'post');
+				form.setAttribute('action', "/testsornia/detail?token=" + token);
+				form.appendChild(addHiddenField('ordererName', $("#ordName").val()));
+				form.appendChild(addHiddenField('ordererPhone1', $("#ordPhone").val()));
+				form.appendChild(addHiddenField('receiverAddress', $("#recvAddr").val()));
+				form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
+				form.appendChild(addHiddenField('shopNo', data.shopNo));
+
+				document.body.appendChild(form);
+				form.submit();
+			} else {
+				//없다면 그냥 1대1 문의하기
+				var form = document.createElement('form');
+				form.setAttribute('method', 'post');
+				form.setAttribute('action', "/testsornia/noorder?token=" + token);
+				form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+				form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+				form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
+				document.body.appendChild(form);
+				form.submit();
+			}
+
+		});
+	}
+
+	// 우편번호 찾기 화면을 넣을 element
+	var element_layer = document.getElementById('layer');
+
+	function closeDaumPostcode() {
+		// iframe을 넣은 element를 안보이게 한다.
+		element_layer.style.display = 'none';
+	}
+
+	function sample2_execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+					//document.getElementById("sample2_extraAddress").value = extraAddr;
+
+				} else {
+					//document.getElementById("sample2_extraAddress").value = '';
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				//document.getElementById('sample2_postcode').value = data.zonecode;
+				document.getElementById("recvAddr").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				//document.getElementById("sample2_detailAddress").focus();
+
+				// iframe을 넣은 element를 안보이게 한다.
+				// (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+				element_layer.style.display = 'none';
+			},
+			width: '100%',
+			height: '100%',
+			maxSuggestItems: 5
+		}).embed(element_layer);
+
+		// iframe을 넣은 element를 보이게 한다.
+		element_layer.style.display = 'block';
+
+		// iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+		initLayerPosition();
+	}
+
+	function initLayerPosition() {
+		var width = 300; //우편번호서비스가 들어갈 element의 width
+		var height = 300; //우편번호서비스가 들어갈 element의 height
+		var borderWidth = 1; //샘플에서 사용하는 border의 두께
+
+		// 위에서 선언한 값들을 실제 element에 넣는다.
+		element_layer.style.width = width + 'px';
+		element_layer.style.height = height + 'px';
+		element_layer.style.border = borderWidth + 'px solid';
+		// 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+		element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
+		element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
+	}
+
+
+	function addressIns() {
+		new daum.Postcode({
+			oncomplete: function (data) { //선택시 입력값 세팅
+				document.getElementById("address").value = data.address; // 주소 넣기
+				document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+			}
+		}).open();
+	}
+
+</script>
+
+</html>

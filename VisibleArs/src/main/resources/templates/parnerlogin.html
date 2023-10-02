@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My test page</title>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -79,8 +80,13 @@
             <button type="button" onclick="dataSend()">로그인</button>
         </form>
     </div>
+    
+    
 </body>
   <script>
+	  function downloadExcel() {
+            window.location.href = "download/excel";
+        }
 	function dataSend(){
 	    const partner = {partnerId: $("#partner_id").val(), 
 	    				 partnerPw: $("#partner_pw").val(),
@@ -93,7 +99,7 @@
 
 	    }).done(function (data){
 			if(data){
-				location.href="/partner/excel";
+				location.href="/partner/menu";
 			}else{
 				alert("파트너가 아닙니다.");
 			}

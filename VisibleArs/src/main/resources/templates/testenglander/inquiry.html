@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/testenglander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/inquiry.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome('testenglander')">
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="content">
+			<div class="header">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="inquiry" />
+				<p class="title">1:1 문의하기</p>
+				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
+			</div>
+			<div class="ui-data-table">
+				<input type="hidden" id="shopNo" th:value="${shopNo}" />
+				<input type="hidden" id="inquiryType" th:value="${inquiryType}" />
+				<table>
+					<colgroup>
+						<col width="65px" />
+						<col width="*" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>이 름</th>
+							<td>
+								<div class="ui-text-field">
+									<input type="text" id="ordName" th:value="${ordName}" placeholder="예 : 홍길동" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>휴 대 전 화</th>
+							<td>
+								<div class="ui-text-field">
+									<input id="ordPhone" type="number" th:value="${ordPhone}"
+										placeholder="-제외하고 번호만 입력하세요"
+										oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>문의 구분</th>
+							<td>
+								<div class="ui-select-field" id="seldiv">
+									<select id="inquiryTypeSel">
+										<option value="getShip">배송 조회</option>
+										<option value="changeShip">배송지 변경</option>
+										<option value="shipDate">배송 희망일 요청</option>
+										<option value="cancelOrder">교환 반품 요청</option>
+										<option value="ASRequest">AS 요청</option>
+										<option value="etc">기타문의</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>제 목</th>
+							<td>
+								<div class="ui-text-field">
+									<input type="text" maxlength="30" id="title" placeholder="제목을 입력해주세요." />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="non-padding">
+								<div class="ui-textarea">
+									<textarea name="content" id="content" maxlength="200"
+										placeholder="교환 및 반품 사유를 간략하게 기재해주세요. (200자)"></textarea>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="files">
+				<div class="header">
+					<span class="title">파일첨부</span>
+					<span class="description">* 5개까지 업로드가 가능합니다.</span>
+				</div>
+				<div class="preview">
+					<ul id="imglistul">
+					</ul>
+				</div>
+				<div class="controller">
+					<label for="files">
+						<div class="ui-button default">
+							<span class="title">파일등록하기</span>
+							<input type="file" accept="image/*" multiple id="files" name="files" />
+							<img src="/common/assets/ico_upload.svg" alt="upload" />
+						</div>
+					</label>
+				</div>
+			</div>
+			<div class="inquiry">
+				<a href="#">
+					<div id="uploadBtn" onclick="modalConfirmOpen()" class="ui-button blue">
+						<span class="title">등록하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!--1대1문의하기 confirm 모달-->
+	<div class="ui-modal" id="modal_11_confirm">
+		<div class="content" style="min-height: 100px;">
+			<div class="message">
+				<p id="">문의를 남기시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">닫기</span>
+				</div>
+				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 1대1 문의 접수 완료 -->
+	<div class="ui-modal" id="modal_11_complete">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="info">
+			</div>
+			<div class="message">
+				<p><b>1:1 문의가 접수되었습니다.</b></p>
+				<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
+			</div>
+			<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
+	</div>
+</body>
+
+<script>
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+
+	$(document).ready(function () {
+		$("#files").on("change", SelectImg);
+
+		if ($("#inquiryType").val() != "") {
+			$("#inquiryTypeSel").val($("#inquiryType").val()).prop("selected", true);
+			$("#inquiryTypeSel").attr("disabled", 'true');
+		}
+	});
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+	//등록 확인 모달
+	function modalConfirmOpen() {
+		const modal = document.getElementById("modal_11_confirm");
+		modal.classList.add("visible");
+	}
+
+	//등록 완료 모달
+	function modalCompleteOpen() {
+		const modal = document.getElementById("modal_11_complete");
+		modal.classList.add("visible");
+	}
+	// 이미지 정보들을 담을 배열
+	var sel_files = [];
+
+
+	const fileElement = document.querySelector('#files');
+	fileElement.onchange = function () {
+		// file upload logic.
+	};
+
+	//업로드 여러개 하기
+	function uploadimg() {
+
+
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true
+			|| special_pattern.test($("#ordPhone").val()) == true || special_pattern.test($("#ordName").val()) == true) {
+			$("#modal_custom_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#title").val().length === 0) {
+			$("#modal_custom_msg").text("제목을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#content").val().length === 0) {
+			$("#modal_custom_msg").text("내용을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("전화번호를 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("이름을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		var validPattern = /^(010|011|016|017|019)\d{7,8}$/;
+		if (!validPattern.test($("#ordPhone").val())) {
+			$("#modal_custom_msg").text('문자수신이 안 되는 번호는 등록할 수 없습니다.');
+			modalCustomOpen();
+			return false;
+		}
+
+		//파일개수 체크
+		if (sel_files.length > 5) {
+			$("#modal_custom_msg").text("이미지는 5개까지 업로드가 가능합니다.");
+			modalCustomOpen();
+			sel_files = [];
+			$("#imglistul").empty();
+			return;
+		}
+
+		//확장자 검사
+		for (var i = 0; i < sel_files.length; i++) {
+			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
+			if (!(fileDot == "jpg" || fileDot == "png" || fileDot == "jpeg")) {
+				$("#modal_custom_msg").text("jpg, png, jpeg 파일만 업로드가 가능합니다!");
+				modalCustomOpen();
+				sel_files = [];
+				$("#imglistul").empty();
+				return false;
+			}
+		}
+
+		const formData = new FormData();
+
+		for (var i = 0; i < sel_files.length; i++) {
+			formData.append("file", sel_files[i]);
+		}
+		formData.append("shopNo", $("#shopNo").val());
+		formData.append("title", $("#title").val());
+		formData.append("content", $("#content").val());
+		formData.append("ordPhone", $("#ordPhone").val());
+		formData.append("ordName", $("#ordName").val());
+		formData.append("inquiryType", $("#inquiryTypeSel").val());
+
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/uploadimglist",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+
+		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
+			modalCompleteOpen();
+		}).done(function (data) {
+			$('#result-image').attr("src", data);
+			$("#uploadBtn").attr("onclick", "modalCompleteOpen()");
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			// 에러 메시지 표시
+			alert("파일 업로드 실패: " + errorThrown);
+		});
+	}
+
+	function SelectImg(e) {
+
+		// 이미지 정보들을 초기화
+		sel_files = [];
+		$("#imglistul").empty();
+
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		var index = 0;
+		filesArr.forEach(function (f) {
+			sel_files.push(f);
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var html = '<li class="image" id="img_id_'
+					+ index
+					+ '"><img src="'
+					+ e.target.result
+					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/common/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
+					+ index + ')"></li>';
+				$("#imglistul").append(html);
+				index++;
+			}
+			reader.readAsDataURL(f);
+
+		});
+	}
+
+	function deleteImageAction(index) {
+		console.log("index : " + index);
+		sel_files.splice(index, 1);
+
+		var img_id = "#img_id_" + index;
+		$(img_id).remove();
+
+		console.log(sel_files);
+	}
+
+</script>
+
+</html>

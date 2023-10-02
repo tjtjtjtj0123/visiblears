@@ -1,0 +1,15 @@
+/*
+  --brand-color: 브랜드 로고에 맞게 설정되어있는 헤더 영역의 전경 색상
+  --visible-ars-icon-color: 보이는 ARS 메뉴의 아이콘 색상
+  --inquiry-icon-color: 기타문의 메뉴의 아이콘 색상
+  --button-background-color: 버튼 색상
+  --button-font-color: 버튼의 글자 색상
+*/
+
+:root {
+  --brand-color: #e3c52a;
+  --visible-ars-icon-color: #e3c52a;
+  --inquiry-icon-color: #e3c52a;
+  --button-background-color: #e3c52a;
+  --button-font-color: #393939;
+}

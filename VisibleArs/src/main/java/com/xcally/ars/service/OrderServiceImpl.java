@@ -31,9 +31,15 @@ public class OrderServiceImpl implements OrderService{
 		
 		Order objOrder = null;
 		try {
-			if(order.getPartner().equals("therapedic")) {
-				order.setPartner("englander");
+			
+			if(order.getPartner().contains("test")) {
+				order.setPartner("xcally");
 			}
+			else {
+				if(order.getPartner().equals("therapedic")) {
+					order.setPartner("englander");
+				}	
+			}			
 			
 			objOrder = ordermapper.findOrder(order); 
 		}catch (Exception e) {

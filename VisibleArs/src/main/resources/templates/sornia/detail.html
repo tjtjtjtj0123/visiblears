@@ -10,19 +10,19 @@
 	<link rel="stylesheet" th:href="@{/sornia/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/sornia/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/sornia/css/order_detail.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
 		<div class="button" onclick="handleClickHome('sornia')">
-			<img src="/sornia/assets/ico_home.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
@@ -81,15 +81,15 @@
 
 	<div class="page-footer-navigation">
 		<div class="controller">
-			<div class="left-area">
-				<div class="button" onclick="modalcsrOpen()">
-					<img src="/sornia/assets/ico_headphone.svg" alt="call" class="icon" />
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
-			<div class="right-area">
-				<div class="button" onclick="modalCallEndOpen();">
-					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
@@ -105,11 +105,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
-					<span class="title">통화종료</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
@@ -124,11 +124,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
-					<span class="title">연결</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
 				</div>
 			</div>
 		</div>
@@ -138,7 +138,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/sornia/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -150,12 +150,9 @@
 	</div>
 </body>
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
-	window.onload = function () {
-		fnOnLoad();
-	};
 
 	function fnMoveMenu() {
 
@@ -195,6 +192,42 @@
 
 	}
 
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/sornia/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/sornia/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
 </script>
 
 </html>

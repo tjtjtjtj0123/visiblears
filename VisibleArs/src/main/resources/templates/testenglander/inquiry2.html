@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/testenglander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/inquiry.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome('testenglander')">
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="content">
+			<div class="header">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="inquiry" />
+				<p class="title">1:1 문의하기</p>
+				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
+			</div>
+			<div class="ui-data-table">
+				<input type="hidden" id="shopNo" th:value="${shopNo}" />
+				<input type="hidden" id="inquiryType" th:value="${inquiryType}" />
+				<table>
+					<colgroup>
+						<col width="65px" />
+						<col width="*" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>이 름</th>
+							<td>
+								<div class="ui-text-field">
+									<input type="text" id="ordName" th:value="${ordName}" placeholder="예 : 홍길동" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>휴 대 전 화</th>
+							<td>
+								<div class="ui-text-field">
+									<input id="ordPhone" type="number" th:value="${ordPhone}"
+										placeholder="-제외하고 번호만 입력하세요"
+										oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>문의 구분</th>
+							<td>
+								<div class="ui-select-field" id="seldiv">
+									<select id="inquiryTypeSel">
+										<option value="getShip">배송 조회</option>
+										<option value="changeShip">배송지 변경</option>
+										<option value="shipDate">배송 희망일 요청</option>
+										<option value="cancelOrder">교환 반품 요청</option>
+										<option value="ASRequest">AS 요청</option>
+										<option value="etc">기타문의</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>제 목</th>
+							<td>
+								<div class="ui-text-field">
+									<input type="text" maxlength="30" id="title" placeholder="제목을 입력해주세요." />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="non-padding">
+								<div class="ui-textarea">
+									<textarea name="content" id="content" maxlength="200"
+										placeholder="교환 및 반품 사유를 간략하게 기재해주세요. (200자)"></textarea>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!--체크박스 start-->
+			<div class="ui-checkbox">
+				<input type="checkbox" id="checkbox1" />
+				<label for="checkbox1">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-uncheck">
+						<g>
+							<polyline class="uncheck" points="1.65 11.74 14 22.62 34.37 1.75" />
+						</g>
+					</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.16 26.06" class="ui-check">
+						<g>
+							<polyline class="check" points="1.65 11.74 14 22.62 34.37 1.75" />
+						</g>
+					</svg>
+					<p>서비스 이용을 위한 개인정보 이용 동의</p>
+				</label>
+				<img src="/common/assets/ico_more.svg" class="icon" onclick="handleToggleTermsModal(event, this)" />
+				<div class="terms-modal">
+					<div class="terms-content">
+						<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
+							onclick="handleToggleTermsModal(event, this)" />
+						<div class="terms-script" style="text-align:left">
+							<p>개인정보 수집 및 이용동의</p>
+							<br>
+							<p>1. 개인 정보 수집 및 이용 목적</p>
+							<br>
+							<p>(1) 서비스 제공에 관한 계약 이행</p>
+							<p>* 단말기 정보에 따라 서비스 제공여부 확인 및 제공</p>
+							<p>* 보이는 ARS 서비스 제공여부 확인 및 제공</p>
+							<br>
+							<p>(2) 회원 관리</p>
+							<p>* 서비스 이용, 제한적 본인확인 및 개인식별</p>
+							<p>* 분쟁 조정을 위한 기록보존</p>
+							<p>* 불만처리 등 민원처리 및 고지사항 전달</p>
+							<br>
+							<p>(3) 모니터링 및 통계</p>
+							<p>* 저작권 위반, 타인의 권리 침해, 음란물, 피싱 등 방지</p>
+							<p>* 서비스 및 회원 통계 분석</p>
+							<br>
+							<p>2. 개인정보 수집항목</p>
+							<br>
+							<p>(1) 단말기 정보 : 전화번호</p>
+							<br>
+							<p>(2) 회원정보 : 사진(메타정보 포함), 텍스트 멘트 등 업체 및</p>
+							<p>개인정보 일체</p>
+							<br>
+							<p>(3) 기타 : 서비스 이용기록, 접속로그, 접속 IP 정보, 장애 관련</p>
+							<p>정보 등</p>
+							<br>
+							<p>(4) 회원본인식별 : 이름, 주소, 전화번호 등의 본인식별 및 인증</p>
+							<p>관련 정보</p>
+							<br>
+							<p>3. 개인정보의 보유 및 이용기간</p>
+							<br>
+							<p>회원의 개인정보는 원칙적으로 개인정보의 수집 및 이용목적이</p>
+							<p>달성되면 지체 없이 파기합니다. 단, 다음의 정보에 대해서는</p>
+							<p>아래의 보존 이유를 위해 명시한 기간 동안 보존합니다.</p>
+							<br>
+							<p>(1) 회사 내부 방침에 의한 정보보유 사유</p>
+							<p>- 보존 항목 : 가입인증 휴대폰 번호, 서비스 이용기록</p>
+							<p>- 보존 이유 : 판매 제품에 대한 정보 제공, 클레임 처리를</p>
+							<p>위한 정보 보존</p>
+							<p>- 보존 기간 : 1년</p>
+							<br>
+							<p>(2) 관련법령에 의한 정보보유 사유</p>
+							<p>* 상법, 전자상거래 등에서의 소비자보호에 관한 법률 등</p>
+							<p>관계법령의 규정에 의하여 보존할 필요가 있는 경우 회사는</p>
+							<p>관계법령에서 정한 일정한 기간 동안 회원정보를 보관합니다.</p>
+							<p>* 이 경우 회사는 보관하는 정보를 그 보관의 목적으로만 이용하며</p>
+							<p>보존기간은 아래와 같습니다.</p>
+							<p>- 계약 또는 청약철회 등에 관한 기록보존</p>
+							<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+							<p>보존 기간 : 5년</p>
+							<p>- 대금결제 및 재화 등의 공급에 관한 기록보존</p>
+							<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+							<p>보존 기간 : 5년</p>
+							<p>- 전자금융 거래에 관한 기록보존 이유 : 전자금융거래법</p>
+							<p>보존 기간 : 5년</p>
+							<p>- 소비자의 불만 또는 분쟁처리에 관한 기록보존</p>
+							<p>이유 : 전자상거래 등에서의 소비자보호에 관한 법률</p>
+							<p>보존 기간 : 3년</p>
+							<p>- 관리자화면, 웹 방문기록보존</p>
+							<p>이유 : 통신비밀보호법</p>
+							<p>보존 기간 : 3개월</p>
+							<br>
+							<p>4. 개인정보 파기절차 및 방법</p>
+							<br>
+							<p>회원의 개인정보는 원칙적으로 개인정보의 수집 및 이용목적이</p>
+							<p>달성되면 지체 없이 파기합니다. 회사의 개인정보 파기절차 및</p>
+							<p>방법은 다음과 같습니다.</p>
+							<br>
+							<p>(1) 파기절차</p>
+							<p>* 회원이 회원가입 등을 위해 입력한 정보는 목적이 달성된 후</p>
+							<p>별도의 DB로 옮겨져 (종이의 경우 별도의 서류함) 내부 방침</p>
+							<p>및 기타 관련 법령에 의한 정보보호 사유에 따라(보유 및 이용기간</p>
+							<p>참조)일정 기간 저장된 후 파기됩니다.</p>
+							<p>* 동 개인정보는 법률에 의한 경우가 아니고서는 보유되는 이외의</p>
+							<p>다른 목적으로 이용되지 않습니다.</p>
+							<br>
+							<p>(2) 파기방법</p>
+							<p>* 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여</p>
+							<p>파기합니다.</p>
+							<p>* 전자적 파일 형태로 저장된 개인정보는 기록을 재생할 수 없는</p>
+							<p>기술적 방법을 사용하여 삭제합니다.</p>
+							<br>
+							<p>5. 회원 권리와 그 행사방법</p>
+							<br>
+							<p>회원이 개인정보의 오류에 대한 정정을 요청하신 경우에는 정정을</p>
+							<p>완료하기 전까지 당해 개인정보를 이용 또는 제공하지 않습니다.</p>
+							<p>회사는 회원 요청에 의해 해지 또는 삭제된 개인정보는</p>
+							<p>"3. 개인정보의 보유 및 이용기간"에명시된 바에 따라 처리하고</p>
+							<p>그 외의 용도로 열람 또는 이용할 수 없도록 처리하고 있습니다.</p>
+							<br>
+							<p>6. 동의 거부 권리 및 그에 따른 불이익</p>
+							<br>
+							<p>회원은 개인정보 이용동의를 거부할 수 있으며, 거부하는 경우</p>
+							<p>본 서비스 이용이 제약을 받거나 본 서비스 이용이 불가능할</p>
+							<p>수 있습니다.</p>
+							<br>
+							<p>7. 개인정보 관리책임자 및 담당자</p>
+							<br>
+							<p>(1) 이름: 신수근</p>
+							<p>(2) 부서: 관리팀</p>
+							<p>(3) 연락처: 070-4554-9455</p>
+							<p>기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에는</p>
+							<p>아래 기관에 문의하시기 바랍니다.</p>
+							<br>
+							<p>- 개인정보침해신고센터 (privacy.kisa.or.kr / 국번없이 118)</p>
+							<p>- 대검찰청 사이버수사과 (www.spo.go.kr / 국번없이 1301)</p>
+							<p>- 경찰청 사이버안전국 (www.ctrc.go.kr / 국번없이 182)</p>
+							<br>
+							<p>현 개인정보취급방침 내용 추가, 삭제 및 수정이 있을 시에는</p>
+							<p>개정 최소 7일전부터 관리자화면의 '공지사항'을 통해 고지할 </p>
+							<p>것입니다. 다만, 개인정보의 수집 및 활용, 제3자 제공 등과</p>
+							<p>같이 회원 권리의 중요한 변경이 있을 경우에는 최소 30일</p>
+							<p>전에 고지합니다.</p>
+							<br>
+							<p>공고일자: 2023년 06월 01일 </p>
+							<p>시행일자: 2023년 08월 01일</p>
+						</div>
+						<div class="terms-footer">
+							<div class="terms-button primary" onclick="handleClickAgreeTerms(null, this, 0)">
+								<span>동의</span>
+							</div>
+							<div class="terms-button" onclick="handleToggleTermsModal(event, this)">
+								<span>취소</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--체크박스 end-->
+
+			<div class="files">
+				<div class="header">
+					<span class="title">파일첨부</span>
+					<span class="description">* 5개까지 업로드가 가능합니다.</span>
+				</div>
+				<div class="preview">
+					<ul id="imglistul">
+					</ul>
+				</div>
+				<div class="controller">
+					<label for="files">
+						<div class="ui-button default">
+							<span class="title">파일등록하기</span>
+							<input type="file" accept="image/*" multiple id="files" name="files" />
+							<img src="/common/assets/ico_upload.svg" alt="upload" />
+						</div>
+					</label>
+				</div>
+			</div>
+			<div class="inquiry">
+				<a href="#">
+					<div id="uploadBtn" onclick="modalConfirmOpen()" class="ui-button blue">
+						<span class="title">등록하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!--1대1문의하기 confirm 모달-->
+	<div class="ui-modal" id="modal_11_confirm">
+		<div class="content" style="min-height: 100px;">
+			<div class="message">
+				<p id="">문의를 남기시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">닫기</span>
+				</div>
+				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 1대1 문의 접수 완료 -->
+	<div class="ui-modal" id="modal_11_complete">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="info">
+			</div>
+			<div class="message">
+				<p><b>1:1 문의가 접수되었습니다.</b></p>
+				<p>최대한 빠르게 답변 드리도록 하겠습니다.</p>
+			</div>
+			<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
+	</div>
+</body>
+
+<script>
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+
+	$(document).ready(function () {
+		$("#files").on("change", SelectImg);
+		if ($("#inquiryType").val() != "") {
+			$("#inquiryTypeSel").val($("#inquiryType").val()).prop("selected", true);
+			$("#inquiryTypeSel").attr("disabled", 'true');
+		}
+	});
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+	//등록 확인 모달
+	function modalConfirmOpen() {
+		const modal = document.getElementById("modal_11_confirm");
+		modal.classList.add("visible");
+	}
+
+	//등록 완료 모달
+	function modalCompleteOpen() {
+		const modal = document.getElementById("modal_11_complete");
+		modal.classList.add("visible");
+	}
+	// 이미지 정보들을 담을 배열
+	var sel_files = [];
+
+
+	const fileElement = document.querySelector('#files');
+	fileElement.onchange = function () {
+		// file upload logic.
+	};
+
+	//업로드 여러개 하기
+	function uploadimg() {
+
+
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if (special_pattern.test($("#title").val()) == true || special_pattern.test($("#content").val()) == true
+			|| special_pattern.test($("#ordPhone").val()) == true || special_pattern.test($("#ordName").val()) == true) {
+			$("#modal_custom_msg").text("특수 문자는 입력 할 수 없습니다.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#title").val().length === 0) {
+			$("#modal_custom_msg").text("제목을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#content").val().length === 0) {
+			$("#modal_custom_msg").text("내용을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("전화번호를 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		if ($("#ordPhone").val().length === 0) {
+			$("#modal_custom_msg").text("이름을 입력해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		var validPattern = /^(010|011|016|017|019)\d{7,8}$/;
+		if (!validPattern.test($("#ordPhone").val())) {
+			$("#modal_custom_msg").text('문자수신이 안 되는 번호는 등록할 수 없습니다.');
+			modalCustomOpen();
+			return false;
+		}
+
+		if (!($("input:checkbox[id='checkbox1']").is(":checked"))) {
+			$("#modal_custom_msg").text("이용약관에 동의해 주세요.");
+			modalCustomOpen();
+			return false;
+		}
+
+		//파일개수 체크
+		if (sel_files.length > 5) {
+			$("#modal_custom_msg").text("이미지는 5개까지 업로드가 가능합니다.");
+			modalCustomOpen();
+			sel_files = [];
+			$("#imglistul").empty();
+			return;
+		}
+
+		//확장자 검사
+		for (var i = 0; i < sel_files.length; i++) {
+			const fileDot = sel_files[0].name.split(".")[1].toLowerCase();
+			if (!(fileDot == "jpg" || fileDot == "png" || fileDot == "jpeg")) {
+				$("#modal_custom_msg").text("jpg, png, jpeg 파일만 업로드가 가능합니다!");
+				modalCustomOpen();
+				sel_files = [];
+				$("#imglistul").empty();
+				return false;
+			}
+		}
+
+		const formData = new FormData();
+
+		for (var i = 0; i < sel_files.length; i++) {
+			formData.append("file", sel_files[i]);
+		}
+		formData.append("shopNo", $("#shopNo").val());
+		formData.append("title", $("#title").val());
+		formData.append("content", $("#content").val());
+		formData.append("ordPhone", $("#ordPhone").val());
+		formData.append("ordName", $("#ordName").val());
+		formData.append("inquiryType", $("#inquiryTypeSel").val());
+
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/uploadimglist",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
+			modalCompleteOpen();
+		}).done(function (data) {
+			$('#result-image').attr("src", data);
+			$("#uploadBtn").attr("onclick", "modalCompleteOpen()");
+		})
+	}
+
+	function SelectImg(e) {
+
+		// 이미지 정보들을 초기화
+		sel_files = [];
+		$("#imglistul").empty();
+
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+
+		var index = 0;
+		filesArr.forEach(function (f) {
+			sel_files.push(f);
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var html = '<li class="image" id="img_id_'
+					+ index
+					+ '"><img src="'
+					+ e.target.result
+					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/common/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
+					+ index + ')"></li>';
+				$("#imglistul").append(html);
+				index++;
+			}
+			reader.readAsDataURL(f);
+
+		});
+	}
+
+	function deleteImageAction(index) {
+		console.log("index : " + index);
+		sel_files.splice(index, 1);
+
+		var img_id = "#img_id_" + index;
+		$(img_id).remove();
+
+		console.log(sel_files);
+	}
+
+	function closeTermsModal() {
+		const element = document.querySelector('.terms-modal.visible');
+		element.classList.remove('visible');
+	}
+
+	function handleClickAgreeTerms(event, target, termsId) {
+		if (event) event.stopPropagation();
+		const checkboxItems = document.querySelectorAll(
+			'.ui-checkbox input[type="checkbox"]'
+		);
+		if (/[0-4]/.test(termsId)) {
+			checkboxItems[termsId].checked = true;
+			closeTermsModal();
+		} else {
+			for (let i = 0, length = checkboxItems.length; i < length; ++i)
+				checkboxItems[i].checked = target.checked;
+		}
+		//detectAllTermsAgreed();
+	}
+
+	function handleToggleTermsModal(event, target) {
+		event.stopPropagation();
+
+		if (target.className === 'icon' && String(target.getAttribute('src')).includes('ico_more')) {
+			for (
+				let i = 0, elements = target.parentElement.children, length = elements.length;
+				i < length;
+				++i
+			) {
+				if (elements[i].className === 'terms-modal') {
+					elements[i].classList.add('visible');
+					break;
+				}
+			}
+		} else closeTermsModal();
+	}
+</script>
+
+</html>

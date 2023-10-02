@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>메뉴</title>
+	<link rel="stylesheet" th:href="@{/testenglander/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/testenglander/_custom/custom.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/css/menu.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<img src="/testenglander/_custom/ico_logo.svg" alt="logo" class="logo" />
+				<p class="title">안녕하세요. 보이는ARS 입니다.<br />원하시는 서비스를 선택해주세요.</p>
+			</div>
+		</div>
+		<div class="content">
+			<div class="menu">
+				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('getShip')|">
+					<img src="/common/assets/ico_menu_1.svg" alt="delivery" class="icon" />
+					<div class="menu-name">
+						<p class="name">배송 조회</p>
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+				</div>
+				<div class="ui-box-sub-button" onclick="handleToggleSubMenu(event, this)">
+					<img src="/common/assets/ico_menu_2.svg" alt="exchange" class="icon" />
+					<div class="menu-name">
+						<p class="name">주문 변경 요청</p>
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+					<!-- menu -->
+					<div class="menu-modal">
+						<div class="menu-list">
+							<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
+								onclick="handleToggleSubMenu(event, this)" />
+							<div class="header">
+								<p class="name">주문 변경 요청</p>
+								<p class="description">원하시는 서비스를 선택해주세요.</p>
+							</div>
+							<div class="content">
+								<ul>
+									<a th:onclick="|javascript:fnMoveMenu('changeShip')|">
+										<li>배송지 변경</li>
+									</a>
+									<a th:onclick="|javascript:fnMoveMenu('shipDate')|">
+										<li>배송 희망일 요청</li>
+									</a>
+									<a th:onclick="|javascript:fnMoveMenu('cancelOrder')|">
+										<li>주문 취소</li>
+									</a>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('requestExRe')|">
+					<img src="/common/assets/ico_menu_3.svg" alt="return" class="icon" />
+					<div class="menu-name">
+						<p class="name">교환 반품 요청</p>
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+					</div>
+				</div>
+			</div>
+			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
+				<img src="/common/assets/ico_menu_4.svg" alt="exchange" class="icon" />
+				<div class="menu-name">
+					<p class="name">AS 요청</p>
+					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+				</div>
+			</div>
+			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry()|">
+				<img src="/common/assets/ico_menu_5.svg" alt="exchange" class="icon" />
+				<div class="menu-name">
+					<p class="name">1:1문의</p>
+					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<!-- notice -->
+
+	<!-- footer -->
+	<div class="page-footer-navigation">
+		<div class="controller">
+			<!--
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>-->
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script>
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/testenglander/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+
+	function fnMoveMenu(inquiryType) {
+
+		/*
+			getShip     : 배송 조회
+			changeShip : 배송지 변경
+			shipDate : 배송 희망일 요청
+			cancelOrder 주문 취소
+			requestExRe 교환 반품 요청	
+			ASRequest : AS요청
+		*/
+
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/testenglander/auth?token=" + token);
+		form.appendChild(addHiddenField('inquiryType', inquiryType));
+		document.body.appendChild(form);
+		form.submit();
+
+		/*window.location.href ="/testenglander/auth?token=" + token + "&inquiryType=" + inquiryType;*/
+	}
+
+	function fnGoInquiry(inquiryType) {
+
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/testenglander/inquiry2?token=" + token);
+		if (inquiryType != null) {
+			form.appendChild(addHiddenField('inquiryType', inquiryType));
+		}
+		document.body.appendChild(form);
+		form.submit();
+
+
+		/*window.location.href ="/testenglander/inquiry?token=" + token + "&inquiryType=" + inquiryType;*/
+	}
+
+	function handleToggleSubMenu(event, target) {
+		event.stopPropagation();
+
+		if (
+			target.className === 'icon' &&
+			String(target.getAttribute('src')).includes('ico_close_w')
+		) {
+			target.parentElement.parentElement.classList.remove('visible');
+		} else {
+			for (let i = 0, length = target.children.length; i < length; ++i) {
+				if (target.children[i].className === 'menu-modal') {
+					target.children[i].classList.add('visible');
+					break;
+				}
+			}
+		}
+	}
+</script>
+
+</html>

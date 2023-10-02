@@ -260,7 +260,7 @@ public abstract class BaseController {
 		return getPartner()+"/inquiry";		
 	}
 	
-	//범용문의 페이지
+	//이용동의있는 범용문의 페이지 
 	@RequestMapping("inquiry2") 
 	public String inquiry2(Model model, 
 			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo,
@@ -391,7 +391,7 @@ public abstract class BaseController {
 			@RequestParam(name = "content",      	required = true, 	defaultValue = "") String content, 
 			@RequestParam(name = "ordName",			required = true, 	defaultValue = "") String ordName,
 			@RequestParam(name = "ordPhone",		required = true, 	defaultValue = "") String ordPhone, 
-			@RequestParam(name = "inquiryType",		required = true, 	defaultValue = "") String inquiryType,
+			@RequestParam(name = "inquiryType",		required = false, 	defaultValue = "") String inquiryType,
 			@RequestParam(name = "shopNo",	 		required = false,	defaultValue = "") String shopNo)
 	{
 		int rstl 	  				   = 0;
@@ -401,30 +401,33 @@ public abstract class BaseController {
 		
 		try {
 			
-			if(inquiryType.equals("getShip")) {
-				titleSb.append("[배송조회]");
+			if(!inquiryType.equals("")) {
+				if(inquiryType.equals("getShip")) {
+					titleSb.append("[배송조회]");
+				}
+				else if(inquiryType.equals("changeShip")) {
+					titleSb.append("[배송지변경]");
+				}
+				else if(inquiryType.equals("shipDate")) {
+					titleSb.append("[배송희망일요청]");
+				}
+				else if(inquiryType.equals("cancelOrder")) {
+					titleSb.append("[주문취소]");
+				}
+				else if(inquiryType.equals("requestExRe")) {
+					titleSb.append("[교환반품요청]");
+				}
+				else if(inquiryType.equals("ASRequest")) {
+					titleSb.append("[AS요청]");
+				}
+				else if(inquiryType.equals("etc")) {
+					titleSb.append("[기타문의]");
+				}
+				else {
+					titleSb.append(inquiryType);
+				}
 			}
-			else if(inquiryType.equals("changeShip")) {
-				titleSb.append("[배송지변경]");
-			}
-			else if(inquiryType.equals("shipDate")) {
-				titleSb.append("[배송희망일요청]");
-			}
-			else if(inquiryType.equals("cancelOrder")) {
-				titleSb.append("[주문취소]");
-			}
-			else if(inquiryType.equals("requestExRe")) {
-				titleSb.append("[교환반품요청]");
-			}
-			else if(inquiryType.equals("ASRequest")) {
-				titleSb.append("[AS요청]");
-			}
-			else if(inquiryType.equals("etc")) {
-				titleSb.append("[기타문의]");
-			}
-			else {
-				titleSb.append(inquiryType);
-			}
+			
 			
 			
 			

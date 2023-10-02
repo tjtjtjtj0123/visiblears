@@ -12,7 +12,7 @@
 	<link rel="stylesheet" th:href="@{/therapedic/css/ui.css}" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/therapedic/css/authentication.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
@@ -20,10 +20,10 @@
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/therapedic/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
 		<div class="button" onclick="handleClickHome('therapedic')">
-			<img src="/therapedic/assets/ico_home.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
@@ -60,7 +60,7 @@
 			<br><br><br>
 			<div onclick="sample2_execDaumPostcode()" class="ui-button default">
 				<span class="title">주소찾기</span>
-				<img src="/therapedic/assets/ico_search_w.svg" class="icon" />
+				<img src="/common/assets/ico_search_w.svg" class="icon" />
 			</div>
 			<br><br><br>
 			<!-- terms -->
@@ -81,11 +81,11 @@
 							</svg>
 							<p>서비스 이용을 위한 개인정보 이용 동의</p>
 						</label>
-						<img src="/therapedic/assets/ico_more.svg" class="icon"
+						<img src="/common/assets/ico_more.svg" class="icon"
 							onclick="handleToggleTermsModal(event, this)" />
 						<div class="terms-modal">
 							<div class="terms-content">
-								<img src="/therapedic/assets/ico_close_w.svg" alt="close" class="icon"
+								<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
 									onclick="handleToggleTermsModal(event, this)" />
 								<div class="terms-script">
 									<p>개인정보 수집 및 이용동의</p>
@@ -230,13 +230,13 @@
 			<!--
 			<div class="left-area" onclick="modalcsrOpen()">
 				<div class="button">
-					<img src="/therapedic/assets/ico_headphone.svg" alt="call" class="icon" />
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>-->
 			<div class="right-area" onclick="modalCallEndOpen();">
 				<div class="button">
-					<img src="/therapedic/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
@@ -284,7 +284,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/therapedic/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -307,12 +307,9 @@
 	</div>
 </body>
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
-	window.onload = function () {
-		fnOnLoad();
-	};
 
 	//통화종료
 	function fnEndArs() {
@@ -328,7 +325,7 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
-			window.close();
+			
 		})
 	}
 

@@ -12,7 +12,7 @@
 	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/_custom/custom.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/menu.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 
@@ -20,12 +20,12 @@
 	<!--
 	<header class="page-header">
 		<div class="left-area">
-			<img src="/sornia/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
+			<img src="/common/assets/ico_headphone_w.svg" alt="headphone" class="icon" />
 			<span class="title">보이는 ARS</span>
 		</div>
 		<div class="right-area">
 			<div class="button" onclick="handleClickClose()">
-				<img src="/sornia/assets/ico_close_w_menu.svg" alt="headphone" class="icon" />
+				<img src="/common/assets/ico_close_w_menu.svg" alt="headphone" class="icon" />
 				<span class="title">닫기</span>
 			</div>
 		</div>
@@ -75,7 +75,7 @@
 				</a>
 				<a href="#">
 					<div class="ui-box-button">
-						<img src="/sornia/assets/ico_speak_ars.svg" alt="speak_ars" class="icon" />
+						<img src="/common/assets/ico_speak_ars.svg" alt="speak_ars" class="icon" />
 						<div class="menu-name">
 							<p class="name">음성 ARS</p>
 							<p class="description">음성 안내를 들으면서 진행</p>
@@ -94,13 +94,13 @@
 		<div class="controller">
 			<div class="left-area" onclick="fnArsCall('service00')">
 				<div class="button">
-					<img src="/sornia/assets/ico_headphone.svg" alt="call" class="icon" />
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
 			<div class="right-area" onclick="fnArsCall('service00')">
 				<div class="button">
-					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>

@@ -4,31 +4,31 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>주문조회</title>
 	<link rel="stylesheet" th:href="@{/sornia/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/sornia/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/sornia/css/inquiry.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
 		<div class="button" onclick="handleClickHome('sornia')">
-			<img src="/sornia/assets/ico_home.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
 		<div class="content">
 			<div class="header">
-				<img src="/sornia/assets/ico_inquiry_2.svg" alt="inquiry" />
+				<img src="/common/assets/ico_inquiry_2.svg" alt="inquiry" />
 				<p class="title">1:1 문의하기</p>
 				<p class="description">상담원에게 문의하실 내용을 적어주세요.</p>
 			</div>
@@ -50,7 +50,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th>전 화 번 호</th>
+							<th>휴 대 전 화</th>
 							<td>
 								<div class="ui-text-field">
 									<input id="ordPhone" type="number" th:value="${ordPhone}"
@@ -107,7 +107,7 @@
 						<div class="ui-button default">
 							<span class="title">파일등록하기</span>
 							<input type="file" accept="image/*" multiple id="files" name="files" />
-							<img src="/sornia/assets/ico_upload.svg" alt="upload" />
+							<img src="/common/assets/ico_upload.svg" alt="upload" />
 						</div>
 					</label>
 				</div>
@@ -130,11 +130,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
-					<span class="title">등록</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">닫기</span>
+				</div>
+				<div onclick="uploadimg();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
 				</div>
 			</div>
 		</div>
@@ -144,7 +144,7 @@
 	<div class="ui-modal" id="modal_11_complete">
 		<div class="content">
 			<div class="icon">
-				<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="info">
 			</div>
 			<div class="message">
 				<p><b>1:1 문의가 접수되었습니다.</b></p>
@@ -160,7 +160,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -170,16 +170,20 @@
 			</div>
 		</div>
 	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
+	</div>
 </body>
 
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
 
 	$(document).ready(function () {
 		$("#files").on("change", SelectImg);
-		fnOnLoad();
 
 		if ($("#inquiryType").val() != "") {
 			$("#inquiryTypeSel").val($("#inquiryType").val()).prop("selected", true);
@@ -201,10 +205,9 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
-			window.close();
+			
 		})
 	}
-
 
 	//상담원연결
 	function fnCsr() {
@@ -321,6 +324,8 @@
 		formData.append("ordName", $("#ordName").val());
 		formData.append("inquiryType", $("#inquiryTypeSel").val());
 
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
 		$.ajax({
 			type: 'POST',
 			url: "/sornia/uploadimglist",
@@ -329,12 +334,18 @@
 			contentType: false,
 			processData: false,
 			enctype: 'multipart/form-data'
+
 		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
 			modalCompleteOpen();
 		}).done(function (data) {
 			$('#result-image').attr("src", data);
 			$("#uploadBtn").attr("onclick", "modalCompleteOpen()");
-		})
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			// 에러 메시지 표시
+			alert("파일 업로드 실패: " + errorThrown);
+		});
 	}
 
 	function SelectImg(e) {
@@ -355,7 +366,7 @@
 					+ index
 					+ '"><img src="'
 					+ e.target.result
-					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/sornia/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
+					+ '" style="width: 45px; height: 45px; margin-right: 20px;"><img src="/common/assets/ico_cancel.svg" alt="cancel" class="cancel" onclick="deleteImageAction('
 					+ index + ')"></li>';
 				$("#imglistul").append(html);
 				index++;

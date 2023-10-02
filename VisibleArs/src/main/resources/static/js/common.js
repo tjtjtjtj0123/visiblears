@@ -1,9 +1,17 @@
-//window.onload 함수
-function fnOnLoad() {
-	const scrollHeight = document.scrollingElement.scrollHeight;
-	//const noticeElement = document.querySelector('#notice');
-	//noticeElement.style.top = `${scrollHeight - 100}px`;
-}
+
+const urlParams = new URL(location.href).searchParams;
+var token = urlParams.get('token');
+
+$(document).ready(function(){
+      setTimeout(function() {
+	  
+	  if(token){		 
+	      fnEndArs();
+	  }
+      token="";
+    }, 20000); // 10초를 밀리초로 계산하여 설정합니다.
+});
+
 
 // 히든 필드 생성 및 추가
 function addHiddenField(name, value) {

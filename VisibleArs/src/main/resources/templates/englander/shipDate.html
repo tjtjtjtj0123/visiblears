@@ -14,7 +14,7 @@
 	<link rel="stylesheet" th:href="@{/englander/css/authentication.css}" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@2.2.3/dist/css/datepicker.min.css">
 
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 	<!--달력-->
@@ -25,10 +25,10 @@
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/englander/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
 		<div class="button" onclick="handleClickHome('englander')">
-			<img src="/englander/assets/ico_home.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
@@ -89,13 +89,13 @@
 			<!--
 			<div class="left-area" onclick="modalcsrOpen()">
 				<div class="button">
-					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>-->
 			<div class="right-area" onclick="modalCallEndOpen();">
 				<div class="button">
-					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
@@ -143,7 +143,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -157,7 +157,7 @@
 	<div class="ui-modal" id="modal_shipdate_complete">
 		<div class="content">
 			<div class="icon">
-				<img src="/englander/assets/ico_inquiry_2.svg" alt="info">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="info">
 			</div>
 			<div class="message">
 				<p><b>배송 희망일이 접수되었습니다.</b></p>
@@ -201,12 +201,8 @@
 
 </body>
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
-
-	window.onload = function () {
-		fnOnLoad();
-	};
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
 	//통화종료
 	function fnEndArs() {
@@ -222,7 +218,7 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
-			window.close();
+			
 		})
 	}
 

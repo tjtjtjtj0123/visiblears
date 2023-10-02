@@ -13,7 +13,7 @@
 	<link rel="stylesheet" th:href="@{/englander/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/englander/_custom/custom.css}" />
 	<link rel="stylesheet" th:href="@{/englander/css/menu.css}" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
 
@@ -28,22 +28,22 @@
 		<div class="content">
 			<div class="menu">
 				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('getShip')|">
-					<img src="/englander/assets/ico_menu_1.svg" alt="delivery" class="icon" />
+					<img src="/common/assets/ico_menu_1.svg" alt="delivery" class="icon" />
 					<div class="menu-name">
 						<p class="name">배송 조회</p>
-						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
 					</div>
 				</div>
 				<div class="ui-box-sub-button" onclick="handleToggleSubMenu(event, this)">
-					<img src="/englander/assets/ico_menu_2.svg" alt="exchange" class="icon" />
+					<img src="/common/assets/ico_menu_2.svg" alt="exchange" class="icon" />
 					<div class="menu-name">
 						<p class="name">주문 변경 요청</p>
-						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
 					</div>
 					<!-- menu -->
 					<div class="menu-modal">
 						<div class="menu-list">
-							<img src="/englander/assets/ico_close_w.svg" alt="close" class="icon"
+							<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
 								onclick="handleToggleSubMenu(event, this)" />
 							<div class="header">
 								<p class="name">주문 변경 요청</p>
@@ -66,25 +66,25 @@
 					</div>
 				</div>
 				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('requestExRe')|">
-					<img src="/englander/assets/ico_menu_3.svg" alt="return" class="icon" />
+					<img src="/common/assets/ico_menu_3.svg" alt="return" class="icon" />
 					<div class="menu-name">
 						<p class="name">교환 반품 요청</p>
-						<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
 					</div>
 				</div>
 			</div>
 			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
-				<img src="/englander/assets/ico_menu_4.svg" alt="exchange" class="icon" />
+				<img src="/common/assets/ico_menu_4.svg" alt="exchange" class="icon" />
 				<div class="menu-name">
 					<p class="name">AS 요청</p>
-					<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
 				</div>
 			</div>
 			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry()|">
-				<img src="/englander/assets/ico_menu_5.svg" alt="exchange" class="icon" />
+				<img src="/common/assets/ico_menu_5.svg" alt="exchange" class="icon" />
 				<div class="menu-name">
 					<p class="name">1:1문의</p>
-					<img src="/englander/assets/ico_more.svg" alt="more" class="icon" />
+					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
 				</div>
 			</div>
 		</div>
@@ -99,13 +99,13 @@
 			<!--
 			<div class="left-area" onclick="modalcsrOpen()">
 				<div class="button">
-					<img src="/englander/assets/ico_headphone.svg" alt="call" class="icon" />
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>-->
 			<div class="right-area" onclick="modalCallEndOpen();">
 				<div class="button">
-					<img src="/englander/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/englander/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -167,12 +167,9 @@
 
 </body>
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
-	window.onload = function () {
-		fnOnLoad();
-	};
 
 	//통화종료
 	function fnEndArs() {
@@ -188,7 +185,7 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
-			window.close();
+			
 		})
 	}
 

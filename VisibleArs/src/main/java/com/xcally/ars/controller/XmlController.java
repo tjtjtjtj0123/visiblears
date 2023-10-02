@@ -46,6 +46,9 @@ public class XmlController {
 	
 	@Value("${api.sabangurl}")
     private String sabangUrl;
+
+	@Value("${mypage.myurl}")
+    private String myUrl;
 	
 	@Autowired
     private HttpServletRequest request;
@@ -102,7 +105,7 @@ public class XmlController {
 		//url세팅
         String apiUrl = sabangUrl 
         				+ "?xml_url="
-        				+ request.getRequestURL().substring(0, request.getRequestURL().indexOf("/", 8))
+        				+ myUrl
         				+ "/getxml/" +partner+"?startDate="+startDate;
         
         //오늘 날짜
@@ -110,7 +113,7 @@ public class XmlController {
     	DateTimeFormatter formatter   = DateTimeFormatter.ofPattern("yyyyMMdd");
         String 			  nowDay      = currentDate.format(formatter);
         
-        
+        //System.out.println(apiUrl);
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost httpPost 	  = new HttpPost(apiUrl);
             HttpResponse response = httpClient.execute(httpPost);
@@ -128,10 +131,13 @@ public class XmlController {
             		    int sucCnt 				= 0;
 
             		    List<Element> dataList = sabangOrderList.getChildren("DATA");
+            		    System.out.println("size "+dataList.size());
+            		    
             		    for (Element data : dataList) {
-            		    	Long orderSeq = seqService.getSeq();
+            		    	
+            		    	
             	            Order order = Order.builder()
-            	            		.seqNo(orderSeq)
+            	            		//.seqNo(orderSeq)
     	            				.partner(partner)
     	            				.sabangNo(data.getChildText("IDX"))
     	            				.shopNo(data.getChildText("ORDER_ID"))
@@ -159,6 +165,8 @@ public class XmlController {
             	            }
             	            
             	            if(order.getOrdField2().equals("AA0") || order.getOrdField2().equals("BA0") || order.getOrdField2().equals("CA0") || order.getOrdField2().equals("")) {
+            	            	Long orderSeq = seqService.getSeq();
+            	            	order.setSeqNo(orderSeq);
             	            	int rstl = orderservice.InsOrder(order);            	            
             	            	sucCnt+=rstl;
             	            }
@@ -173,6 +181,8 @@ public class XmlController {
         		    		
         		    int rstl2 = logService.InsOrderLog(orderLog);
             	}
+            	
+            	System.out.println("ttypasdlkasjdl ");
             }
             else {
             	System.out.println("fail call sabang api");

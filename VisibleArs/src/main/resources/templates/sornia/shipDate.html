@@ -10,13 +10,13 @@
 	<link rel="stylesheet" th:href="@{/sornia/css/font.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/reset.css}" />
 	<link rel="stylesheet" th:href="@{/sornia/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/sornia/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/sornia/css/common.css}+ '?v=1'" />
 	<link rel="stylesheet" th:href="@{/sornia/css/authentication.css}" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@2.2.3/dist/css/datepicker.min.css">
 
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 	<!--달력-->
 	<script type="text/javascript" th:src="@{/js/datepicker.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/datelang.js}"></script>
@@ -25,10 +25,10 @@
 <body>
 	<div class="page-navigation">
 		<div class="button" onclick="handleClickBackward()">
-			<img src="/sornia/assets/ico_backward.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
 		</div>
 		<div class="button" onclick="handleClickHome('sornia')">
-			<img src="/sornia/assets/ico_home.svg" alt="backward" class="icon" />
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
 		</div>
 	</div>
 	<div class="page-container">
@@ -51,7 +51,7 @@
 			</div>
 			<div class="ui-text-field">
 				<label for="phone">
-					<p class="title">* 전화번호</p>
+					<p class="title">* 휴대전화</p>
 					<input id="ordPhone" th:value="${ordPhone}" type="number" placeholder="-제외하고 번호만 입력하세요"
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 				</label>
@@ -86,15 +86,15 @@
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
-			<div class="left-area">
-				<div class="button" onclick="modalcsrOpen()">
-					<img src="/sornia/assets/ico_headphone.svg" alt="call" class="icon" />
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
 					<span class="title">상담원 연결</span>
 				</div>
 			</div>
-			<div class="right-area">
-				<div class="button" onclick="modalCallEndOpen();">
-					<img src="/sornia/assets/ico_phone.svg" alt="cancel" class="icon" />
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
 					<span class="title">통화종료</span>
 				</div>
 			</div>
@@ -110,11 +110,11 @@
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
-					<span class="title">통화종료</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
 				</div>
 			</div>
 		</div>
@@ -123,17 +123,16 @@
 	<!--상담원 연결 모달-->
 	<div class="ui-modal" id="modal_csr">
 		<div class="content" style="min-height: 100px;">
-
 			<div class="message">
 				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
 				<p></p>
 			</div>
 			<div style="display: flex; gap: 10px; margin-top: 20px;">
-				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
-					<span class="title">연결</span>
-				</div>
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
 				</div>
 			</div>
 		</div>
@@ -143,7 +142,7 @@
 	<div class="ui-modal" id="modal_custom">
 		<div class="content">
 			<div class="icon">
-				<img src="/sornia/assets/ico_uncheck.svg" alt="info">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
 			</div>
 			<div class="message">
 				<p id="modal_custom_msg"></p>
@@ -157,7 +156,7 @@
 	<div class="ui-modal" id="modal_shipdate_complete">
 		<div class="content">
 			<div class="icon">
-				<img src="/sornia/assets/ico_inquiry_2.svg" alt="info">
+				<img src="/common/assets/ico_inquiry_2.svg" alt="info">
 			</div>
 			<div class="message">
 				<p><b>배송 희망일이 접수되었습니다.</b></p>
@@ -178,14 +177,12 @@
 				<p id="modal_custom_msg">문의를 남기시겠습니까?</p>
 				<p></p>
 			</div>
-			<div style="display: flex; 
-								gap: 10px; 
-								margin-top: 20px;">
-				<div onclick="dataSend();modalClose(this)" class="ui-button blue">
-					<span class="title">등록</span>
-				</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
 				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
 					<span class="title">닫기</span>
+				</div>
+				<div onclick="dataSend();modalClose(this)" class="ui-button blue">
+					<span class="title">등록</span>
 				</div>
 			</div>
 		</div>
@@ -195,14 +192,16 @@
 			style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
 			alt="닫기 버튼">
 	</div>
+
+	<!--로딩-->
+	<div class="wrap-loading display-none">
+		<div><img src="/common/loading.gif" style="width:70px;" /></div>
+	</div>
+
 </body>
 <script>
-	const urlParams = new URL(location.href).searchParams;
-	const token = urlParams.get('token');
-
-	window.onload = function () {
-		fnOnLoad();
-	};
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
 
 	//통화종료
 	function fnEndArs() {
@@ -218,7 +217,7 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).done(function (data) {
-			window.close();
+			
 		})
 	}
 
@@ -297,6 +296,8 @@
 		formData.append("inquiryType", $("#inquiryType").val());
 		formData.append("datepicker", $("#datepicker").val());
 
+		//로딩
+		$('.wrap-loading').removeClass('display-none');
 		$.ajax({
 			type: 'POST',
 			url: "/sornia/shipDateAjax",
@@ -306,6 +307,8 @@
 			processData: false,
 			enctype: 'multipart/form-data'
 		}).always(function (data) {
+			//로딩제거
+			$('.wrap-loading').addClass('display-none');
 			modal_shipdate_complete();
 		}).done(function (data) {
 			$('#result-image').attr("src", data);
