@@ -27,6 +27,7 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation platform('software.amazon.awssdk:bom:2.17.230')
 	implementation 'software.amazon.awssdk:s3'
+	implementation 'kr.co.linkhub:popbill-spring-boot-starter:1.9.2'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

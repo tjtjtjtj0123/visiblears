@@ -1,0 +1,178 @@
+html, body {
+  height: 100%;
+  background: var(--brand-color);
+}
+
+/*
+  common styles in page.
+*/
+.button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/*
+  page container styles.
+*/
+.page-container  {
+  height: 100%;
+}
+.page-container .menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: auto !important;
+  padding-top: 40px;
+}
+.page-container .menu-header p {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+.page-container > .content {
+  position: relative;
+  height: 100%;
+  margin-top: 30px;
+}
+.page-container .ars_menu {
+  margin: 0 auto;
+}
+.page-container .ars_menu .row {
+  display: flex;
+  justify-content: center;
+}
+.page-container .ars_menu .ars_button .button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 40vw;
+  height: 40vw;
+  aspect-ratio: 1 / 1;
+  max-width: 200px;
+  max-height: 200px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+  padding: 20px 0;
+}
+
+.page-container .ars_menu .ars_button .button.fill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+.page-container .ars_menu .ars_button.fill {
+  width: 100%;
+}
+.page-container .ars_menu .ars_button .button.fill p {
+  margin-left: 30px;
+}
+.page-container .ars_menu .ars_button:first-child {
+  margin-right: 30px;
+}
+.page-container .ars_menu .ars_button:last-child {
+  margin-right: 0;
+}
+.page-container .ars_menu .ars_button .button > img {
+  fill: var(--visible-ars-icon-color)
+}
+.page-container .ars_menu .ars_button .button > p {
+  color: #393939;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+.page-container .menu-modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+.page-container .menu-modal.visible {
+  display: block;
+}
+.page-container .menu-modal > .menu-list {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  width: 70%;
+  height: calc(100% - 140px);
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  padding: 35px;
+}
+.page-container .menu-modal > .menu-list .icon {
+  position: absolute;
+  top: 0;
+  left: -35px;
+  width: 24px;
+  height: auto;
+}
+.page-container .menu-modal > .menu-list .header .name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.page-container .menu-modal > .menu-list .header .description {
+  font-size: 1.3rem;
+  color: #797979;
+  font-weight: normal;
+  line-height: 1.2;
+}
+.page-container .menu-modal > .menu-list .content {
+  margin-top: 40px;
+}
+.page-container .menu-modal > .menu-list .content ul li {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 0;
+  color: #313131;
+  font-size: 1.6rem;
+  font-weight: normal;
+  border-bottom: 1px solid #d4d4d4;
+}
+.page-container .menu-modal > .menu-list .content ul li::after {
+  content: " ";
+  background: url("./assets/ico_more.svg") no-repeat;
+  width: auto;
+  height: 16px;
+  padding: 0 0 0 16px;
+}
+
+@media screen and (max-width: 496px) {
+  .page-container > .content {
+    height: auto;
+  }
+  .page-container .menu-header p {
+    font-size: 6vw;
+  }
+  .page-container .ars_menu .ars_button .button > p {
+    font-size: 4.8vw;
+  }
+  .page-container .ars_menu .ars_button:first-child {
+    margin-right: 20px;
+  }
+  .page-container .ars_menu .ars_button:last-child {
+    margin-right: 0;
+  }
+  .page-container .ars_menu .ars_button .button {
+    margin-bottom: 20px;
+  }
+  .page-container .ars_menu .ars_button .button.fill {
+    width: 85vw;
+  }
+}

@@ -4,15 +4,14 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>메뉴</title>
-	<link rel="stylesheet" th:href="@{/englander/css/font.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/reset.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/ui.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/common.css}+ '?v=1'" />
-	<link rel="stylesheet" th:href="@{/englander/_custom/custom.css}" />
-	<link rel="stylesheet" th:href="@{/englander/css/menu.css}" />
+	<link rel="stylesheet" th:href="@{/retrohouse/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/retrohouse/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/retrohouse/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/retrohouse/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/testenglander/_custom/custom.css}" />
+	<link rel="stylesheet" th:href="@{/retrohouse/css/ars_menu.css}" />
 	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
 </head>
@@ -21,78 +20,78 @@
 	<div class="page-container">
 		<div class="menu">
 			<div class="menu-header">
-				<img src="/englander/_custom/ico_logo.svg" alt="logo" class="logo" />
-				<p class="title">안녕하세요. 잉글랜더 입니다.<br />원하시는 서비스를 선택해주세요.</p>
+				<p>안녕하세요. 보이스 ARS 입니다.<br />원하시는 서비스를 선택해주세요.</p>
 			</div>
 		</div>
 		<div class="content">
-			<div class="menu">
-				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('getShip')|">
-					<img src="/common/assets/ico_menu_1.svg" alt="delivery" class="icon" />
-					<div class="menu-name">
-						<p class="name">배송 조회</p>
-						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+			<div class="ars_menu">
+				<div class="row">
+					<div class="ars_button">
+						<div class="button" th:onclick="|javascript:fnMoveMenu('getShip')|">
+							<img src="/common/assets/ico_view_delivery.svg" style="width: 52%; height: 58%"
+								alt="배송조회" />
+							<p>배송조회</p>
+						</div>
+
 					</div>
-				</div>
-				<div class="ui-box-sub-button" onclick="handleToggleSubMenu(event, this)">
-					<img src="/common/assets/ico_menu_2.svg" alt="exchange" class="icon" />
-					<div class="menu-name">
-						<p class="name">주문 변경 요청</p>
-						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
-					</div>
-					<!-- menu -->
-					<div class="menu-modal">
-						<div class="menu-list">
-							<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
-								onclick="handleToggleSubMenu(event, this)" />
-							<div class="header">
-								<p class="name">주문 변경 요청</p>
-								<p class="description">원하시는 서비스를 선택해주세요.</p>
-							</div>
-							<div class="content">
-								<ul>
-									<a th:onclick="|javascript:fnMoveMenu('changeShip')|">
-										<li>배송지 변경</li>
-									</a>
-									<a th:onclick="|javascript:fnMoveMenu('shipDate')|">
-										<li>배송 희망일 요청</li>
-									</a>
-									<a th:onclick="|javascript:fnMoveMenu('cancelOrder')|">
-										<li>주문 취소</li>
-									</a>
-								</ul>
+					<div class="ars_button" onclick="handleToggleSubMenu(event, this)">
+						<div class="button">
+							<img src="/common/assets/ico_change_order.svg" style="width: 70%; height: 62%"
+								alt="주문 변경 요청" />
+							<p>주문 변경 요청</p>
+						</div>
+						<!-- menu -->
+						<div class="menu-modal">
+							<div class="menu-list">
+								<img src="/common/assets/ico_close_w.svg" alt="close" class="icon"
+									onclick="handleToggleSubMenu(event, this)" />
+								<div class="header">
+									<p class="name">주문 변경 요청</p>
+									<p class="description">원하시는 서비스를 선택해주세요.</p>
+								</div>
+								<div class="content">
+									<ul>
+										<a th:onclick="|javascript:fnMoveMenu('changeShip')|">
+											<li>배송지 변경</li>
+										</a>
+										<a th:onclick="|javascript:fnMoveMenu('shipDate')|">
+											<li>배송 희망일 요청</li>
+										</a>
+										<a th:onclick="|javascript:fnMoveMenu('cancelOrder')|">
+											<li>주문 취소</li>
+										</a>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="ui-box-sub-button" th:onclick="|javascript:fnMoveMenu('requestExRe')|">
-					<img src="/common/assets/ico_menu_3.svg" alt="return" class="icon" />
-					<div class="menu-name">
-						<p class="name">교환 반품 요청</p>
-						<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+				<div class="row">
+					<div class="ars_button"th:onclick="|javascript:fnMoveMenu('requestExRe')|">
+						<div class="button" >
+							<img src="/common/assets/ico_request_return.svg" style="width: 68%; height: 62%"
+								alt="교환 반품 요청" />
+							<p>교환 반품 요청</p>
+						</div>
+					</div>
+					<div class="ars_button"  th:onclick="|javascript:fnGoInquiry('ASRequest')|">
+						<div class="button" >
+							<img src="/common/assets/ico_request_as.svg" style="width: 40%; height: 64%" alt="AS 요청" />
+							<p>AS 요청</p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry('ASRequest')|">
-				<img src="/common/assets/ico_menu_4.svg" alt="exchange" class="icon" />
-				<div class="menu-name">
-					<p class="name">AS 요청</p>
-					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
-				</div>
-			</div>
-			<div class="ui-box-sub-button" th:onclick="|javascript:fnGoInquiry()|">
-				<img src="/common/assets/ico_menu_5.svg" alt="exchange" class="icon" />
-				<div class="menu-name">
-					<p class="name">1:1문의</p>
-					<img src="/common/assets/ico_more.svg" alt="more" class="icon" />
+				<div class="row">
+					<div class="ars_button fill" th:onclick="|javascript:fnGoInquiry()|">
+						<div class="button fill">
+							<img src="/common/assets/ico_inquiry_3.svg" style="height: 86%" alt="1:1 문의" />
+							<p>1:1 문의</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	</div>
-	<!-- notice -->
-
 	<!-- footer -->
 	<div class="page-footer-navigation">
 		<div class="controller">
@@ -164,10 +163,10 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 <script>
-	//const urlParams = new URL(location.href).searchParams;
+	
+		//const urlParams = new URL(location.href).searchParams;
 	//const token = urlParams.get('token');
 
 
@@ -178,7 +177,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "/englander/endArsAjax",
+			url: "/retrohouse/endArsAjax",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -197,7 +196,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "/englander/csrAjax",
+			url: "/retrohouse/csrAjax",
 			data: formData,
 			cache: false,
 			contentType: false,
@@ -222,19 +221,19 @@
 
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
-		form.setAttribute('action', "/englander/auth?token=" + token);
+		form.setAttribute('action', "/retrohouse/auth?token=" + token);
 		form.appendChild(addHiddenField('inquiryType', inquiryType));
 		document.body.appendChild(form);
 		form.submit();
 
-		/*window.location.href ="/englander/auth?token=" + token + "&inquiryType=" + inquiryType;*/
+		/*window.location.href ="/retrohouse/auth?token=" + token + "&inquiryType=" + inquiryType;*/
 	}
 
 	function fnGoInquiry(inquiryType) {
 
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
-		form.setAttribute('action', "/englander/inquiry2?token=" + token);
+		form.setAttribute('action', "/retrohouse/inquiry2?token=" + token);
 		if (inquiryType != null) {
 			form.appendChild(addHiddenField('inquiryType', inquiryType));
 		}
@@ -242,7 +241,20 @@
 		form.submit();
 
 
-		/*window.location.href ="/englander/inquiry?token=" + token + "&inquiryType=" + inquiryType;*/
+		/*window.location.href ="/retrohouse/inquiry?token=" + token + "&inquiryType=" + inquiryType;*/
+	}
+	
+	function handleClickClose() {
+		// when clicked close icon.
+	}
+
+	function handleClickToggle(event) {
+		// when clicked toggle button.
+		const checkboxItems = document.querySelectorAll(
+			'.terms-content .ui-checkbox input[type="checkbox"]'
+		);
+		for (let i = 0, length = checkboxItems.length; i < length; ++i)
+			checkboxItems[i].checked = event.checked;
 	}
 
 	function handleToggleSubMenu(event, target) {

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.popbill.api.MessageService;
+
 import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.ExcelSampleData;
 import com.xcally.ars.domain.Order;
@@ -69,6 +71,8 @@ public class testController {
 	@Value("${naver.shortenUrl.client.secret}")
     private String YOUR_CLIENT_SECRET;
 	
+	@Autowired
+    private MessageService messageService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	

@@ -89,7 +89,7 @@
 }
 .page-container .menu-modal > .menu-list .content ul li::after {
   content: " ";
-  background: url("/common/assets/ico_more.svg") no-repeat;
+  background: url("./common/assets2/ico_more.svg") no-repeat;
   width: auto;
   height: 16px;
   padding: 0 0 0 16px;

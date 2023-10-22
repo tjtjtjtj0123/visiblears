@@ -285,6 +285,32 @@ public abstract class BaseController {
 		
 		return getPartner()+"/inquiry2";		
 	}
+	
+	//이용동의있는 범용문의 페이지 웹용
+	@RequestMapping("inquiry3") 
+	public String inquiry3(Model model, 
+			@RequestParam(name= "shopNo",		required = false,	defaultValue = "") String shopNo,
+			@RequestParam(name= "ordName",		required = false,	defaultValue = "") String ordName,
+			@RequestParam(name= "ordPhone",		required = false,	defaultValue = "") String ordPhone,
+			@RequestParam(name= "recvAddr",		required = false,	defaultValue = "") String recvAddr,
+			@RequestParam(name= "inquiryType",	required = false,	defaultValue = "") String inquiryType,
+			@RequestParam(name= "token", 		required = false, 	defaultValue = "") String token) 
+	{		
+		
+		//ARS호출
+		if(token != null && !token.isEmpty() && !token.equals("null")) {
+			Partner partner = partnerService.getPartnerInfo(getPartner());
+			arsService.CallArs(token, "service04", partner);			
+		}
+		
+		model.addAttribute("shopNo", 		shopNo);
+		model.addAttribute("ordName", 		ordName);
+		model.addAttribute("ordPhone",		ordPhone.replace(("-"), ""));
+		model.addAttribute("recvAddr",		recvAddr);		
+		model.addAttribute("inquiryType",	inquiryType);
+		
+		return getPartner()+"/inquiry3";		
+	}
 
 	//주문상세 페이지
 	@RequestMapping("detail") 
