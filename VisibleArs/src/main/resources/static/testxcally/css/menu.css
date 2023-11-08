@@ -1,0 +1,129 @@
+/*
+  common styles in page.
+*/
+.button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/*
+  page container styles.
+*/
+.page-container  {
+  /*margin-top: 39px;*/
+}
+.page-container .menu-header {
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 240px;
+  padding: 20px 30px;
+}
+.page-container .menu-header .logo {
+  margin-bottom: 30px;
+}
+.page-container .menu-header .title {
+  font-size: 1.7rem;
+  line-height: 1.4;
+}
+.page-container > .content {
+  position: relative;
+  top: -75px;
+  padding: 30px;
+}
+.page-container .menu-modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+.page-container .menu-modal.visible {
+  display: block;
+}
+.page-container .menu-modal > .menu-list {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  width: 70%;
+  height: calc(100% - 140px);
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  padding: 35px;
+}
+.page-container .menu-modal > .menu-list .icon {
+  position: absolute;
+  top: 0;
+  left: -35px;
+  width: 24px;
+  height: auto;
+}
+.page-container .menu-modal > .menu-list .header .name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.page-container .menu-modal > .menu-list .header .description {
+  font-size: 1.3rem;
+  color: #797979;
+  font-weight: normal;
+  line-height: 1.2;
+}
+.page-container .menu-modal > .menu-list .content {
+  margin-top: 40px;
+}
+.page-container .menu-modal > .menu-list .content ul li {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 0;
+  color: #313131;
+  font-size: 1.6rem;
+  font-weight: normal;
+  border-bottom: 1px solid #d4d4d4;
+}
+.page-container .menu-modal > .menu-list .content ul li::after {
+  content: " ";
+  background: url("/common/assets/ico_more.svg") no-repeat;
+  width: auto;
+  height: 16px;
+  padding: 0 0 0 16px;
+}
+
+/*
+  svg styles.
+*/
+.visible-ars-1 {
+  opacity: 0.09;
+}
+.visible-ars-1,
+.visible-ars-2 {
+  fill: #393939;
+}
+.visible-ars-3 {
+  fill: var(--visible-ars-icon-color);
+}
+.visible-ars-4 {
+  fill: #fffffe;
+}
+.visible-ars-5 {
+  opacity: 0.31;
+}
+.inquiry-1 {
+  fill: none;
+}
+.inquiry-4 {
+  fill: #f0f0f0;
+}
+.inquiry-5 {
+  fill: var(--inquiry-icon-color);
+}
+.inquiry-6 {
+  fill: #393939;
+  opacity: 0.34;
+}

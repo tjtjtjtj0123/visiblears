@@ -40,4 +40,23 @@
 	    WHERE  partner_id = #{value}
 	</select>
 
+    <select id="getSabangApiUseList" resultType="partner">
+	    SELECT partner_id,
+	    	   partner,
+	    	   recv_number
+	    FROM   partner
+	    WHERE  sabang_api_use = True
+	</select>
+	
+	
+    <select id="getSabangApiUsePartner" parameterType="String"  resultType="partner">
+	    SELECT a.* from partner a 
+		inner join orderlog b on a.partner_id = b.partner
+		where b.reg_ymd = CURDATE() 
+		AND use_dt>curdate()
+		AND a.sabang_api_use = True
+		AND partner_id = #{value}
+		LIMIT 1
+	</select>
+	
 </mapper>

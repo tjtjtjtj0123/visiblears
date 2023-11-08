@@ -27,7 +27,7 @@
   outline: 1px solid var(--brand-color);
 }
 .ui-text-field input::placeholder {
-  color: #e2e2e2;
+  color: #A2A2A2;
   font-weight: normal;
 }
 

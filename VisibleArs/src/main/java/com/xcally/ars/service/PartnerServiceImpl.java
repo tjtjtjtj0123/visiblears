@@ -4,11 +4,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.xcally.ars.domain.Order;
 import com.xcally.ars.domain.Partner;
 import com.xcally.ars.domain.common.ExceptionUtils;
 import com.xcally.ars.repository.PartnerMapper;
@@ -84,4 +85,27 @@ public class PartnerServiceImpl implements PartnerService{
 		return objPartner;
 	}
 	
+	@Override
+	public List<Partner> getSabangApiUseList(){
+		List<Partner> objPartnerList = null;
+		
+		try {
+			objPartnerList = partnerMmapper.getSabangApiUseList();
+		}catch (Exception e) {
+			logger.error("PartnerServiceImpl -> getSabangApiUseList -> "+ExceptionUtils.getPrintStackTrace(e));
+		}
+				
+		return objPartnerList;
+	}
+	
+	 @Override
+	 public Partner getSabangApiUsePartner(String partnerId) {
+			Partner objPartner = null;
+			try {
+				objPartner = partnerMmapper.getSabangApiUsePartner(partnerId);
+			}catch (Exception e) {
+				logger.error("PartnerServiceImpl -> getSabangApiUsePartner -> "+ExceptionUtils.getPrintStackTrace(e));
+			}
+			return objPartner;
+	 }
 }

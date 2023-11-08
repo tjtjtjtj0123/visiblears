@@ -44,9 +44,6 @@ public class XmlController {
 	@Autowired
 	private PartnerService partnerservice;
 	
-	@Value("${api.sabangurl}")
-    private String sabangUrl;
-
 	@Value("${mypage.myurl}")
     private String myUrl;
 	
@@ -72,8 +69,38 @@ public class XmlController {
         		"<?xml version=\"1.0\" encoding=\"EUC-KR\"?>\r\n"
         		+ "<SABANG_ORDER_LIST>\r\n"
         		+ "	<HEADER>\r\n"
-        		+ "		<SEND_COMPAYNY_ID>cs0033</SEND_COMPAYNY_ID>\r\n"
+        		+ "		<SEND_COMPAYNY_ID>enxcally</SEND_COMPAYNY_ID>\r\n"
         		+ "		<SEND_AUTH_KEY>r91B548VZyFK3S282SVuX7WEZT92FP5A7A5</SEND_AUTH_KEY>\r\n"
+        		+ "		<SEND_DATE>"+nowDay+"</SEND_DATE>\r\n"
+        		+ "	</HEADER>\r\n"
+        		+ "	<DATA>\r\n"
+        		+ "		<ORD_ST_DATE>"+start+"</ORD_ST_DATE>\r\n"
+        		+ "		<ORD_ED_DATE>"+yesterDay+"</ORD_ED_DATE>\r\n"
+        		+ "		<ORD_FIELD><![CDATA[ORDER_DATE|IDX|ORDER_ID|PAY_COST|SALE_CNT|PRODUCT_NAME|SKU_VALUE|USER_NAME|USER_TEL|USER_CEL|USER_EMAIL|RECEIVE_NAME|RECEIVE_TEL|RECEIVE_CEL|RECEIVE_ADDR|RECEIVE_ZIPCODE|MALL_ID|ord_field2]]></ORD_FIELD>\r\n"
+        		+ "	</DATA>\r\n"
+        		+ "</SABANG_ORDER_LIST>";
+        
+        return xmlData;
+    }
+    
+    @GetMapping(value = "/getxml/retrohouse", produces = MediaType.APPLICATION_XML_VALUE)
+    public String getXmlDataretrohouse(@RequestParam(name= "startDate",required = false,defaultValue = "1") Long startDate) {
+    	LocalDate currentDate = LocalDate.now();
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String nowDay = currentDate.format(formatter);
+
+        LocalDate previousDay = currentDate.minusDays(1);
+        String yesterDay = previousDay.format(formatter);
+        
+        LocalDate previous30Day = currentDate.minusDays(startDate);
+        String start = previous30Day.format(formatter);
+        
+        String xmlData = 
+        		"<?xml version=\"1.0\" encoding=\"EUC-KR\"?>\r\n"
+        		+ "<SABANG_ORDER_LIST>\r\n"
+        		+ "	<HEADER>\r\n"
+        		+ "		<SEND_COMPAYNY_ID>rh_api</SEND_COMPAYNY_ID>\r\n"
+        		+ "		<SEND_AUTH_KEY>F8rN5x1xArZVNHdxGbWZrVYHxGu6AHP3rbb</SEND_AUTH_KEY>\r\n"
         		+ "		<SEND_DATE>"+nowDay+"</SEND_DATE>\r\n"
         		+ "	</HEADER>\r\n"
         		+ "	<DATA>\r\n"
@@ -102,12 +129,21 @@ public class XmlController {
 			return;
 		}   	
     	
+		String sabangUrl = "";
+		if(partner.equals("englander")) {
+			sabangUrl = "https://sbadmin12.sabangnet.co.kr/RTL_API/xml_order_info.html";
+		}
+		else if(partner.equals("retrohouse")) {
+			sabangUrl = "https://sbadmin10.sabangnet.co.kr/RTL_API/xml_order_info.html";
+		}
+		
 		//url세팅
         String apiUrl = sabangUrl 
         				+ "?xml_url="
         				+ myUrl
         				+ "/getxml/" +partner+"?startDate="+startDate;
         
+       System.out.println(apiUrl); 
         //오늘 날짜
         LocalDate 		  currentDate = LocalDate.now();
     	DateTimeFormatter formatter   = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -209,7 +245,7 @@ public class XmlController {
 		}   	
     	
 		//url세팅
-        String apiUrl = sabangUrl 
+        String apiUrl = "" 
         				+ "?xml_url="
         				+ request.getRequestURL().substring(0, request.getRequestURL().indexOf("/", 8))
         				+ "/getxml/" +partner;
