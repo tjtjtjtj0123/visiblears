@@ -1,0 +1,433 @@
+@import "../_custom/colors.css";
+/*
+  TextField
+*/
+.ui-text-field {
+  margin-top: 12px;
+}
+.ui-text-field:first-child{
+  margin-top: 0;
+}
+.ui-text-field label .title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #393939;
+  margin-bottom: 8px;
+}
+.ui-text-field input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-radius: 8px; 
+}
+.ui-text-field input:focus {
+  border: 1px solid var(--brand-color);
+  outline: 1px solid var(--brand-color);
+}
+.ui-text-field input::placeholder {
+  color: #A2A2A2;
+  font-weight: normal;
+}
+
+/*
+  SelectField
+*/
+.ui-select-field select {
+  display: grid;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.71,8.21a1,1,0,0,0-1.42,0l-4.58,4.58a1,1,0,0,1-1.42,0L6.71,8.21a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.59,4.59a3,3,0,0,0,4.24,0l4.59-4.59A1,1,0,0,0,18.71,8.21Z'/></svg>") right no-repeat;
+  background-position: right 10px top 10px;
+  background-size: 20px 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+}
+.ui-select-field select:focus {
+  border: 1px solid var(--brand-color);
+  outline: 1px solid var(--brand-color);
+}
+.ui-select-field select::placeholder {
+  color: #e2e2e2;
+  font-weight: normal;
+}
+
+/*
+  Textarea
+*/
+.ui-textarea {
+  margin-top: 12px;
+}
+.ui-textarea:first-child{
+  margin-top: 0;
+}
+.ui-textarea label .title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #393939;
+  margin-bottom: 8px;
+}
+.ui-textarea textarea {
+  width: 100%;
+  height: 105px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-family: inherit;
+  letter-spacing: inherit;
+  border-radius: 8px;
+  resize: none;
+}
+.ui-textarea textarea:focus {
+  border: 1px solid var(--brand-color);
+  outline: 1px solid var(--brand-color);
+}
+.ui-textarea textarea::placeholder {
+  color: #e2e2e2;
+  font-weight: normal;
+}
+
+/*
+  Button
+*/
+.ui-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 8px;
+  margin: 6px 0;
+  cursor: pointer;
+}
+.ui-button img {
+  width: 18px;
+  height: auto;
+  margin-left: 8px;
+}
+.ui-button.primary {
+  background: var(--button-background-color);
+}
+.ui-button.default {
+  background: #393939;
+}
+.ui-button.blue {
+  background: #1881e3;
+}
+.ui-button.primary .title {
+  color: var(--button-font-color);
+}
+.ui-button.default .title,
+.ui-button.blue .title {
+  color: #fff;
+}
+.ui-button .title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.ui-button .icon {
+  width: 16px;
+  height: auto;
+  margin-left: 10px;
+}
+
+/*
+  BoxButton
+*/
+.ui-box-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding:5px 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.ui-box-button .icon {
+  width: 68px;
+  min-width: 68px;
+  height: auto;
+}
+.ui-box-button .menu-name {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 20px;
+}
+.ui-box-button .menu-name .name {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #313131;
+  margin-bottom: 5px;
+}
+.ui-box-button .menu-name .description {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #aeaeae;
+}
+
+/*
+  BoxSubButton
+*/
+.ui-box-sub-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+div:focus{
+	outline:none;
+}
+
+.ui-box-sub-button > .icon {
+  width: 52px;
+  min-width: 52px;
+  height: auto;
+}
+.ui-box-sub-button .menu-name {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 20px;
+}
+.ui-box-sub-button .menu-name .name {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #313131;
+  margin-bottom: 5px;
+}
+.ui-box-sub-button .menu-name .icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  width: auto;
+  height: 16px;
+}
+
+/*
+  ToggleButton
+*/
+.ui-toggle-button {
+  display: flex;
+  align-items: center;
+}
+.ui-toggle-button input[type="checkbox"] {
+    display: none;
+}
+.ui-toggle-button input[type="checkbox"]:checked + .toggle-switch {
+  background-color: var(--button-background-color);
+}
+.ui-toggle-button input[type="checkbox"]:checked + .toggle-switch::after {
+  left: 25px;
+}
+.ui-toggle-button .toggle-switch {
+  display: block;
+  position: relative;
+  width: 48px;
+  height: 24px;
+  background: #adadad;
+  border-radius: 22px;
+  transition: background 0.15s ease-in-out;
+  cursor: pointer;
+}
+.ui-toggle-button .toggle-switch::after {
+  content: ' ';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  background: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  transition: left 0.15s ease-in-out;
+}
+
+/*
+  Checkbox
+*/
+.ui-checkbox {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  color: #313131;
+  font-size: 1.1rem;
+  margin-top: 6px;
+  margin-bottom: 11px;
+}
+.ui-checkbox:first-child {
+  margin-top: 0;
+}
+.ui-checkbox .ui-check,
+.ui-checkbox .ui-uncheck {
+  display: none;
+}
+.ui-checkbox .check {
+  fill: none;
+  stroke: var(--button-background-color);
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+}
+.ui-checkbox .uncheck {
+  fill: none;
+  opacity: 0.37;
+  stroke: #393939;
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+}
+.ui-checkbox .icon {
+  position: absolute;
+  width: auto;
+  height: 12px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ui-checkbox input[type="checkbox"] {
+  display: none;
+}
+.ui-checkbox label {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+}
+.ui-checkbox label p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: -1px 0 0 20px;
+  padding-left: 5px;
+}
+.ui-checkbox input[type='checkbox'] + label,
+.ui-checkbox input[type='checkbox']:checked + label {
+  cursor: pointer;
+}
+.ui-checkbox input[type='checkbox']:checked + label .ui-check,
+.ui-checkbox input[type='checkbox'] + label .ui-uncheck {
+  display: block;
+}
+.ui-checkbox svg {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: auto;
+}
+
+/*
+  DataList
+*/
+.ui-data-table table {
+  width: 100%;
+}
+.ui-data-table table tbody tr {
+  border-bottom: 1px solid #bbbbbb;
+}
+.ui-data-table table tbody tr:last-child {
+  border-bottom: 0;
+}
+.ui-data-table table tbody th,
+.ui-data-table table tbody td
+{
+  font-size: 1.4rem;
+  padding: 12px 0;
+}
+.ui-data-table table tbody th {
+  color: #313131;
+}
+.ui-data-table table tbody td {
+  color: #767676;
+  padding-left: 20px;
+  line-height: 1.2;
+}
+.ui-data-table table tbody tr > th {
+  display: inline-block;
+  text-align: justify;
+  font-weight: bold;
+  line-height: 0;
+  width: 100%;
+}
+.ui-data-table table tbody tr th:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+.ui-data-table .color {
+  position: relative;
+  display: inline-block;
+  top: 3px;
+  left: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-top: -18px;
+  border: 1px solid #767676;
+}
+.ui-data-table .price th, 
+.ui-data-table .price td {
+  color: #c41e20;
+  font-weight: bold;
+}
+
+/*
+  Modal
+*/
+.ui-modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+}
+.ui-modal.visible {
+  display: block;
+}
+.ui-modal .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  padding: 35px;
+}
+.ui-modal .content .icon {
+  width: 58px;
+  height: auto;
+  margin: 0 auto 20px auto;
+}
+.ui-modal .message p, 
+.ui-modal .message b {
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.4;
+}
+.ui-modal .message b {
+  color: #f06621;
+  font-weight: 600;
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/Willow/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/Willow/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/Willow/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/Willow/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/Willow/css/order_detail.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome('Willow')">
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<p class="title">주문조회</p>
+				<p class="description">주문하신 제품 상세내역입니다.</p>
+			</div>
+		</div>
+		<div class="content">
+			<input type="hidden" id="ordName" th:value="${ordName}" />
+			<input type="hidden" id="ordPhone" th:value="${ordPhone}" />
+			<input type="hidden" id="recvAddr" th:value="${recvAddr}" />
+			<input type="hidden" id="shopNo" th:value="${shopNo}" />
+			<input type="hidden" id="inquiryType" th:value="${inquiryType}" />
+			<div class="ui-data-table">
+				<table>
+					<colgroup>
+						<col width="65px" />
+						<col width="*" />
+					</colgroup>
+					<tbody th:each="order: ${orderlist}">
+						<tr>
+							<th>상 품 명</th>
+							<td th:text="${order.productName}"></td>
+						</tr>
+						<tr>
+							<th>옵 션 명</th>
+							<td th:text="${order.optionName}"></td>
+						</tr>
+						<tr>
+							<th>수 량</th>
+							<td th:text="${order.quantity}"></td>
+						</tr>
+						<tr>
+						<tr>
+							<th>배 송 지</th>
+							<td th:text="${order.receiverAddress}"></td>
+						</tr>
+						<tr>
+							<td style="text-align: center;" colspan="2"><br></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="inquiry">
+				<!--<p class="message">다른 문의사항이 있으신가요?</p>-->
+				<a th:onclick="|javascript:fnMoveMenu()|">
+					<div class="ui-button primary">
+						<span class="title">1:1 문의하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-footer-navigation">
+		<div class="controller">
+			<!--
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>
+			-->
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+
+	function fnMoveMenu() {
+
+		var form = document.createElement('form');
+		var inquiryType = $("#inquiryType").val();
+
+		form.setAttribute('method', 'post');
+		form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+		form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+		form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
+		form.appendChild(addHiddenField('inquiryType', $("#inquiryType").val()));
+		form.appendChild(addHiddenField('shopNo', $("#shopNo").val()));
+
+		if (inquiryType == 'getShip') //배송 조회
+		{
+			form.setAttribute('action', "/Willow/inquiry?token=" + token);
+		}
+		else if (inquiryType == 'changeShip') //배송지 변경요청
+		{
+			form.setAttribute('action', "/Willow/changeShip?token=" + token);
+		}
+		else if (inquiryType == 'shipDate') { //배송희망일자요청
+			form.setAttribute('action', "/Willow/shipDate?token=" + token);
+		}
+		else if (inquiryType == 'requestExRe') {//교환반품요청
+			form.setAttribute('action', "/Willow/requestExRe?token=" + token);
+		}
+		else if (inquiryType == 'cancelOrder') {//주문취소요청
+			form.setAttribute('action', "/Willow/cancelOrder?token=" + token);
+		}
+		else {
+			form.setAttribute('action', "/Willow/menu?token=" + token);
+		}
+
+		document.body.appendChild(form);
+		form.submit();
+
+	}
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/Willow/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/Willow/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+</script>
+
+</html>

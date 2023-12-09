@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>주문조회</title>
+	<link rel="stylesheet" th:href="@{/dbyr/css/font.css}" />
+	<link rel="stylesheet" th:href="@{/dbyr/css/reset.css}" />
+	<link rel="stylesheet" th:href="@{/dbyr/css/ui.css}" />
+	<link rel="stylesheet" th:href="@{/dbyr/css/common.css}+ '?v=1'" />
+	<link rel="stylesheet" th:href="@{/dbyr/css/order_list.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-latest.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/common.js} + '?v=1'"></script>
+</head>
+
+<body>
+	<div class="page-navigation">
+		<div class="button" onclick="handleClickBackward()">
+			<img src="/common/assets/ico_backward.svg" alt="backward" class="icon" />
+		</div>
+		<div class="button" onclick="handleClickHome('dbyr')">
+			<img src="/common/assets/ico_home.svg" alt="backward" class="icon" />
+		</div>
+	</div>
+	<div class="page-container">
+		<div class="menu">
+			<div class="menu-header">
+				<p class="title">주문조회</p>
+				<p class="description">주문하신 제품 상세내역입니다.</p>
+			</div>
+		</div>
+		<div class="content">
+			<input type="hidden" id="ordName" th:value="${ordName}" />
+			<input type="hidden" id="ordPhone" th:value="${ordPhone}" />
+			<input type="hidden" id="recvAddr" th:value="${recvAddr}" />
+			<div class="orders">
+				<img src="/common/assets/ico_cart.svg" alt="cart" class="icon" />
+				<p class="message">주문하신 상품이 없습니다.</p>
+			</div>
+		</div>
+		<div class="inquiry">
+			<div class="inquiry-header">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.74 64.74" class="icon">
+					<defs>
+						<style>
+							.inquiry-2 {
+								fill: #fff;
+							}
+						</style>
+					</defs>
+					<g>
+						<g>
+							<circle class="inquiry-1" cx="32.37" cy="32.37" r="32.37" />
+							<path class="inquiry-2"
+								d="M30.88,49.72c-.53-.32-.95-.74-1.27-1.27-.32-.53-.47-1.11-.45-1.75-.02-.62,.13-1.19,.45-1.72,.32-.53,.74-.94,1.27-1.25,.53-.3,1.1-.45,1.72-.45s1.19,.15,1.72,.45c.53,.3,.95,.72,1.26,1.26,.31,.54,.47,1.11,.49,1.71-.02,.63-.18,1.22-.49,1.75-.31,.53-.73,.95-1.26,1.27-.53,.32-1.1,.48-1.72,.48s-1.19-.16-1.72-.48Zm4.14-10.02h-4.81l-.46-25.2h5.71l-.44,25.2Z" />
+						</g>
+					</g>
+				</svg>
+				<p class="message">
+					아래와 같은 경우 <span class="important">1:1 문의하기</span>를 통해 상담을 진행하실 수
+					있습니다.
+				</p>
+				<div class="example">
+					<ul>
+						<li>
+							<span>주문 후 배송조회가 뜨지 않나요?</span>
+						</li>
+						<li>
+							<span>주문시 입력한 정보가 다르게 나오나요?</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="inquiry-footer">
+				<p class="message">다른 문의사항이 있으신가요?</p>
+				<a onclick="goInquiry()">
+					<div class="ui-button primary">
+						<span class="title">1:1 문의하기</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div class="page-footer-navigation">
+		<div class="controller">
+			<!--
+			<div class="left-area" onclick="modalcsrOpen()">
+				<div class="button">
+					<img src="/common/assets/ico_headphone.svg" alt="call" class="icon" />
+					<span class="title">상담원 연결</span>
+				</div>
+			</div>--> 
+			<div class="right-area" onclick="modalCallEndOpen();">
+				<div class="button">
+					<img src="/common/assets/ico_phone.svg" alt="cancel" class="icon" />
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--통화종료모달-->
+	<div class="ui-modal" id="modal_endcall">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">통화를 종료하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnEndArs();modalClose(this);" class="ui-button blue">
+					<span class="title">통화종료</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--상담원 연결 모달-->
+	<div class="ui-modal" id="modal_csr">
+		<div class="content" style="min-height: 100px;">
+
+			<div class="message">
+				<p id="modal_msg">상담원 연결을 진행하시겠습니까?</p>
+				<p></p>
+			</div>
+			<div style="display: flex; gap: 10px; margin-top: 20px;">
+				<div onclick="modalClose(this)" class="ui-button" style="background-color: #919191;">
+					<span class="title">취소</span>
+				</div>
+				<div onclick="fnCsr();modalClose(this);" class="ui-button blue">
+					<span class="title">연결</span>
+				</div>				
+			</div>
+		</div>
+	</div>
+
+	<!-- 커스텀 메세지 모달 -->
+	<div class="ui-modal" id="modal_custom">
+		<div class="content">
+			<div class="icon">
+				<img src="/common/assets/ico_uncheck.svg" alt="info">
+			</div>
+			<div class="message">
+				<p id="modal_custom_msg"></p>
+			</div>
+			<div onclick="modalClose(this)" class="ui-button blue">
+				<span class="title">닫기</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	/*<![CDATA[*/
+	//const urlParams = new URL(location.href).searchParams;
+	//const token = urlParams.get('token');
+
+
+	//통화종료
+	function fnEndArs() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/dbyr/endArsAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+			
+		})
+	}
+
+
+	//상담원연결
+	function fnCsr() {
+		const formData = new FormData();
+		formData.append("token", token);
+
+		$.ajax({
+			type: 'POST',
+			url: "/dbyr/csrAjax",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			enctype: 'multipart/form-data'
+		}).done(function (data) {
+
+		})
+	}
+
+
+	function goInquiry() {
+
+		var form = document.createElement('form');
+		form.setAttribute('method', 'post');
+		form.setAttribute('action', "/dbyr/inquiry?token=" + token);
+		form.appendChild(addHiddenField('ordName', $("#ordName").val()));
+		form.appendChild(addHiddenField('ordPhone', $("#ordPhone").val()));
+		form.appendChild(addHiddenField('recvAddr', $("#recvAddr").val()));
+		document.body.appendChild(form);
+		form.submit();
+
+	}
+	/*]]>*/
+</script>
+
+</html>

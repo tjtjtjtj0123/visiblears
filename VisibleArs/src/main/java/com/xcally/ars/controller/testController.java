@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.popbill.api.MessageService;
-
+import com.xcally.ars.domain.Commercekorea;
 import com.xcally.ars.domain.EmailMessage;
 import com.xcally.ars.domain.ExcelSampleData;
 import com.xcally.ars.domain.Order;
@@ -35,6 +38,7 @@ import com.xcally.ars.service.OrderService;
 import com.xcally.ars.service.SeqService;
 
 import org.apache.commons.io.FilenameUtils;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -42,6 +46,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/")
@@ -251,6 +261,30 @@ public class testController {
 		//ResponseEntity<String> dd= crmServiceImpl.RegCus(asd);
 		
 	}
-	
-	
+	@GetMapping("/CumusKoera")
+	public void CumusKoera() {
+		String apiUrl = "https://service.pluscl.com/open/base_data";
+        String authKey = "E8EBEBA8-8E54-432A-97FE-B31366985EE6";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("auth_key", authKey);
+
+        String requestBody = "{ \"company_id\": \"2315\", \"job_type\": \"search\", \"type\": \"warehouse_type\", \"data\": \"\" }";
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Commercekorea> responseEntity = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.POST,
+                requestEntity,
+                Commercekorea.class
+        );
+
+        Commercekorea apiResponse = responseEntity.getBody();
+        
+        // 여기서 ApiResponse 객체를 사용하여 필요한 작업 수행
+        System.out.println("API 호출 결과: " + apiResponse.toString());
+	}
 }

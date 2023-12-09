@@ -51,11 +51,7 @@
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="name">이름</label>
-							<input id="ordName" class="form-control" onkeyup="noSpaceForm(this);" type="text"
-								placeholder="이름을 입력해주세요" />
-							<div class="invalid-feedback">
-								이름을 입력해주세요.
-							</div>
+							<input id="ordName" class="form-control" onkeyup="noSpaceForm(this);" type="text"placeholder="이름을 입력해주세요" />
 						</div>
 						<div class="col-md-6 mb-3">
 							<label for="nickname">휴대전화</label>
@@ -63,6 +59,31 @@
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 						</div>
 					</div>
+					
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="name">상품명</label>
+							<input id="product" class="form-control" onkeyup="noSpaceForm(this);" type="text"
+								placeholder="상품명을 입력해주세요" />
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="option">옵션명</label>
+							<input id="option"  class="form-control" placeholder="옵션명을 입력해 주세요.">
+						</div>
+					</div>
+					
+					
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="name">가격</label>
+							<input id="price" value="1000" type="number" class="form-control" placeholder="가격을 입력해주세요" />
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="nickname">수량</label>
+							<input id="cnt" value="1" type="number" class="form-control" placeholder="수량을 입력해주세요."	>
+						</div>
+					</div>
+					
 					<div class="row">
 						<div class="col-md-8 mb-3">
 							<label for="address">주소</label>
@@ -75,7 +96,7 @@
 						</div>
 					</div>
 					<div class="mb-4"></div>
-					<button class="btn btn-primary btn-lg btn-block" onclick="upload()" type="button">가입 완료</button>
+					<button class="btn btn-primary btn-lg btn-block" onclick="upload()" type="button">주문정보등록</button>
 				</form>
 			</div>
 		</div>
@@ -92,6 +113,10 @@
 		function upload() {
 			var name = $("#ordName").val();
 			var phone = $("#ordPhone").val();
+			var product = $("#product").val();
+			var option = $("#option").val();
+			var price = $("#price").val();
+			var cnt = $("#cnt").val();						
 			var recvAddr = $("#recvAddr").val();
 
 			if (name.length == 0) {
@@ -104,15 +129,47 @@
 				return false;
 			}
 
+
+			if (product.length == 0) {
+				alert("상품명 입력해 주세요.");
+				return false;
+			}
+     		if (option.length == 0) {
+				alert("옵션명 입력해 주세요.");
+				return false;
+			}
+			if (price < 0 || price.length==0) {
+				alert("가격을 입력해 주세요.");
+				return false;
+			}
+			if (cnt < 1 || cnt.length==0) {
+				alert("수량을 입력해 주세요.");
+				return false;
+			}
+
+
+
+
+
 			if (recvAddr.length == 0) {
 				alert("주소를 입력해 주세요.");
 				return false;
 			}
 
+
 			const formData = new FormData();
 			formData.append("ordName", name);
 			formData.append("ordererPhone1", phone);
+			
+			
+			formData.append("product", product);
+			formData.append("option", option);
+			formData.append("price", price);
+			formData.append("cnt", cnt);
+			
 			formData.append("receiverAddress", recvAddr);
+			
+			
 
 			$.ajax({
 				type: 'POST',

@@ -340,7 +340,7 @@ public class PartnerController {
 							.receiverName(row.getCell(indexArr[0]).getStringCellValue())
 							.receiverPhone1(row.getCell(indexArr[10]).getStringCellValue())
 							.receiverPhone2(row.getCell(indexArr[11]).getStringCellValue())
-							.receiverZipcode(row.getCell(indexArr[12]).getStringCellValue())
+							//.receiverZipcode(row.getCell(indexArr[12]).getStringCellValue())
 							.receiverAddress(row.getCell(indexArr[13]).getStringCellValue())
 							.payAmt((int) row.getCell(indexArr[14]).getNumericCellValue())
 							.orderDt(formattedDate)
@@ -390,7 +390,8 @@ public class PartnerController {
 
 	@PostMapping("/InsTestOrder")
 	@ResponseBody
-	public boolean InsTestOrder(String ordName, String ordererPhone1, String receiverAddress) {
+	public boolean InsTestOrder(String ordName, String ordererPhone1, String receiverAddress,
+			String product,String option, String price,String cnt) {
 		int rstl = 0;
 		try {
 			Date now = new Date();
@@ -405,8 +406,8 @@ public class PartnerController {
 			String formattedDate = dateFormat.format(calendar.getTime());
 
 			Order order = Order.builder().seqNo(seqService.getSeq()).partner("xcally")
-					.sabangNo(seqService.getSeq().toString()).shopNo(seqService.getSeq().toString()).payAmt(1000)
-					.quantity(1).productName("TEST 상품").optionName("TEST옵션").ordererName(ordName)
+					.sabangNo(seqService.getSeq().toString()).shopNo(seqService.getSeq().toString()).payAmt(Integer.parseInt(price))
+					.quantity(Integer.parseInt(cnt)).productName(product).optionName(option).ordererName(ordName)
 					.ordererPhone1(ordererPhone1).ordererPhone2("").receiverName("").receiverPhone1("")
 					.receiverPhone2("").receiverAddress(receiverAddress).ordererEmail("").mallOrderDt("").mall("")
 					.orderDt(formattedDate).ordField2("").build();
